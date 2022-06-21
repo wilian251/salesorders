@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: '2.4'
+metadata:
+  name: 'salesorders'
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://vhajbs4dci00.bradw01.local:8000
+          client: "100"
+        app:
+          name: SALEORDER
+          description: Ciclo de Ordens de Vendas
+          package: ZSALESORDERREPORT
+          transport: S4DK966553

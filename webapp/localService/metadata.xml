@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZSALESORDER_GW_REPORT_SRV" xml:lang="pt" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="SalesOrderLeadTIme" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                </Key>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Documento SD" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Total" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Total Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Saleorder" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Orden de Venda Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Shipping" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Remessa Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Credit" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Crédito Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Transport" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Transporte Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Invoicing" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Faturamento Lead Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZSALESORDER_GW_REPORT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SalesOrderLeadTImeSet" EntityType="ZSALESORDER_GW_REPORT_SRV.SalesOrderLeadTIme" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <FunctionImport Name="ListSalesOrderTime" ReturnType="Collection(ZSALESORDER_GW_REPORT_SRV.SalesOrderLeadTIme)" EntitySet="SalesOrderLeadTImeSet" m:HttpMethod="GET" sap:action-for="ZSALESORDER_GW_REPORT_SRV.SalesOrderLeadTIme">
+                    <Parameter Name="IV_LCEXP" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="IV_COMPANY" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="IV_SETORAT" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="IV_CNLDIST" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="IV_DATEORDER" Type="Edm.DateTime" Mode="In" Precision="0"/>
+                    <Parameter Name="IV_TYPEOV" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="IV_CODCLIENT" Type="Edm.String" Mode="In"/>
+                </FunctionImport>
+            </EntityContainer>
+            <atom:link rel="self" href="http://vhajbs4dci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://vhajbs4dci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

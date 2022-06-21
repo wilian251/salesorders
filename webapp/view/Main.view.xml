@@ -1,0 +1,456 @@
+<mvc:View 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:f="sap.f"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:core="sap.ui.core"
+	controllerName="com.thera.ajinomoto.salesorders.controller.Main" 
+	displayBlock="true">
+	<NavContainer id="navContainer">
+		<pages>
+			<Page id="contentPage" title="{i18n>mainViewTitle}" titleLevel="H1">
+				<Panel backgroundDesign="Solid">
+					<content>
+						<VBox class="contentDTOVCCSELE">
+							<VBox>
+								<Label text="{i18n>mainFilterOrderDate}:"/>
+								<DatePicker
+									id="Birth"
+									valueFormat="dd/MM/yyyy"
+									displayFormat="short"
+									placeholder="dd/mm/aaaa"
+									width="100%"
+									value="{filters>/selectionDate}"
+									valueState="{filters>/State/selectionDate/ValueState}"
+									valueStateText="{filters>/State/selectionDate/ValueStateText}"
+									enabled="{filters>/State/selectionDate/Enabled}"
+									visible="{filters>/State/selectionDate/Visible}"
+									change="onValidatedFieldsRequired"
+								/>	
+							</VBox>
+
+							<VBox>
+								<Label text="{i18n>mainFilterTypeOV}:"/>
+								<MultiComboBox
+									id="typeOV"
+									items="{
+										path: '/HTvakSet'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionTypeOV}"
+									valueState="{filters>/State/selectionTypeOV/ValueState}"
+									valueStateText="{filters>/State/selectionTypeOV/ValueStateText}"
+									enabled="{filters>/State/selectionTypeOV/Enabled}"
+									visible="{filters>/State/selectionTypeOV/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+								</MultiComboBox>	
+							</VBox>
+
+							<VBox>
+								<Label text="{i18n>mainFilterClientCode}:"/>
+								<MultiComboBox
+									id="codClient"
+									items="{
+										path: '/ZshCodclientSet'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionClient}"
+									valueState="{filters>/State/selectionClient/ValueState}"
+									valueStateText="{filters>/State/selectionClient/ValueStateText}"
+									enabled="{filters>/State/selectionClient/Enabled}"
+									visible="{filters>/State/selectionClient/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Kunnr}" text="{Kunnr} - {Name1}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox>
+								<Label text="{i18n>mainFilterDistributionChannel}:"/>
+								<MultiComboBox
+									id="CNLDIST"
+									items="{
+										path: '/HTvkovSet'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionCanalDist}"
+									valueState="{filters>/State/selectionCanalDist/ValueState}"
+									valueStateText="{filters>/State/selectionCanalDist/ValueStateText}"
+									enabled="{filters>/State/selectionCanalDist/Enabled}"
+									visible="{filters>/State/selectionCanalDist/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Vtweg}" text="{Vtweg} - {Vtext}"/>
+								</MultiComboBox>		
+							</VBox>
+						
+							<VBox>
+								<Label text="{i18n>mainFilterSector}:"/>
+								<MultiComboBox
+									id="Setor"
+									items="{
+										path: '/HTvakSet'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionSetorAt}"
+									valueState="{filters>/State/selectionSetorAt/ValueState}"
+									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
+									enabled="{filters>/State/selectionSetorAt/Enabled}"
+									visible="{filters>/State/selectionSetorAt/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox>
+								<Label text="{i18n>mainFilterCompany}:"/>
+								<MultiComboBox
+									id="company"
+									items="{
+										path: '/ZshCompanySet'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionCompany}"
+									valueState="{filters>/State/selectionCompany/ValueState}"
+									valueStateText="{filters>/State/selectionCompany/ValueStateText}"
+									enabled="{filters>/State/selectionCompany/Enabled}"
+									visible="{filters>/State/selectionCompany/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Bukrs}" text="{Bukrs} - {Butxt}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox>
+								<Label text="{i18n>mainFilterShippingLocation}:"/>
+								<Input
+									id="localExpedicao"
+									value="{filters>/selectionLocalExp}"
+									valueState="{filters>/State/selectionLocalExp/ValueState}"
+									valueStateText="{filters>/State/selectionLocalExp/ValueStateText}"
+									enabled="{filters>/State/selectionLocalExp/Enabled}"
+									visible="{filters>/State/selectionLocalExp/Visible}"
+									change="onValidatedFieldsRequired"
+								/>	
+							</VBox>
+
+							<VBox>
+								<Label />
+								<Button 
+									text="{i18n>mainButtonStart}"
+									enabled="{filters>/buttonStartEnabled}"
+									press="onPressStartReport"
+								/>
+							</VBox>
+						</VBox>
+					</content>
+				</Panel>
+
+				<content>
+					<f:GridList
+						id="gridList"
+						class="gridListSalesOrders"
+						items="{orders>/items}"
+						modeAnimationOn="false"
+					>
+						<f:customLayout>
+							<grid:GridBoxLayout boxMinWidth="100%" boxWidth="100%"/>
+						</f:customLayout>
+
+						<f:GridListItem
+							id="gridListItem"
+							press="onPressGridListItem"
+							type="Active"
+						> 	
+
+							<VBox>
+								<VBox class="contentHeaderOrder">
+									<VBox class="headerTitleNumberOrder">
+										<ObjectIdentifier
+											text="{orders>numberOrder}"
+											textDirection="Inherit"
+											title="{i18n>mainTitleNumberOrder}:"
+										/>
+									</VBox>
+
+									<VBox class="headerEditLead">
+										<Button 
+											id="editLead"
+											text="Editar Lead"
+											icon="sap-icon://edit"
+											press="onPressEditLead"
+										/>
+									</VBox>
+								</VBox>
+
+								<VBox class="containerLeadTime">
+									<!-- Ordem de venda -->
+									<VBox id="saleOrder">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">
+											<Title text="Pedido de venda" titleStyle="H4"/>
+										</VBox>
+										
+										<VBox class="icon">
+											<core:Icon
+												id="saleOrderIcon"
+												alt="Pedido de venda"
+												backgroundColor=""
+												color="{orders>saleOrder/color}"
+												size="64px"
+												src="sap-icon://write-new-document"
+											/>
+										</VBox>
+
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Success"
+												text="{orders>saleOrder/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+
+									<!-- Remessa -->
+									<VBox id="shipping">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">
+											<Title text="Remessa" titleStyle="H4"/>
+										</VBox>
+
+										<VBox class="icon">
+											<core:Icon
+												id="shippingIcon"
+												alt="Remessa"
+												color="{orders>shipping/color}"
+												size="64px"
+												src="sap-icon://course-program"
+											/>
+										</VBox>
+
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Warning"
+												text="{orders>shipping/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+
+									<!-- Crédito -->
+									<VBox id="credit">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">
+											<Title text="Crédito" titleStyle="H4"/>
+										</VBox>	
+
+										<VBox class="icon">
+											<core:Icon
+												id="creditIcon"
+												alt="Crédito"
+												color="{orders>credit/color}"
+												size="64px"
+												src="sap-icon://credit-card"
+											/>
+										</VBox>
+										
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Error"
+												text="{orders>credit/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+
+									<!-- Transporte -->
+									<VBox id="transport">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">	
+											<Title text="Transporte" titleStyle="H4"/>
+										</VBox>
+
+										<VBox class="icon">
+											<core:Icon
+												id="transportIcon"
+												alt="Transporte"
+												color="{orders>transport/color}"
+												size="64px"
+												src="sap-icon://shipping-status"
+											/>
+										</VBox>
+
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Information"
+												text="{orders>transport/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+
+									<!-- Faturamento -->
+									<VBox id="invoicing">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">
+											<Title text="Faturamento" titleStyle="H4"/>
+										</VBox>
+
+										<VBox class="icon">
+											<core:Icon
+												id="invoicingIcon"
+												alt="Faturamento"
+												color="{orders>invoicing/color}"
+												size="64px"
+												src="sap-icon://monitor-payments"
+											/>
+										</VBox>
+
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Information"
+												text="{orders>invoicing/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+
+									<!-- Total do Tempo -->
+									<VBox id="totalTime">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="Lead:" titleStyle="H3"/>
+											<Text class="mainLeadText" text="3 dias"/>
+										</VBox>
+
+										<VBox class="mainTitulo">
+											<Title text="Total do Tempo" titleStyle="H4"/>
+										</VBox>
+
+										<VBox class="icon">
+											<core:Icon
+												id="totalTimeIcon"
+												alt="Total do tempo"
+												color="{orders>totalTime/color}"
+												size="64px"
+												src="sap-icon://date-time"
+											/>
+										</VBox>
+										
+										<VBox class="time">
+											<ObjectStatus
+												active="false"
+												icon="sap-icon://pending"
+												iconDensityAware="true"
+												state="Warning"
+												text="{orders>totalTime/time}"
+											/>
+
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="Success"
+												text="+{orders>totalTime/time}"
+											/>
+										</VBox>
+									</VBox>
+								</VBox>
+							</VBox>
+						</f:GridListItem>
+					</f:GridList>
+				</content>
+			</Page>
+
+			<Page id="editLeadTimePage">
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button
+							icon="sap-icon://save"
+							text="Gravar"
+							press="onPressSaveLeadTime"
+						/>
+						<Button
+							icon="sap-icon://cancel"
+							text="Cancelar"
+							press="onBackEditLeadTime"
+						/>
+					</Toolbar>
+				</footer>
+			</Page>
+		</pages>
+	</NavContainer>
+</mvc:View>

@@ -1,0 +1,312 @@
+<mvc:View
+	controllerName="com.thera.ajinomoto.salesorders.controller.Object"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+
+	<semantic:SemanticPage
+		id="page"
+		busy="{objectView>/busy}"
+        busyIndicatorDelay="{objectView>/delay}"
+        headerPinnable="true"
+		toggleHeaderOnTitleClick="true"
+		preserveHeaderStateOnScroll="false"
+		titleAreaShrinkRatio="1:1.6:1.6"
+		showFooter="false">
+		<semantic:titleHeading>
+            <Title text="Numero Ordem: 06161151564" />    
+		</semantic:titleHeading>
+
+
+        <semantic:headerContent>
+            <Panel headerText="Critério de Seleção" backgroundDesign="Transparent">
+                <VBox class="contentDTOVCCSELE">
+                    <VBox>
+                        <Label text="Data:"/>
+                        <DatePicker
+                            id="Birth"
+                            valueFormat="dd/MM/yyyy"
+                            displayFormat="short"
+                            placeholder="dd/mm/aaaa"
+                            width="100%"
+                            enabled="false"
+                        />	
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Tipo OV:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Cliente:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Canal:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+                            
+                    <VBox>
+                        <Label text="Setor:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Empresa:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Local de expedição:"/>
+                        <Input enabled="false"/>	
+                    </VBox>
+                </VBox>
+            </Panel>
+
+			<FlexBox
+				alignItems="Start"
+                justifyContent="SpaceBetween">
+                <Panel headerText="Dados do Cliente" backgroundDesign="Transparent">    
+                    <f:SimpleForm id="SimpleFormDadosGerais"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        adjustLabelSpan="true"
+			            singleContainerFullSize="true">
+                        <f:content alignItems="Start" display="Flex">
+                            <Label text="Pedido Ref Cliente" />
+                            <Text text="456985"/>
+
+                            <Label text="Data Referência Cliente"/>
+                            <Text text="03/04/2021"/>
+                        </f:content>      
+                    </f:SimpleForm>                                     
+                </Panel>
+                <Panel backgroundDesign="Transparent">
+                    <f:SimpleForm 
+                        id="SimpleModify"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        singleContainerFullSize="true">
+                        <f:content>
+                            <Label text="Código do Cliente"/>
+                            <Text text="012441"/>
+
+                            <Label text="Cliente"/>
+                            <Text text="MEGAFORT DIST IMPORT E EXPORTACAO"/>
+                        </f:content>      
+                    </f:SimpleForm>                                     
+                </Panel>
+                <Panel backgroundDesign="Transparent">
+                    <f:SimpleForm 
+                        id="SimpleStatus"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        singleContainerFullSize="true">
+                        <f:content>
+                            <Label text="Contrato"/>
+                            <Text text="456874"/>
+
+                            <Label text="Organização de Venda"/>
+                            <Text text="ZVOR"/>
+                        </f:content>      
+                    </f:SimpleForm>                                     
+                </Panel>
+            </FlexBox>  
+        </semantic:headerContent>   
+        <semantic:content>
+            <VBox>
+                <Panel 
+                    backgroundDesign="Transparent"
+                    expanded="true"
+                    headerText="Clico do pedido"
+                > 
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Clico do pedido" titleStyle="H2"/> 
+                            <ToolbarSpacer/>
+                            <Button 
+                                id="ObjectEditLead"
+                                text="Editar Lead"
+                                icon="sap-icon://edit"
+                                press="onPressEditLead"
+                            />
+                        </Toolbar>
+                    </headerToolbar>
+                    <f:SimpleForm id="SimpleFormLeadTime"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="12"
+                        labelSpanL="4"
+                        labelSpanM="8"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="4"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        singleContainerFullSize="false">
+                        <f:content>
+                            <core:Title text="Ordem de Venda"/>
+                            <ObjectStatus
+                                icon="sap-icon://pending"
+                                state="Success"
+                                text="2 dias e 20 horas e 20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>
+                        
+                            <core:Title text="Remessa"/>
+                            <ObjectStatus
+                                icon="sap-icon://pending"
+                                state="Information"
+                                text="2 dias e 20 horas e 20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>  
+
+                            <core:Title text="Crédito"/>
+                            <ObjectStatus
+                                icon="sap-icon://pending"
+                                state="Warning"
+                                text="2 dias e 20 horas e 20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>  
+
+                            <core:Title text="Transporte"/>
+                            <ObjectStatus
+                                icon="sap-icon://pending"
+                                state="Information"
+                                text="2 dias e 20 horas e 20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>  
+
+                            <core:Title text="Faturamento"/>
+                            <ObjectStatus
+                                icon="sap-icon://pending"
+                                state="Error"
+                                text="-2 dias e -20 horas e -20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>  
+
+                            <core:Title text="Total do Tempo"/>
+                            <ObjectStatus
+                                icon="sap-icon://date-time"
+                                state="Warning"
+                                text="2 dias e 20 horas e 20 minutos"
+                            />
+                            <ObjectStatus
+								state="Success"
+								text="+10 dias e 20 horas e 20 minutos"
+							/>                 
+                        </f:content>      
+                    </f:SimpleForm>
+                </Panel>
+                <Panel 
+                    backgroundDesign="Transparent"
+                    headerText="Lista dos Itens"
+                >
+                    <Table
+                        id="priceTable"
+                        width="auto"
+                        noDataText="Sem dados"
+                        busyIndicatorDelay="{priceTableProperty>/tableBusyDelay}"
+                        class="sapUiResponsiveMargin sapUiNoMarginTop"
+                        growing="true"
+                        growingScrollToLoad="true"
+                        updateFinished="onUpdateFinished"
+                        sticky="ColumnHeaders,HeaderToolbar"
+                        items="{priceTable>/items}"
+                    >
+                        <headerToolbar>
+                            <Toolbar width="100%" class="toolbar">
+                                <Title text="Itens" level="H1" titleStyle="H3"/>
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <columns>
+                            <Column id="tableUnit" width="8.5em">
+                                <Label text="Item da OV"/>
+                            </Column>
+                            <Column id="tableArea" width="5.5em">
+                                <Label text="Quantidade"/>
+                            </Column>
+                            <Column id="tablePrice" width="7.5em">
+                                <Label text="Data Efetiva"/>
+                            </Column>
+                            <Column id="tableVacancies" width="100%">
+                                <Label text="Data do Preenchimento Efetiva"/>
+                            </Column>
+                            <Column id="tableSignal" width="9em">
+                                <Label text="Horário do Preenchimento Efetiva"/>
+                            </Column>
+                            <Column id="tableFGTS" width="9em">
+                                <Label text="SLA OV"/>
+                            </Column>
+                            <Column id="tableFinancing" width="9em">
+                                <Label text="Data Bloqueio Remessa OV"/>
+                            </Column>
+                            <Column id="tableSubsidy" width="9em">
+                                <Label text="Hora do bloqueio Remessa OV"/>
+                            </Column>
+                            <Column id="tableSBPEValue" width="10em">
+                                <Label text="Hora Desbloqueio Remessa OV"/>
+                            </Column>
+                            <Column id="tableCVAValue" width="10em">
+                                <Label text="Data da Remessa"/>
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem
+                                type="Navigation"
+                                press="onPress">
+                                <cells>
+                                    <ObjectStatus
+                                        text="{priceTable>block} - {priceTable>unit}"
+                                        state="{
+                                            path: 'priceTable>status',
+                                            formatter: '.formatter.brzSalesStatus'
+                                        }"
+                                        icon="sap-icon://circle-task-2"
+                                    />
+                                    <Text text="{priceTable>area}"/>
+                                    <Text text="{priceTable>price}"/>
+                                    <Text text="{priceTable>vacancies}"/>
+                                    <Text text="{priceTable>tableParms/signal}"/>
+                                    <Text text="{priceTable>tableParms/FGTS}"/>
+                                    <Text text="{priceTable>tableParms/financing}"/>
+                                    <Text text="{priceTable>tableParms/subsidy}"/>
+                                    <Text text="{priceTable>SBPEValue}"/>
+                                    <Text text="{priceTable>CVAValue}"/>
+                                    <Text text="{priceTable>tableValue}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel> 
+            </VBox>
+        </semantic:content>     
+	</semantic:SemanticPage>
+</mvc:View>

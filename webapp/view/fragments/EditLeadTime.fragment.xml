@@ -1,0 +1,50 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Panel
+        headerText="Atualizar Lead Time"
+        backgroundDesign="Transparent"
+    >
+        <f:SimpleForm
+            id="SimpleFormEditLeadTime"
+            editable="false"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="12"
+            labelSpanL="4"
+            labelSpanM="8"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="4"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsXL="2"
+            columnsL="2"
+            columnsM="2"
+            singleContainerFullSize="false"
+            backgroundDesign="Solid"
+        >
+            <f:content>
+                <core:Title text="Ordem de Venda"/>
+                <Input/>
+                        
+                <core:Title text="Remessa"/>
+                <Input/> 
+
+                <core:Title text="Crédito"/>
+                <Input/>  
+
+                <core:Title text="Transporte"/>
+                <Input/> 
+
+                <core:Title text="Faturamento"/>
+                <Input/>
+
+                <core:Title text="Total do Tempo"/>
+                <Input/>
+            </f:content>      
+        </f:SimpleForm>
+    </Panel>
+</core:FragmentDefinition>
