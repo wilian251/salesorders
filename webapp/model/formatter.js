@@ -3,9 +3,15 @@ sap.ui.define([] , function () {
 
 	return {
 		dateToAbap: function(sValue){
-			let oDate = sValue.split("/");
+			let oDateFormatted = "";
 
-			return `${oDate[2]}${oDate[1]}${oDate[0]}`;
+			if(sValue != ""){
+				let oDate = sValue.split("/");
+
+				oDateFormatted = `${oDate[2]}${oDate[1]}${oDate[0]}`;
+			}
+
+			return oDateFormatted;
 		}
         
 	};

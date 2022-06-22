@@ -12,22 +12,42 @@
 				<Panel backgroundDesign="Solid">
 					<content>
 						<VBox class="contentDTOVCCSELE">
-							<VBox>
-								<Label text="{i18n>mainFilterOrderDate}:"/>
-								<DatePicker
-									id="Birth"
-									valueFormat="dd/MM/yyyy"
-									displayFormat="short"
-									placeholder="dd/mm/aaaa"
-									width="100%"
-									value="{filters>/selectionDate}"
-									valueState="{filters>/State/selectionDate/ValueState}"
-									valueStateText="{filters>/State/selectionDate/ValueStateText}"
-									enabled="{filters>/State/selectionDate/Enabled}"
-									visible="{filters>/State/selectionDate/Visible}"
-									change="onValidatedFieldsRequired"
-								/>	
-							</VBox>
+							<!--<VBox class="contentDatesSaleOrder">-->
+								<VBox>
+									<Label text="{i18n>mainFilterOrderDateIn}:"/>
+									<DatePicker
+										id="DateIn"
+										valueFormat="dd/MM/yyyy"
+										displayFormat="short"
+										placeholder="dd/mm/aaaa"
+										width="100%"
+										value="{filters>/selectionDateIn}"
+										valueState="{filters>/State/selectionDateIn/ValueState}"
+										valueStateText="{filters>/State/selectionDateIn/ValueStateText}"
+										enabled="{filters>/State/selectionDateIn/Enabled}"
+										visible="{filters>/State/selectionDateIn/Visible}"
+										change="onValidatedFieldsRequired"
+									/>	
+								</VBox>
+								<!--class="contentDateUpUntil"-->
+								<VBox>
+									<Label text="{i18n>mainFilterOrderDateUpUntil}:"/>
+								
+									<DatePicker
+										id="DateUpUntil"
+										valueFormat="dd/MM/yyyy"
+										displayFormat="short"
+										placeholder="dd/mm/aaaa"
+										width="100%"
+										value="{filters>/selectionDateUpUntil}"
+										valueState="{filters>/State/selectionDateUpUntil/ValueState}"
+										valueStateText="{filters>/State/selectionDateUpUntil/ValueStateText}"
+										enabled="{filters>/State/selectionDateUpUntil/Enabled}"
+										visible="{filters>/State/selectionDateUpUntil/Visible}"
+										change="onValidatedFieldsRequired"
+									/>
+								</VBox>
+							<!--</VBox>-->
 
 							<VBox>
 								<Label text="{i18n>mainFilterTypeOV}:"/>
@@ -42,7 +62,6 @@
 									valueStateText="{filters>/State/selectionTypeOV/ValueStateText}"
 									enabled="{filters>/State/selectionTypeOV/Enabled}"
 									visible="{filters>/State/selectionTypeOV/Visible}"
-									change="onValidatedFieldsRequired"
 								>
 									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
 								</MultiComboBox>	
@@ -61,7 +80,6 @@
 									valueStateText="{filters>/State/selectionClient/ValueStateText}"
 									enabled="{filters>/State/selectionClient/Enabled}"
 									visible="{filters>/State/selectionClient/Visible}"
-									change="onValidatedFieldsRequired"
 								>
 									<core:Item key="{Kunnr}" text="{Kunnr} - {Name1}"/>
 								</MultiComboBox>		
@@ -80,7 +98,6 @@
 									valueStateText="{filters>/State/selectionCanalDist/ValueStateText}"
 									enabled="{filters>/State/selectionCanalDist/Enabled}"
 									visible="{filters>/State/selectionCanalDist/Visible}"
-									change="onValidatedFieldsRequired"
 								>
 									<core:Item key="{Vtweg}" text="{Vtweg} - {Vtext}"/>
 								</MultiComboBox>		
@@ -99,7 +116,6 @@
 									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
 									enabled="{filters>/State/selectionSetorAt/Enabled}"
 									visible="{filters>/State/selectionSetorAt/Visible}"
-									change="onValidatedFieldsRequired"
 								>
 									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
 								</MultiComboBox>		
@@ -118,7 +134,6 @@
 									valueStateText="{filters>/State/selectionCompany/ValueStateText}"
 									enabled="{filters>/State/selectionCompany/Enabled}"
 									visible="{filters>/State/selectionCompany/Visible}"
-									change="onValidatedFieldsRequired"
 								>
 									<core:Item key="{Bukrs}" text="{Bukrs} - {Butxt}"/>
 								</MultiComboBox>		
@@ -133,17 +148,11 @@
 									valueStateText="{filters>/State/selectionLocalExp/ValueStateText}"
 									enabled="{filters>/State/selectionLocalExp/Enabled}"
 									visible="{filters>/State/selectionLocalExp/Visible}"
-									change="onValidatedFieldsRequired"
 								/>	
 							</VBox>
 
 							<VBox>
-								<Label />
-								<Button 
-									text="{i18n>mainButtonStart}"
-									enabled="{filters>/buttonStartEnabled}"
-									press="onPressStartReport"
-								/>
+								
 							</VBox>
 						</VBox>
 					</content>
@@ -156,6 +165,26 @@
 						items="{orders>/items}"
 						modeAnimationOn="false"
 					>
+						<f:infoToolbar>
+							<OverflowToolbar design="Transparent" height="2.5rem">
+								<VBox class="containerGridListTitleButton">
+									<VBox>
+										<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4"/>
+									</VBox>
+
+									<VBox class="contentGridListButton">
+										<Button 
+											text="{i18n>mainButtonStart}"
+											enabled="{filters>/buttonStartEnabled}"
+											press="onPressStartReport"
+											type="Emphasized"
+											width="100%"
+										/>
+									</VBox>
+								</VBox>
+							</OverflowToolbar>
+						</f:infoToolbar>
+
 						<f:customLayout>
 							<grid:GridBoxLayout boxMinWidth="100%" boxWidth="100%"/>
 						</f:customLayout>
@@ -170,7 +199,7 @@
 								<VBox class="contentHeaderOrder">
 									<VBox class="headerTitleNumberOrder">
 										<ObjectIdentifier
-											text="{orders>numberOrder}"
+											text="{orders>Vbeln}"
 											textDirection="Inherit"
 											title="{i18n>mainTitleNumberOrder}:"
 										/>
@@ -203,7 +232,7 @@
 												id="saleOrderIcon"
 												alt="Pedido de venda"
 												backgroundColor=""
-												color="{orders>saleOrder/color}"
+												color="{orders>SeleorderColor}"
 												size="64px"
 												src="sap-icon://write-new-document"
 											/>
@@ -215,7 +244,7 @@
 												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="Success"
-												text="{orders>saleOrder/time}"
+												text="{orders>SalesOrderFormatted}"
 											/>
 
 											<ObjectStatus
@@ -243,7 +272,7 @@
 											<core:Icon
 												id="shippingIcon"
 												alt="Remessa"
-												color="{orders>shipping/color}"
+												color="{orders>ShippingColor}"
 												size="64px"
 												src="sap-icon://course-program"
 											/>
@@ -255,7 +284,7 @@
 												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="Warning"
-												text="{orders>shipping/time}"
+												text="{orders>ShippingFormatted}"
 											/>
 
 											<ObjectStatus

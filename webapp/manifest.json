@@ -88,6 +88,9 @@
             "mainView": {
                 "type": "sap.ui.model.json.JSONModel"
             },
+            "orderTexts": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
             "orders": {
                 "type": "sap.ui.model.json.JSONModel"
             },

@@ -5,7 +5,7 @@ sap.ui.define([
     return {	
 		initModel: function() {
 			return {
-			    items: [
+			    items: [/*
 					{
 						numberOrder: "06161151564",
 						saleOrder: {
@@ -86,7 +86,7 @@ sap.ui.define([
 							time: "10 dias e 20 horas e 20 minutos",
 							color: "#FFA500"
 						}
-					}
+					}*/
 				]
 			};
 		}

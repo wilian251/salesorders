@@ -2,6 +2,7 @@ sap.ui.define([
     "./BaseController",
     "../model/orders",
     "../model/filters",
+    "../model/orderTexts",
     "../model/formatter",
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
@@ -9,7 +10,7 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment"
 ],
-    function (BaseController, Orders, Filters, Formatter, Sorter, Filter, FilterOperator, JSONModel, Fragment) {
+    function (BaseController, Orders, Filters, OrderTexts, Formatter, Sorter, Filter, FilterOperator, JSONModel, Fragment) {
         "use strict";
 
         return BaseController.extend("com.thera.ajinomoto.salesorders.controller.Main", {
@@ -68,7 +69,7 @@ sap.ui.define([
 
                 let oModel = this.getModel("filters").getData();
 
-                let oDateOrder = Formatter.dateToAbap(oModel.selectionDate),
+                let oDateOrder = `${Formatter.dateToAbap(oModel.selectionDateIn)},${Formatter.dateToAbap(oModel.selectionDateUpUntil)}`,
                     oTypeOV    = this._resetFilterToAbap(oModel.selectionTypeOV),
                     oCodClient = this._resetFilterToAbap(oModel.selectionClient),
                     oCNLDist   = this._resetFilterToAbap(oModel.selectionCanalDist),
@@ -94,28 +95,67 @@ sap.ui.define([
                             oData.results.map(sItem => {
                                 let oDateToday = "";
 
-                                if(sItem.Shipping === ""){
+                                /*if(sItem.SaleorderFinish === "" ||
+                                   sItem.SaleorderFinish === "" ||
+                                   sItem.SaleorderFinish === "" ||
+                                   sItem.SaleorderFinish === "" ){
                                     oDateToday = sap.ui.core.format.DateFormat.getDateTimeInstance({
                                         pattern: "dd/MM/yyyy HH:mm:ss",
                                         UTC: true
                                     }).format(new Date());
                                 }
+
+                                /*Company: "4354"
+                                CompanyName: "AJINOMOTO DO BRASIL"
+                                Credit: ""
+                                CreditColor: ""
+                                CreditFinish: ""
+                                CustomerReference: ""
+                                CustomerReferenceDate: "07/06/2022"
+                                Invoicing: ""
+                                InvoicingColor: ""
+                                InvoicingFinish: ""
+                                Saleorder: "07/06/2022 15:25:35"
+                                SaleorderFinish: ""
+                                SalesOrganization: "1001"
+                                SeleorderColor: ""
+                                Shipping: "07/06/2022 15:26:04"
+                                ShippingColor: ""
+                                ShippingFinish: "21/06/2022 22:50:17"
+                                Total: ""
+                                TotalColor: ""
+                                TotalFinish: ""
+                                Transport: ""
+                                TransportColor: ""
+                                TransportFinish: ""
+                                Vbeln: "60006153"*/
+
                                 
                                 let oObject = sItem;
 
-                                oObject.SalesOrderFormatted = this._converter_date_to_daysAndHours(sItem.Saleorder, oDateToday);
+                                if(sItem.Saleorder != ""){
+                                    let oDateHour = this._converter_date_to_daysAndHours(sItem.Saleorder, sItem.SaleorderFinish);
+                                    oObject.SalesOrderFormatted = oDateHour.dateHourFormatted;
+                                }
 
+                                if(sItem.Shipping != ""){
+                                    let oDateHour = this._converter_date_to_daysAndHours(sItem.Shipping, sItem.ShippingFinish);
+                                    oObject.ShippingFormatted = oDateHour.dateHourFormatted;
+                                }
 
                                 oItems.push(oObject);
                             });
                         }
 
                         this.getModel("orders").getData().items = oItems;
+                        this.getModel("orders").refresh(true);
+
+                        this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainGridListHeaderTextLength", [oItems.length]));
 
                         this.setAppBusy(false);
                     }.bind(this),
                     error: function(oError){
-                        console.log(oError);
+                        console.log(JSON.parse(oError.responseText));
 
                         this.setAppBusy(false);
                     }.bind(this)
@@ -124,8 +164,7 @@ sap.ui.define([
 
             onValidatedFieldsRequired: function(oEvent){
                 let oModel      = this.getModel("filters").getData(),
-                    aFieldClass = ["selectionDate", "selectionCompany", "selectionSetorAt", 
-                                   "selectionCanalDist", "selectionClient", "selectionTypeOV", "selectionLocalExp"],
+                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil"],
                     bValid      = true;
 
                 aFieldClass.forEach(sField => {
@@ -140,12 +179,6 @@ sap.ui.define([
                 });
 
                 oModel.buttonStartEnabled = bValid;
-
-                /*if(bValid){
-                    oModel.buttonStartEnabled = true;
-                }else{
-                    oModel.buttonStartEnabled = false;
-                }*/
 
                 this.getModel("filters").refresh(true);
             },
@@ -163,14 +196,14 @@ sap.ui.define([
 
                 //filtros para seleção dos dados
                 this.getModel("filters").setData(Filters.initSelectionModel());
-                this.getModel("filters").refresh(true);
+                this.getModel("filters").refresh(true);   
 
+                let oI18n = {
+                    headerTextTitle: this.getResourceBundle().getText("mainGridListHeaderText")
+                }
 
-                let d1   = "01/06/2022 14:00:00";
-                let d2   = "20/06/2022 14:31:00";
-                let diff = moment(d2,"DD/MM/YYYY HH:mm:ss").diff(moment(d1,"DD/MM/YYYY HH:mm:ss"));
-                let dias = moment.duration(diff);
-                console.log(`${dias._data.days} dias ${dias._data.hours} Horas ${dias._data.minutes} Minutos e ${dias._data.seconds} Segundos`);
+                this.getModel("orderTexts").setData(OrderTexts.initSelectionModel(oI18n));
+                this.getModel("orderTexts").refresh(true);   
 
                 this.setAppBusy(false);
             },
@@ -178,13 +211,15 @@ sap.ui.define([
             _resetFilterToAbap: function(sListValues){
                 let oValueString = "";
 
-                sListValues.map(sValue => {
-                    if(sListValues.length > 1){
-                        oValueString += sValue + ",";
-                    }else{
-                        oValueString += sValue;
-                    }
-                });
+                if(sListValues.length != 0){
+                    sListValues.map(sValue => {
+                        if(sListValues.length > 1){
+                            oValueString += sValue + ",";
+                        }else{
+                            oValueString += sValue;
+                        }
+                    });
+                }
 
                 return oValueString;
             },
@@ -193,7 +228,10 @@ sap.ui.define([
                 let oDiff = moment(sDateTwo,"DD/MM/YYYY HH:mm:ss").diff(moment(sDateOne,"DD/MM/YYYY HH:mm:ss")),
                     oDate = moment.duration(oDiff);
 
-                return `${oDate._data.days} dias ${oDate._data.hours} Horas ${oDate._data.minutes} Minutos e ${oDate._data.seconds} Segundos`;
+                return {
+                    dateHourFormatted: `${oDate._data.days} dias ${oDate._data.hours}H ${oDate._data.minutes} Min e ${oDate._data.seconds} Seg`,
+                    dateHour: oDate._data
+                }
 
             }
         });

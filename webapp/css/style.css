@@ -1,3 +1,19 @@
+.containerGridListTitleButton{
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: space-between;
+    
+    margin: 0.1rem;
+}
+
+.contentGridListButton {
+    width: 8rem;
+}
+
 .contentHeaderOrder {
     display: flex;
     flex-direction: row;
@@ -34,6 +50,17 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 0.5rem;
+}
+
+.contentDatesSaleOrder {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.contentDateUpUntil {
+    margin-left: 0.5rem;
 }
 
 .colorSuccess {
