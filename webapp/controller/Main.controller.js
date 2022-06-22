@@ -44,24 +44,27 @@ sap.ui.define([
             },
 
             onPressEditLead: function(oEvent){
-                this._oNavContainer.to(this._oEditLeadTimePage);
+                this._oNavContainer.to(this._oEditLeadTimePage, "slide");
 
-                Fragment.load({
+                /*Fragment.load({
 					id: this.getView().getId(),
 					name: "com.thera.ajinomoto.salesorders.view.fragments.EditLeadTime",
 					controller: this
 				}).then(function(oFragment){
                     this._oEditLeadTimePage.removeAllContent();
                     this._oEditLeadTimePage.insertContent(oFragment);
-				}.bind(this));
+				}.bind(this));*/
             },
 
             onPressSaveLeadTime: function(oEvent){},
 
             onBackEditLeadTime: function(oEvent){
+                //this._oEditLeadTimePage.removeAllContent();
+
                 this._oNavContainer.back();
 
-                this._oEditLeadTimePage.removeAllContent();
+                console.log(this.byId("saleOrderInitial"));
+                console.log(this.byId("saleOrderFinish"));
             },
 
             onPressStartReport: function(oEvent){

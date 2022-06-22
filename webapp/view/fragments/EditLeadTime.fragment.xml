@@ -4,7 +4,7 @@
     xmlns:f="sap.ui.layout.form"
 >
     <Panel
-        headerText="Atualizar Lead Time"
+        headerText="{i18n>leadTimeTitle}"
         backgroundDesign="Transparent"
     >
         <f:SimpleForm
@@ -27,23 +27,102 @@
             backgroundDesign="Solid"
         >
             <f:content>
-                <core:Title text="Ordem de Venda"/>
-                <Input/>
+                <core:Title text="{i18n>leadTimeSaleOrder}"/>
+                <Label text="{i18n>leadTimeDateInitial}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value=""
+                />
+                <Label text="{i18n>leadTimeDateFinish}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
                         
-                <core:Title text="Remessa"/>
-                <Input/> 
+                <core:Title text="{i18n>leadTimeShipping}"/>
+                <Label text="{i18n>leadTimeDateInitial}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateFinish}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
 
-                <core:Title text="Crédito"/>
-                <Input/>  
+                <core:Title text="{i18n>leadTimeCredit}"/>
+                <Label text="{i18n>leadTimeDateInitial}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateFinish}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
 
-                <core:Title text="Transporte"/>
-                <Input/> 
+                <core:Title text="{i18n>leadTimeTransport}"/>
+                <Label text="{i18n>leadTimeDateInitial}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateFinish}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
 
-                <core:Title text="Faturamento"/>
-                <Input/>
+                <core:Title text="{i18n>leadTimeInvoicing}"/>
+                <Label text="{i18n>leadTimeDateInitial}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateFinish}"/>
+                <DateTimePicker
+                    showCurrentDateButton="true"
+			        showCurrentTimeButton="true"
+                    valueFormat="dd/MM/yyyy HH:mm:ss"
+                />
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
 
-                <core:Title text="Total do Tempo"/>
-                <Input/>
+                <core:Title text="{i18n>leadTimeTotal}"/>
+                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                <Text
+                    text=""
+                />
             </f:content>      
         </f:SimpleForm>
     </Panel>

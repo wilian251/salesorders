@@ -14,7 +14,7 @@
 						<VBox class="contentDTOVCCSELE">
 							<!--<VBox class="contentDatesSaleOrder">-->
 								<VBox>
-									<Label text="{i18n>mainFilterOrderDateIn}:"/>
+									<Label text="{i18n>mainFilterOrderDateIn}:" required="true"/>
 									<DatePicker
 										id="DateIn"
 										valueFormat="dd/MM/yyyy"
@@ -27,11 +27,12 @@
 										enabled="{filters>/State/selectionDateIn/Enabled}"
 										visible="{filters>/State/selectionDateIn/Visible}"
 										change="onValidatedFieldsRequired"
+										required="true"
 									/>	
 								</VBox>
 								<!--class="contentDateUpUntil"-->
 								<VBox>
-									<Label text="{i18n>mainFilterOrderDateUpUntil}:"/>
+									<Label text="{i18n>mainFilterOrderDateUpUntil}:" required="true"/>
 								
 									<DatePicker
 										id="DateUpUntil"
@@ -45,6 +46,7 @@
 										enabled="{filters>/State/selectionDateUpUntil/Enabled}"
 										visible="{filters>/State/selectionDateUpUntil/Visible}"
 										change="onValidatedFieldsRequired"
+										required="true"
 									/>
 								</VBox>
 							<!--</VBox>-->
@@ -211,7 +213,11 @@
 											text="Editar Lead"
 											icon="sap-icon://edit"
 											press="onPressEditLead"
-										/>
+										>
+											<dependents>
+												<Text text="{orders>Vbeln}"/>
+											</dependents>
+										</Button>
 									</VBox>
 								</VBox>
 
@@ -464,6 +470,11 @@
 			</Page>
 
 			<Page id="editLeadTimePage">
+				<core:Fragment
+					fragmentName="com.thera.ajinomoto.salesorders.view.fragments.EditLeadTime" 
+					type="XML"
+				/>
+
 				<footer>
 					<Toolbar>
 						<ToolbarSpacer/>
