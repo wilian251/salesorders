@@ -33,17 +33,24 @@
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value=""
+                    value="{leadTime>/leadTime/Saleorder}"
+                    valueState="{leadTime>/State/Saleorder/ValueState}"
+                    valueStateText="{leadTime>/State/Saleorder/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateFinish}"/>
                 <DateTimePicker
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/SaleorderFinish}"
+                    valueState="{leadTime>/State/SaleorderFinish/ValueState}"
+                    valueStateText="{leadTime>/State/SaleorderFinish/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/SaleorderFormatted}"
                 />
                         
                 <core:Title text="{i18n>leadTimeShipping}"/>
@@ -52,16 +59,24 @@
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/Shipping}"
+                    valueState="{leadTime>/State/Shipping/ValueState}"
+                    valueStateText="{leadTime>/State/Shipping/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateFinish}"/>
                 <DateTimePicker
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/ShippingFinish}"
+                    valueState="{leadTime>/State/ShippingFinish/ValueState}"
+                    valueStateText="{leadTime>/State/ShippingFinish/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/ShippingFormatted}"
                 />
 
                 <core:Title text="{i18n>leadTimeCredit}"/>
@@ -70,16 +85,24 @@
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/Credit}"
+                    valueState="{leadTime>/State/Credit/ValueState}"
+                    valueStateText="{leadTime>/State/Credit/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateFinish}"/>
                 <DateTimePicker
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/CreditFinish}"
+                    valueState="{leadTime>/State/CreditFinish/ValueState}"
+                    valueStateText="{leadTime>/State/CreditFinish/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/CreditFormatted}"
                 />
 
                 <core:Title text="{i18n>leadTimeTransport}"/>
@@ -88,16 +111,24 @@
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/Transport}"
+                    valueState="{leadTime>/State/Transport/ValueState}"
+                    valueStateText="{leadTime>/State/Transport/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateFinish}"/>
                 <DateTimePicker
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/TransportFinish}"
+                    valueState="{leadTime>/State/TransportFinish/ValueState}"
+                    valueStateText="{leadTime>/State/TransportFinish/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/TransportFormatted}"
                 />
 
                 <core:Title text="{i18n>leadTimeInvoicing}"/>
@@ -106,22 +137,30 @@
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/Invoicing}"
+                    valueState="{leadTime>/State/Invoicing/ValueState}"
+                    valueStateText="{leadTime>/State/Invoicing/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateFinish}"/>
                 <DateTimePicker
                     showCurrentDateButton="true"
 			        showCurrentTimeButton="true"
                     valueFormat="dd/MM/yyyy HH:mm:ss"
+                    value="{leadTime>/leadTime/InvoicingFinish}"
+                    valueState="{leadTime>/State/InvoicingFinish/ValueState}"
+                    valueStateText="{leadTime>/State/InvoicingFinish/ValueStateText}"
+                    change="onValidatedFieldsLeadTime"
                 />
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/InvoicingFormatted}"
                 />
 
                 <core:Title text="{i18n>leadTimeTotal}"/>
                 <Label text="{i18n>leadTimeDateHourFormatted}"/>
                 <Text
-                    text=""
+                    text="{leadTime>/leadTime/TotalFormatted}"
                 />
             </f:content>      
         </f:SimpleForm>

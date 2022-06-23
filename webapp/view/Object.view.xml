@@ -25,48 +25,144 @@
         <semantic:headerContent>
             <Panel headerText="Critério de Seleção" backgroundDesign="Transparent">
                 <VBox class="contentDTOVCCSELE">
-                    <VBox>
-                        <Label text="Data:"/>
-                        <DatePicker
-                            id="Birth"
-                            valueFormat="dd/MM/yyyy"
-                            displayFormat="short"
-                            placeholder="dd/mm/aaaa"
-                            width="100%"
-                            enabled="false"
-                        />	
-                    </VBox>
+	    			<!--<VBox class="contentDatesSaleOrder">-->
+					<VBox>
+						<Label text="{i18n>mainFilterOrderDateIn}:" required="true"/>
+    					<DatePicker
+							id="DateIn"
+							valueFormat="dd/MM/yyyy"
+							displayFormat="short"
+							placeholder="dd/mm/aaaa"
+							width="100%"
+							value="{filters>/selectionDateIn}"
+							valueState="{filters>/State/selectionDateIn/ValueState}"
+							valueStateText="{filters>/State/selectionDateIn/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionDateIn/Visible}"
+					    	required="true"
+						/>	
+					</VBox>
+					<!--class="contentDateUpUntil"-->
+					<VBox>
+						<Label text="{i18n>mainFilterOrderDateUpUntil}:" required="true"/>			
+						<DatePicker
+							id="DateUpUntil"
+							valueFormat="dd/MM/yyyy"
+							displayFormat="short"
+							placeholder="dd/mm/aaaa"
+							width="100%"
+							value="{filters>/selectionDateUpUntil}"
+							valueState="{filters>/State/selectionDateUpUntil/ValueState}"
+							valueStateText="{filters>/State/selectionDateUpUntil/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionDateUpUntil/Visible}"
+							required="true"
+						/>
+					</VBox>
+					<!--</VBox>-->
 
-                    <VBox>
-                        <Label text="Tipo OV:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
+					<VBox>
+						<Label text="{i18n>mainFilterTypeOV}:"/>
+						<MultiComboBox
+					    	id="typeOV"
+							items="{
+								path: '/HTvakSet'
+							}"
+							width="100%"
+							selectedKeys="{filters>/selectionTypeOV}"
+							valueState="{filters>/State/selectionTypeOV/ValueState}"
+							valueStateText="{filters>/State/selectionTypeOV/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionTypeOV/Visible}"
+						>
+							<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+						</MultiComboBox>	
+					</VBox>
 
-                    <VBox>
-                        <Label text="Cliente:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
+					<VBox>
+						<Label text="{i18n>mainFilterClientCode}:"/>
+						<MultiComboBox
+							id="codClient"
+							items="{
+								path: '/ZshCodclientSet'
+							}"
+							width="100%"
+							selectedKeys="{filters>/selectionClient}"
+							valueState="{filters>/State/selectionClient/ValueState}"
+							valueStateText="{filters>/State/selectionClient/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionClient/Visible}"
+						>
+							<core:Item key="{Kunnr}" text="{Kunnr} - {Name1}"/>
+						</MultiComboBox>		
+					</VBox>
 
-                    <VBox>
-                        <Label text="Canal:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
-                            
-                    <VBox>
-                        <Label text="Setor:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
+					<VBox>
+						<Label text="{i18n>mainFilterDistributionChannel}:"/>
+						<MultiComboBox
+							id="CNLDIST"
+							items="{
+								path: '/HTvkovSet'
+							}"
+							width="100%"
+							selectedKeys="{filters>/selectionCanalDist}"
+							valueState="{filters>/State/selectionCanalDist/ValueState}"
+							valueStateText="{filters>/State/selectionCanalDist/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionCanalDist/Visible}"
+						>
+							<core:Item key="{Vtweg}" text="{Vtweg} - {Vtext}"/>
+						</MultiComboBox>		
+					</VBox>
+						
+					<VBox>
+						<Label text="{i18n>mainFilterSector}:"/>
+						<MultiComboBox
+							id="Setor"
+							items="{
+								path: '/HTvakSet'
+							}"
+							width="100%"
+							selectedKeys="{filters>/selectionSetorAt}"
+							valueState="{filters>/State/selectionSetorAt/ValueState}"
+							valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
+							enabled="false"
+					    	visible="{filters>/State/selectionSetorAt/Visible}"
+						>
+							<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+						</MultiComboBox>		
+					</VBox>
 
-                    <VBox>
-                        <Label text="Empresa:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
+					<VBox>
+						<Label text="{i18n>mainFilterCompany}:"/>
+						<MultiComboBox
+							id="company"
+							items="{
+								path: '/ZshCompanySet'
+							}"
+							width="100%"
+							selectedKeys="{filters>/selectionCompany}"
+							valueState="{filters>/State/selectionCompany/ValueState}"
+							valueStateText="{filters>/State/selectionCompany/ValueStateText}"
+							enabled="false"
+							visible="{filters>/State/selectionCompany/Visible}"
+						>
+							<core:Item key="{Bukrs}" text="{Bukrs} - {Butxt}"/>
+						</MultiComboBox>		
+					</VBox>
 
-                    <VBox>
-                        <Label text="Local de expedição:"/>
-                        <Input enabled="false"/>	
-                    </VBox>
-                </VBox>
+					<VBox>
+						<Label text="{i18n>mainFilterShippingLocation}:"/>
+						<Input
+							id="localExpedicao"
+							value="{filters>/selectionLocalExp}"
+							valueState="{filters>/State/selectionLocalExp/ValueState}"
+							valueStateText="{filters>/State/selectionLocalExp/ValueStateText}"
+					     	enabled="false"
+						    visible="{filters>/State/selectionLocalExp/Visible}"
+						/>	
+				    </VBox>
+				</VBox>
             </Panel>
 
 			<FlexBox
@@ -79,11 +175,11 @@
                         adjustLabelSpan="true"
 			            singleContainerFullSize="true">
                         <f:content alignItems="Start" display="Flex">
-                            <Label text="Pedido Ref Cliente" />
-                            <Text text="456985"/>
+                            <Label text="{i18n>objectOrderRefCustomer}" />
+                            <Text text="{orders>/CustomerReference}"/>
 
-                            <Label text="Data Referência Cliente"/>
-                            <Text text="03/04/2021"/>
+                            <Label text="{i18n>objectCustomerReferenceDate}"/>
+                            <Text text="{orders>/CustomerReferenceDate}"/>
                         </f:content>      
                     </f:SimpleForm>                                     
                 </Panel>
@@ -94,11 +190,11 @@
                         layout="ResponsiveGridLayout"
                         singleContainerFullSize="true">
                         <f:content>
-                            <Label text="Código do Cliente"/>
-                            <Text text="012441"/>
+                            <Label text="{i18n>objectCustomerCode}"/>
+                            <Text text="{orders>/Company}"/>
 
-                            <Label text="Cliente"/>
-                            <Text text="MEGAFORT DIST IMPORT E EXPORTACAO"/>
+                            <Label text="{i18n>objectClient}"/>
+                            <Text text="{orders>/CompanyName}"/>
                         </f:content>      
                     </f:SimpleForm>                                     
                 </Panel>
@@ -109,11 +205,8 @@
                         layout="ResponsiveGridLayout"
                         singleContainerFullSize="true">
                         <f:content>
-                            <Label text="Contrato"/>
-                            <Text text="456874"/>
-
-                            <Label text="Organização de Venda"/>
-                            <Text text="ZVOR"/>
+                            <Label text="{i18n>objectSalesOrganization}"/>
+                            <Text text="{orders>/SalesOrganization}"/>
                         </f:content>      
                     </f:SimpleForm>                                     
                 </Panel>
@@ -124,11 +217,11 @@
                 <Panel 
                     backgroundDesign="Transparent"
                     expanded="true"
-                    headerText="Clico do pedido"
+                    headerText="{i18n>objectHeaderTitle}"
                 > 
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="Clico do pedido" titleStyle="H2"/> 
+                            <Title text="{i18n>objectHeaderTitle}" titleStyle="H2"/> 
                             <ToolbarSpacer/>
                             <Button 
                                 id="ObjectEditLead"
@@ -155,70 +248,112 @@
                         columnsM="2"
                         singleContainerFullSize="false">
                         <f:content>
-                            <core:Title text="Ordem de Venda"/>
+                            <core:Title text="{i18n>leadTimeSaleOrder}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
                                 state="Success"
-                                text="2 dias e 20 horas e 20 minutos"
+                                text="{orders>/SaleorderFormatted}"
+                                visible="{=${orders>/SaleorderFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/SaleorderFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Saleorderformattedlt}"
 							/>
                         
-                            <core:Title text="Remessa"/>
+                            <core:Title text="{i18n>leadTimeShipping}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
                                 state="Information"
-                                text="2 dias e 20 horas e 20 minutos"
+                                text="{orders>/ShippingFormatted}"
+                                visible="{=${orders>/ShippingFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/ShippingFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Shippingformattedlt}"
 							/>  
 
-                            <core:Title text="Crédito"/>
+                            <core:Title text="{i18n>leadTimeCredit}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
                                 state="Warning"
-                                text="2 dias e 20 horas e 20 minutos"
+                                text="{orders>/CreditFormatted}"
+                                visible="{=${orders>/CreditFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/CreditFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Creditformattedlt}"
 							/>  
 
-                            <core:Title text="Transporte"/>
+                            <core:Title text="{i18n>leadTimeTransport}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
                                 state="Information"
-                                text="2 dias e 20 horas e 20 minutos"
+                                text="{orders>/TransportFormatted}"
+                                visible="{=${orders>/TransportFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/TransportFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Transportformattedlt}"
 							/>  
 
-                            <core:Title text="Faturamento"/>
+                            <core:Title text="{i18n>leadTimeInvoicing}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
                                 state="Error"
-                                text="-2 dias e -20 horas e -20 minutos"
+                                text="{orders>/InvoicingFormatted}"
+                                visible="{=${orders>/InvoicingFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/InvoicingFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Invoicingformattedlt}"
 							/>  
 
-                            <core:Title text="Total do Tempo"/>
+                            <core:Title text="{i18n>leadTimeTotal}"/>
+                            <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://date-time"
                                 state="Warning"
-                                text="2 dias e 20 horas e 20 minutos"
+                                text="{orders>/TotalFormatted}"
+                                visible="{=${orders>/TotalFormatted} === '' ? false : true}"
                             />
+                            <Text 
+                                text="{i18n>mainLeadTimeCycleNotStarted}" 
+                                visible="{=${orders>/TotalFormatted} === '' ? true : false}"
+                            />
+                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
-								text="+10 dias e 20 horas e 20 minutos"
+								text="{orders>/Totalformattedlt}"
 							/>                 
                         </f:content>      
                     </f:SimpleForm>

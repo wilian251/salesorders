@@ -97,6 +97,9 @@
             "filters": {
                 "type": "sap.ui.model.json.JSONModel"
             },
+            "leadTime": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
             "": {
 				"dataSource": "ZSALESORDER_GW_REPORT_SRV",
 				"preload": true,
@@ -134,7 +137,7 @@
                     ]
                 },
                 {
-                    "pattern": "object",
+                    "pattern": "object/{id}",
                     "name": "object",
                     "target": [
                         "object"

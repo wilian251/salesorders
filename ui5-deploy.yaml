@@ -14,10 +14,10 @@ builder:
       afterTask: generateCachebusterInfo
       configuration:
         target:
-          url: http://vhajbs4dci00.bradw01.local:8000
-          client: "100"
+          url: http://vhajbgwdci00.bradw01.local:8000
+          client: "400"
         app:
           name: SALEORDER
           description: Ciclo de Ordens de Vendas
-          package: ZSALESORDERREPORT
-          transport: S4DK966553
+          package: ZSALESORDERREPORT_FRONTEND
+          transport: GWDK903624

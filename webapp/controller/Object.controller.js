@@ -13,8 +13,6 @@ sap.ui.define([
         /* =========================================================== */
         /* event handlers                                              */
         /* =========================================================== */
-        
-        onPressGridListItem: function(oEvent){},
 
         onPressEditLead: function(oEvent){
             this._oNavContainer.to(this._oEditLeadTimePage);
@@ -39,7 +37,26 @@ sap.ui.define([
         /* =========================================================== */
         /* internal methods                                            */
         /* =========================================================== */
-        _onObjectMatched: async function(oEvent) {
+        _onObjectMatched: function(oEvent){
+            let oVbeln = oEvent.getParameter("arguments").id;
+
+            let oItems = this.getModel("orders").getData().items;
+
+            if(oItems != undefined){
+                let oOrder = oItems.find(sItem => {
+                    if(sItem.Vbeln === oVbeln) return sItem;
+                });
+
+                this.getModel("orders").setData(oOrder);
+                this.getModel("orders").refresh(true);
+
+                this.getView().bindElement({
+                    path: "/",
+                    model: "orders"
+                });
+            }else{
+                this.getRouter().navTo("main");
+            }
         },
 	});
 });
