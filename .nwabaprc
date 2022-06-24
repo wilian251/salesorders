@@ -1,0 +1,12 @@
+{
+    "base": "./dist",
+    "conn_usestrictssl" : false,
+    "conn_server": "http://vhajbgwdci00.bradw01.local:8000",
+    "conn_client" : "100",
+    "conn_user": "CONS_THERA24",
+    "conn_password": "Celtapreto0!",
+    "abap_package": "ZSALESORDERREPORT_FRONTEND",
+    "abap_bsp": "ZUI5_SALESORDER",
+    "abap_bsp_text": "Ciclo de Ordens de Vendas",
+    "abap_transport": "GWDK903626"
+}

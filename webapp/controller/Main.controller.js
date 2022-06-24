@@ -41,13 +41,13 @@ sap.ui.define([
 
                 this.byId("shipping").addStyleClass("colorSuccess");
 
-                /*this.byId("credit").addStyleClass("colorError");
+                this.byId("credit").addStyleClass("colorSuccess");
 
-                this.byId("transport").addStyleClass("colorInformation");
+                this.byId("transport").addStyleClass("colorSuccess");
 
-                this.byId("invoicing").addStyleClass("colorInformation");
+                this.byId("invoicing").addStyleClass("colorSuccess");
 
-                this.byId("totalTime").addStyleClass("colorWarning");*/
+                this.byId("totalTime").addStyleClass("colorSuccess");
             },
 
             /* =========================================================== */
@@ -116,8 +116,6 @@ sap.ui.define([
                         this.setAppBusy(false);
                     }.bind(this)
                 });
-
-                
             },
 
             onPressSaveLeadTime: function(oEvent){
@@ -130,7 +128,7 @@ sap.ui.define([
                         let oModel = this.getModel("orders").getData();
 
                         oModel.items.map(sOrder => {
-                            if(sOrder.Vbeln === oData.Vbeln){    
+                            if(sOrder.Vbeln === oData.Vbeln){
                                 sOrder.Saleorderformattedlt = oData.SaleorderFormatted;
                                 sOrder.Shippingformattedlt  = oData.ShippingFormatted;
                                 sOrder.Creditformattedlt    = oData.CreditFormatted;
@@ -236,19 +234,9 @@ sap.ui.define([
                                 TransportFormatted: ""
                                 Transportformattedlt: "6 dias 0H 0 Min e 4 Seg"
                                 Vbeln: "60006153"*/
-
-
-                                /*
-                                this.byId("saleOrder").addStyleClass("colorSuccess");
-                                this.byId("shipping").addStyleClass("colorWarning");
-                                this.byId("credit").addStyleClass("colorError");
-                                this.byId("transport").addStyleClass("colorInformation");
-                                this.byId("invoicing").addStyleClass("colorInformation");
-                                this.byId("totalTime").addStyleClass("colorWarning");
-                                */
-
                                 
-                                let oObject = sItem;
+                                let oObject = sItem,
+                                    oCount  = 0; 
 
                                 //Ordem de venda
                                 if(sItem.Saleorder != ""){
@@ -258,8 +246,6 @@ sap.ui.define([
                                 }else{
                                     oObject.SaleorderFormatted = "";
                                     oObject.SaleorderColor     = "#FFA500"
-
-                                    this.byId("saleOrder").addStyleClass("colorWarning");
                                 }
 
                                 //Remessa
@@ -271,7 +257,6 @@ sap.ui.define([
                                     oObject.ShippingFormatted = "";
                                     oObject.ShippingColor     = "#FFA500"
 
-                                    this.byId("shipping").addStyleClass("colorWarning");
                                 }
 
                                 //Crédito
@@ -281,8 +266,6 @@ sap.ui.define([
                                 }else{
                                     oObject.CreditFormatted = "";
                                     oObject.CreditColor     = "#FFA500"
-
-                                    this.byId("credit").addStyleClass("colorWarning");
                                 }
 
                                 //Transporte
@@ -292,8 +275,6 @@ sap.ui.define([
                                 }else{
                                     oObject.TransportFormatted = "";
                                     oObject.TransportColor     = "#FFA500"
-
-                                    this.byId("transport").addStyleClass("colorWarning");
                                 }
 
                                 //Faturamento
@@ -303,15 +284,14 @@ sap.ui.define([
                                 }else{
                                     oObject.InvoicingFormatted = "";
                                     oObject.InvoicingColor     = "#FFA500"
-
-                                    this.byId("invoicing").addStyleClass("colorWarning");
                                 }
 
                                 oObject.TotalFormatted = "";
                                 oObject.TotalColor     = "#FFA500"
-                                this.byId("totalTime").addStyleClass("colorWarning");
 
                                 oItems.push(oObject);
+
+                                oCount++;
                             });
                         }
 

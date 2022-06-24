@@ -12,7 +12,7 @@
         "resources": "resources.json",
         "dataSources": {
             "ZSALESORDER_GW_REPORT_SRV": {
-				"uri": "/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/",
+				"uri": "/sap/opu/odata/sap/zsalesorder_gw_report_srv/",
 				"type": "OData",
 				"settings": {
 					"annotations": [],
@@ -21,27 +21,12 @@
 				}
 			}
         },
-        "ach": "ach",
-        "crossNavigation": {
-            "inbounds": {
-                "com-thera-ajinomoto-salesorders-inbound": {
-                    "signature": {
-                        "parameters": {},
-                        "additionalParameters": "allowed"
-                    },
-                    "semanticObject": "salesorders",
-                    "action": "Display",
-                    "title": "{{flpTitle}}",
-                    "subTitle": "{{flpSubtitle}}",
-                    "icon": "sap-icon://building"
-                }
-            }
-        }
+        "ach": "ach"
     },
     "sap.ui": {
         "technology": "UI5",
         "icons": {
-            "icon": "sap-icon://task",
+            "icon": "",
             "favIcon": "",
             "phone": "",
             "phone@2": "",
@@ -174,9 +159,5 @@
                 }
             }
         }
-    },
-    "sap.cloud": {
-        "public": true,
-        "service": "com-thera-ajinomoto-salesorders"
     }
 }

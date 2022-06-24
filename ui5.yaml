@@ -1,6 +1,6 @@
-specVersion: '2.4'
+specVersion: '2.5'
 metadata:
-  name: 'salesorders'
+  name: salesorders
 type: application
 server:
   customMiddleware:
@@ -11,12 +11,13 @@ server:
       backend:
       - path: /sap
         url: http://vhajbs4qci03.bradw01.local:8003
+        client: "400"
       ui5:
         path: 
         - /resources
         - /test-resources
         url: https://ui5.sap.com
-        version:  # The UI5 version, for instance, 1.78.1. Empty means latest version
+        version: '' # The UI5 version, for instance, 1.78.1. Empty means latest version
   - name: fiori-tools-appreload
     afterMiddleware: compression
     configuration:

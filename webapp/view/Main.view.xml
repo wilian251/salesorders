@@ -1,8 +1,6 @@
 <mvc:View 
 	xmlns:mvc="sap.ui.core.mvc" 
-	xmlns="sap.m" 
-	xmlns:f="sap.f"
-	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
 	controllerName="com.thera.ajinomoto.salesorders.controller.Main" 
 	displayBlock="true">
@@ -157,347 +155,326 @@
 				</Panel>
 
 				<content>
-					<f:GridList
-						id="gridList"
-						class="gridListSalesOrders"
-						items="{orders>/items}"
-						modeAnimationOn="false"
-					>
-						<f:infoToolbar>
-							<OverflowToolbar design="Transparent" height="2.5rem">
-								<VBox class="containerGridListTitleButton">
-									<VBox>
-										<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4"/>
-									</VBox>
+					<VBox class="containerGridListTitleButton">
+						<VBox>
+							<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4"/>
+						</VBox>
 
-									<VBox class="contentGridListButton">
-										<Button 
-											text="{i18n>mainButtonStart}"
-											enabled="{filters>/buttonStartEnabled}"
-											press="onPressStartReport"
-											type="Emphasized"
-											width="100%"
-										/>
-									</VBox>
-								</VBox>
-							</OverflowToolbar>
-						</f:infoToolbar>
+						<VBox class="contentGridListButton">
+							<Button 
+								text="{i18n>mainButtonStart}"
+								enabled="{filters>/buttonStartEnabled}"
+								press="onPressStartReport"
+								type="Emphasized"
+								width="100%"
+							/>
+						</VBox>
+					</VBox>
 
-						<f:customLayout>
-							<grid:GridBoxLayout boxMinWidth="100%" boxWidth="100%"/>
-						</f:customLayout>
+					<VBox>
+						<!--<VBox class="contentHeaderOrder">
+							<VBox class="headerTitleNumberOrder">
+								<ObjectIdentifier
+									text="{orders>Vbeln}"
+									textDirection="Inherit"
+									title="{i18n>mainTitleNumberOrder}:"
+								/>
+							</VBox>
 
-						<f:GridListItem
-							id="gridListItem"
-							press="onPressGridListItem"
-							type="Active"
-						> 	
+							<VBox class="headerEditLead">
+								<Button 
+									id="editLead"
+									text="Editar Lead"
+									icon="sap-icon://edit"
+									press="onPressEditLead"
+								>
+									<dependents>
+										<Text text="{orders>Vbeln}"/>
+									</dependents>
+								</Button>
+							</VBox>
+						</VBox>-->
 
-							<VBox>
-								<VBox class="contentHeaderOrder">
-									<VBox class="headerTitleNumberOrder">
-										<ObjectIdentifier
-											text="{orders>Vbeln}"
-											textDirection="Inherit"
-											title="{i18n>mainTitleNumberOrder}:"
-										/>
-									</VBox>
-
-									<VBox class="headerEditLead">
-										<Button 
-											id="editLead"
-											text="Editar Lead"
-											icon="sap-icon://edit"
-											press="onPressEditLead"
-										>
-											<dependents>
-												<Text text="{orders>Vbeln}"/>
-											</dependents>
-										</Button>
-									</VBox>
+						<VBox class="containerLeadTime">
+							<!-- Ordem de venda -->
+							<VBox id="saleOrder">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Saleorderformattedlt}"/>
 								</VBox>
 
-								<VBox class="containerLeadTime">
-									<!-- Ordem de venda -->
-									<VBox id="saleOrder">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Saleorderformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">
-											<Title text="Pedido de venda" titleStyle="H4"/>
-										</VBox>
+								<VBox class="mainTitulo">
+									<Title text="Pedido de venda" titleStyle="H4"/>
+								</VBox>
 										
-										<VBox class="icon">
-											<core:Icon
-												id="saleOrderIcon"
-												alt="Pedido de venda"
-												backgroundColor=""
-												color="{orders>SaleorderColor}"
-												size="64px"
-												src="sap-icon://write-new-document"
-											/>
-										</VBox>
+								<VBox class="icon">
+									<core:Icon
+										id="saleOrderIcon"
+										alt="Pedido de venda"
+										backgroundColor=""
+										color="{orders>SaleorderColor}"
+										size="64px"
+										src="sap-icon://write-new-document"
+									/>
+								</VBox>
 
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>SaleorderFormatted}"
-												visible="{=${orders>SaleorderFormatted} === '' ? false : true}"
-											/>
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>SaleorderFormatted}"
+										visible="{=${orders>SaleorderFormatted} === '' ? false : true}"
+									/>
 
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>SaleorderFormatted} === '' ? true : false}"
-											/>
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>SaleorderFormatted} === '' ? true : false}"
+									/>
 
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
-
-									<!-- Remessa -->
-									<VBox id="shipping">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Shippingformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">
-											<Title text="Remessa" titleStyle="H4"/>
-										</VBox>
-
-										<VBox class="icon">
-											<core:Icon
-												id="shippingIcon"
-												alt="Remessa"
-												color="{orders>ShippingColor}"
-												size="64px"
-												src="sap-icon://course-program"
-											/>
-										</VBox>
-
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>ShippingFormatted}"
-												visible="{=${orders>ShippingFormatted} === '' ? false : true}"
-											/>
-
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>ShippingFormatted} === '' ? true : false}"
-											/>
-
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
-
-									<!-- Crédito -->
-									<VBox id="credit">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Creditformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">
-											<Title text="Crédito" titleStyle="H4"/>
-										</VBox>	
-
-										<VBox class="icon">
-											<core:Icon
-												id="creditIcon"
-												alt="Crédito"
-												color="{orders>CreditColor}"
-												size="64px"
-												src="sap-icon://credit-card"
-											/>
-										</VBox>
-										
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Error"
-												text="{orders>CreditFormatted}"
-												visible="{=${orders>CreditFormatted} === '' ? false : true}"
-											/>
-
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>CreditFormatted} === '' ? true : false}"
-											/> 
-
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
-
-									<!-- Transporte -->
-									<VBox id="transport">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Transportformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">	
-											<Title text="Transporte" titleStyle="H4"/>
-										</VBox>
-
-										<VBox class="icon">
-											<core:Icon
-												id="transportIcon"
-												alt="Transporte"
-												color="{orders>TransportColor}"
-												size="64px"
-												src="sap-icon://shipping-status"
-											/>
-										</VBox>
-
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Information"
-												text="{orders>TransportFormatted}"
-												visible="{=${orders>TransportFormatted} === '' ? false : true}"
-											/>
-
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>TransportFormatted} === '' ? true : false}"
-											/> 
-
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
-
-									<!-- Faturamento -->
-									<VBox id="invoicing">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Invoicingformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">
-											<Title text="Faturamento" titleStyle="H4"/>
-										</VBox>
-
-										<VBox class="icon">
-											<core:Icon
-												id="invoicingIcon"
-												alt="Faturamento"
-												color="{orders>InvoicingColor}"
-												size="64px"
-												src="sap-icon://monitor-payments"
-											/>
-										</VBox>
-
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Information"
-												text="{orders>InvoicingFormatted}"
-												visible="{=${orders>InvoicingFormatted} === '' ? false : true}"
-											/>
-
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>InvoicingFormatted} === '' ? true : false}"
-											/> 
-
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
-
-									<!-- Total do Tempo -->
-									<VBox id="totalTime">
-										<VBox class="mainLead">
-											<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-											<Text class="mainLeadText" text="{orders>Totalformattedlt}"/>
-										</VBox>
-
-										<VBox class="mainTitulo">
-											<Title text="Total do Tempo" titleStyle="H4"/>
-										</VBox>
-
-										<VBox class="icon">
-											<core:Icon
-												id="totalTimeIcon"
-												alt="Total do tempo"
-												color="{orders>TotalColor}"
-												size="64px"
-												src="sap-icon://date-time"
-											/>
-										</VBox>
-										
-										<VBox class="time">
-											<ObjectStatus
-												active="false"
-												icon="sap-icon://pending"
-												iconDensityAware="true"
-												state="Warning"
-												text="{orders>TotalFormatted}"
-												visible="{=${orders>TotalFormatted} === '' ? false : true}"
-											/>
-
-											<Text 
-												text="{i18n>mainLeadTimeCycleNotStarted}" 
-												visible="{=${orders>TotalFormatted} === '' ? true : false}"
-											/> 
-
-											<ObjectStatus
-												active="false"
-												icon=""
-												iconDensityAware="true"
-												state="Success"
-												text="{orders>totalTime/time}"
-											/>
-										</VBox>
-									</VBox>
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
 								</VBox>
 							</VBox>
-						</f:GridListItem>
-					</f:GridList>
+
+							<!-- Remessa -->
+					 	    <VBox id="shipping">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Shippingformattedlt}"/>
+								</VBox>
+
+
+								<VBox class="mainTitulo">
+									<Title text="Remessa" titleStyle="H4"/>
+								</VBox>
+
+								<VBox class="icon">
+									<core:Icon
+										id="shippingIcon"
+										alt="Remessa"
+										color="{orders>ShippingColor}"
+										size="64px"
+										src="sap-icon://course-program"
+									/>
+								</VBox>
+
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>ShippingFormatted}"
+										visible="{=${orders>ShippingFormatted} === '' ? false : true}"
+									/>
+
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>ShippingFormatted} === '' ? true : false}"
+									/>
+							
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
+								</VBox>
+							</VBox>
+
+							<!-- Crédito -->
+							<VBox id="credit">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Creditformattedlt}"/>
+								</VBox>
+
+								<VBox class="mainTitulo">
+									<Title text="Crédito" titleStyle="H4"/>
+								</VBox>	
+
+								<VBox class="icon">
+									<core:Icon
+										id="creditIcon"
+										alt="Crédito"
+										color="{orders>CreditColor}"
+										size="64px"
+										src="sap-icon://credit-card"
+									/>
+								</VBox>
+										
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Error"
+										text="{orders>CreditFormatted}"
+										visible="{=${orders>CreditFormatted} === '' ? false : true}"
+									/>
+
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>CreditFormatted} === '' ? true : false}"
+									/> 
+
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
+								</VBox>
+							</VBox>
+
+							<!-- Transporte -->
+							<VBox id="transport">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Transportformattedlt}"/>
+								</VBox>
+
+								<VBox class="mainTitulo">	
+									<Title text="Transporte" titleStyle="H4"/>
+								</VBox>
+
+								<VBox class="icon">
+									<core:Icon
+										id="transportIcon"
+										alt="Transporte"
+										color="{orders>TransportColor}"
+										size="64px"
+										src="sap-icon://shipping-status"
+									/>
+								</VBox>
+
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Information"
+										text="{orders>TransportFormatted}"
+										visible="{=${orders>TransportFormatted} === '' ? false : true}"
+									/>
+
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>TransportFormatted} === '' ? true : false}"
+									/> 
+
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
+								</VBox>
+							</VBox>
+
+							<!-- Faturamento -->
+							<VBox id="invoicing">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Invoicingformattedlt}"/>
+								</VBox>
+
+								<VBox class="mainTitulo">
+									<Title text="Faturamento" titleStyle="H4"/>
+								</VBox>
+
+								<VBox class="icon">
+									<core:Icon
+										id="invoicingIcon"
+										alt="Faturamento"
+										color="{orders>InvoicingColor}"
+										size="64px"
+										src="sap-icon://monitor-payments"
+									/>
+								</VBox>
+
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Information"
+										text="{orders>InvoicingFormatted}"
+										visible="{=${orders>InvoicingFormatted} === '' ? false : true}"
+									/>
+
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>InvoicingFormatted} === '' ? true : false}"
+									/> 
+
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
+								</VBox>
+							</VBox>
+
+							<!-- Total do Tempo -->
+							<VBox id="totalTime">
+								<VBox class="mainLead">
+									<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+									<Text class="mainLeadText" text="{orders>Totalformattedlt}"/>
+								</VBox>
+
+								<VBox class="mainTitulo">
+									<Title text="Total do Tempo" titleStyle="H4"/>
+								</VBox>
+
+								<VBox class="icon">
+									<core:Icon
+										id="totalTimeIcon"
+										alt="Total do tempo"
+										color="{orders>TotalColor}"
+										size="64px"
+										src="sap-icon://date-time"
+									/>
+								</VBox>
+										
+								<VBox class="time">
+									<ObjectStatus
+										active="false"
+										icon="sap-icon://pending"
+										iconDensityAware="true"
+										state="Warning"
+										text="{orders>TotalFormatted}"
+										visible="{=${orders>TotalFormatted} === '' ? false : true}"
+									/>
+
+									<Text 
+										text="{i18n>mainLeadTimeCycleNotStarted}" 
+										visible="{=${orders>TotalFormatted} === '' ? true : false}"
+									/> 
+
+									<ObjectStatus
+										active="false"
+										icon=""
+										iconDensityAware="true"
+										state="Success"
+										text="{orders>totalTime/time}"
+									/>
+								</VBox>
+							</VBox>
+						</VBox>
+					</VBox>
 				</content>
 			</Page>
 

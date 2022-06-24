@@ -18,7 +18,7 @@
 		titleAreaShrinkRatio="1:1.6:1.6"
 		showFooter="false">
 		<semantic:titleHeading>
-            <Title text="Numero Ordem: 06161151564" />    
+            <Title text="Número Ordem: {orders>/Vbeln}"/>
 		</semantic:titleHeading>
 
 

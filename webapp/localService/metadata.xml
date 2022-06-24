@@ -26,8 +26,8 @@
                     <Parameter Name="IV_CODCLIENT" Type="Edm.String" Mode="In"/>
                 </FunctionImport>
             </EntityContainer>
-            <atom:link rel="self" href="http://vhajbs4dci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
-            <atom:link rel="latest-version" href="http://vhajbs4dci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="self" href="http://vhajbgwdci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://vhajbgwdci00.bradw01.local:8000/sap/opu/odata/sap/ZSALESORDER_GW_REPORT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

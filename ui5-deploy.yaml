@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
 
-specVersion: '2.4'
+specVersion: "2.4"
 metadata:
-  name: 'salesorders'
+  name: salesorders
 type: application
 builder:
   resources:
@@ -15,9 +15,9 @@ builder:
       configuration:
         target:
           url: http://vhajbgwdci00.bradw01.local:8000
-          client: "400"
+          client: "100"
         app:
-          name: SALEORDER
+          name: SALESORDERS
           description: Ciclo de Ordens de Vendas
           package: ZSALESORDERREPORT_FRONTEND
-          transport: GWDK903624
+          transport: GWDK903626
