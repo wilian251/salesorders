@@ -224,13 +224,13 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Success"
-										text="{orders>SaleorderFormatted}"
-										visible="{=${orders>SaleorderFormatted} === '' ? false : true}"
+										text="{orders>/averageSalesOrder}"
+										visible="{=${orders>/averageSalesOrder} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>SaleorderFormatted} === '' ? true : false}"
+										visible="{=${orders>/averageSalesOrder} === '' ? true : false}"
 									/>
 
 									<ObjectStatus
@@ -271,13 +271,13 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Success"
-										text="{orders>ShippingFormatted}"
-										visible="{=${orders>ShippingFormatted} === '' ? false : true}"
+										text="{orders>/averageShipping}"
+										visible="{=${orders>/averageShipping} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>ShippingFormatted} === '' ? true : false}"
+										visible="{=${orders>/averageShipping} === '' ? true : false}"
 									/>
 							
 									<ObjectStatus
@@ -317,13 +317,13 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Error"
-										text="{orders>CreditFormatted}"
-										visible="{=${orders>CreditFormatted} === '' ? false : true}"
+										text="{orders>/averageCredit}"
+										visible="{=${orders>/averageCredit} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>CreditFormatted} === '' ? true : false}"
+										visible="{=${orders>/averageCredit} === '' ? true : false}"
 									/> 
 
 									<ObjectStatus
@@ -363,13 +363,13 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Information"
-										text="{orders>TransportFormatted}"
-										visible="{=${orders>TransportFormatted} === '' ? false : true}"
+										text="{orders>/averageTransport}"
+										visible="{=${orders>/averageTransport} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>TransportFormatted} === '' ? true : false}"
+										visible="{=${orders>/averageTransport} === '' ? true : false}"
 									/> 
 
 									<ObjectStatus
@@ -409,13 +409,13 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Information"
-										text="{orders>InvoicingFormatted}"
-										visible="{=${orders>InvoicingFormatted} === '' ? false : true}"
+										text="{orders>/averageInvoicing}"
+										visible="{=${orders>/averageInvoicing} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>InvoicingFormatted} === '' ? true : false}"
+										visible="{=${orders>/averageInvoicing} === '' ? true : false}"
 									/> 
 
 									<ObjectStatus
@@ -455,14 +455,14 @@
 										icon="sap-icon://pending"
 										iconDensityAware="true"
 										state="Warning"
-										text="{orders>TotalFormatted}"
-										visible="{=${orders>TotalFormatted} === '' ? false : true}"
+										text="{orders>/averageTotal}"
+										visible="{=${orders>/averageTotal} === '' ? false : true}"
 									/>
 
 									<Text 
 										text="{i18n>mainLeadTimeCycleNotStarted}" 
-										visible="{=${orders>TotalFormatted} === '' ? true : false}"
-									/> 
+										visible="{=${orders>/averageTotal} === '' ? true : false}"
+									/>
 
 									<ObjectStatus
 										active="false"

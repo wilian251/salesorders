@@ -193,109 +193,202 @@ sap.ui.define([
                         IV_CODCLIENT: oCodClient
 					},
                     success: function(oData){
-                        console.log(oData.results);
-                        let oItems = [];
+                        //console.log(oData.results);
+                        let oModel = this.getModel("orders").getData(),
+                            oItems = [];
 
                         if(oData.results.length != 0){
+                            //Dias
+                            let oCountDaysSaleOrder = 0,
+                                oCountDaysShipping  = 0,
+                                oCountDaysCredit    = 0,
+                                oCountDaysTransport = 0,
+                                oCountDaysInvoicing = 0,
+                                oCountDaysTotal     = 0;
+
+                            //Horas
+                            let oCountHoursSaleOrder = 0,
+                                oCountHoursShipping  = 0,
+                                oCountHoursCredit    = 0,
+                                oCountHoursTransport = 0,
+                                oCountHoursInvoicing = 0,
+                                oCountHoursTotal     = 0;
+
+                            //Minitos
+                            let oCountMinSaleOrder = 0,
+                                oCountMinShipping  = 0,
+                                oCountMinCredit    = 0,
+                                oCountMinTransport = 0,
+                                oCountMinInvoicing = 0,
+                                oCountMinTotal     = 0;
+
+                            //Segundos
+                            let oCountSecSaleOrder = 0,
+                                oCountSecShipping  = 0,
+                                oCountSecCredit    = 0,
+                                oCountSecTransport = 0,
+                                oCountSecInvoicing = 0,
+                                oCountSecTotal     = 0;
+
+
                             oData.results.map(sItem => {
-                                /*Company: "4354"
-                                CompanyName: "AJINOMOTO DO BRASIL"
-                                Credit: ""
-                                CreditColor: ""
-                                CreditFinish: ""
-                                CreditFormatted: ""
-                                Creditformattedlt: "2 dias 0H 0 Min e 5 Seg"
-                                CustomerReference: ""
-                                CustomerReferenceDate: "07/06/2022"
-                                Invoicing: ""
-                                InvoicingColor: ""
-                                InvoicingFinish: ""
-                                InvoicingFormatted: ""
-                                Invoicingformattedlt: "3 dias 0H 0 Min e 7 Seg"
-                                Saleorder: "07/06/2022 15:25:35"
-                                SaleorderColor: ""
-                                SaleorderFinish: "23/06/2022 03:42:06"
-                                SaleorderFormatted: "15 dias 12H 16 Min e 31 Seg"
-                                Saleorderformattedlt: "1 dias 0H 0 Min e 10 Seg"
-                                SalesOrganization: "1001"
-                                Shipping: "07/06/2022 15:26:04"
-                                ShippingColor: ""
-                                ShippingFinish: "23/06/2022 03:42:06"
-                                ShippingFormatted: "15 dias 12H 16 Min e 2 Seg"
-                                Shippingformattedlt: "2 dias 0H 0 Min e 5 Seg"
-                                Total: ""
-                                TotalColor: ""
-                                TotalFinish: ""
-                                TotalFormatted: ""
-                                Totalformattedlt: "16 dias 0H 0 Min e 51 Seg"
-                                Transport: ""
-                                TransportColor: ""
-                                TransportFinish: ""
-                                TransportFormatted: ""
-                                Transportformattedlt: "6 dias 0H 0 Min e 4 Seg"
-                                Vbeln: "60006153"*/
-                                
-                                let oObject = sItem,
-                                    oCount  = 0; 
+                                let oObject         = sItem,
+                                    oCountTotalDay  = 0,
+                                    oCountTotalHour = 0,
+                                    oCountTotalMin  = 0,
+                                    oCountTotalSec  = 0;
 
                                 //Ordem de venda
                                 if(sItem.Saleorder != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Saleorder, sItem.SaleorderFinish);
+                                    
                                     oObject.SaleorderFormatted = oDateHour.dateHourFormatted;
+                                    oObject.dateHour           = oDateHour.dateHour;
+
+                                    oCountTotalDay  += oDateHour.dateHour.days;
+                                    oCountTotalHour += oDateHour.dateHour.hours;
+                                    oCountTotalMin  += oDateHour.dateHour.minutes;
+                                    oCountTotalSec  += oDateHour.dateHour.seconds;
+
                                     oObject.SaleorderColor     = "#008000"
+
+
+                                    //Contagem para saber a media
+                                    oCountDaysSaleOrder  += oDateHour.dateHour.days;
+                                    oCountHoursSaleOrder += oDateHour.dateHour.hours;
+                                    oCountMinSaleOrder   += oDateHour.dateHour.minutes;
+                                    oCountSecSaleOrder   += oDateHour.dateHour.seconds;
                                 }else{
                                     oObject.SaleorderFormatted = "";
-                                    oObject.SaleorderColor     = "#FFA500"
+                                    //oObject.SaleorderColor     = "#FFA500"
                                 }
 
                                 //Remessa
                                 if(sItem.Shipping != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Shipping, sItem.ShippingFinish);
+                                    
                                     oObject.ShippingFormatted = oDateHour.dateHourFormatted;
+                                    oObject.dateHour          = oDateHour.dateHour;
                                     oObject.ShippingColor     = "#008000"
+
+                                    oCountTotalDay  += oDateHour.dateHour.days;
+                                    oCountTotalHour += oDateHour.dateHour.hours;
+                                    oCountTotalMin  += oDateHour.dateHour.minutes;
+                                    oCountTotalSec  += oDateHour.dateHour.seconds;
+
+
+                                    //Contagem para saber a media
+                                    oCountDaysShipping  += oDateHour.dateHour.days;
+                                    oCountHoursShipping += oDateHour.dateHour.hours;
+                                    oCountMinShipping   += oDateHour.dateHour.minutes;
+                                    oCountSecShipping   += oDateHour.dateHour.seconds;
+
                                 }else{
                                     oObject.ShippingFormatted = "";
-                                    oObject.ShippingColor     = "#FFA500"
+                                    //oObject.ShippingColor     = "#FFA500"
 
                                 }
 
                                 //Crédito
                                 if(sItem.Credit != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Credit, sItem.CreditFinish);
+                                    
                                     oObject.CreditFormatted = oDateHour.dateHourFormatted;
+                                    oObject.dateHour        = oDateHour.dateHour;
+
+                                    oCountTotalDay  += oDateHour.dateHour.days;
+                                    oCountTotalHour += oDateHour.dateHour.hours;
+                                    oCountTotalMin  += oDateHour.dateHour.minutes;
+                                    oCountTotalSec  += oDateHour.dateHour.seconds;
+
+                                    //Contagem para saber a media
+                                    oCountDaysCredit  += oDateHour.dateHour.days;
+                                    oCountHoursCredit += oDateHour.dateHour.hours;
+                                    oCountMinCredit   += oDateHour.dateHour.minutes;
+                                    oCountSecCredit   += oDateHour.dateHour.seconds;
                                 }else{
                                     oObject.CreditFormatted = "";
-                                    oObject.CreditColor     = "#FFA500"
+                                    //oObject.CreditColor     = "#FFA500"
                                 }
 
                                 //Transporte
                                 if(sItem.Transport != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Transport, sItem.TransportFinish);
                                     oObject.TransportFormatted = oDateHour.dateHourFormatted;
+                                    oObject.dateHour           = oDateHour.dateHour;
+
+                                    oCountTotalDay  += oDateHour.dateHour.days;
+                                    oCountTotalHour += oDateHour.dateHour.hours;
+                                    oCountTotalMin  += oDateHour.dateHour.minutes;
+                                    oCountTotalSec  += oDateHour.dateHour.seconds;
+
+                                    //Contagem para saber a media
+                                    oCountDaysTransport  += oDateHour.dateHour.days;
+                                    oCountHoursTransport += oDateHour.dateHour.hours;
+                                    oCountMinTransport   += oDateHour.dateHour.minutes;
+                                    oCountSecTransport   += oDateHour.dateHour.seconds;
+
                                 }else{
                                     oObject.TransportFormatted = "";
-                                    oObject.TransportColor     = "#FFA500"
+                                    //oObject.TransportColor     = "#FFA500"
                                 }
 
                                 //Faturamento
                                 if(sItem.Invoicing != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Invoicing, sItem.InvoicingFinish);
                                     oObject.InvoicingFormatted = oDateHour.dateHourFormatted;
+                                    oObject.dateHour           = oDateHour.dateHour;
+
+                                    oCountTotalDay  += oDateHour.dateHour.days;
+                                    oCountTotalHour += oDateHour.dateHour.hours;
+                                    oCountTotalMin  += oDateHour.dateHour.minutes;
+                                    oCountTotalSec  += oDateHour.dateHour.seconds;
+
+                                    //Contagem para saber a media
+                                    oCountDaysInvoicing  += oDateHour.dateHour.days;
+                                    oCountHoursInvoicing += oDateHour.dateHour.hours;
+                                    oCountMinInvoicing   += oDateHour.dateHour.minutes;
+                                    oCountSecInvoicing   += oDateHour.dateHour.seconds;
+
                                 }else{
                                     oObject.InvoicingFormatted = "";
-                                    oObject.InvoicingColor     = "#FFA500"
+                                    //oObject.InvoicingColor     = "#FFA500"
                                 }
 
-                                oObject.TotalFormatted = "";
-                                oObject.TotalColor     = "#FFA500"
+                                let oObjectTime = this._validTheTime(oCountTotalDay, oCountTotalHour, oCountTotalMin, oCountTotalSec);
+
+                                oObject.TotalFormatted = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
+
+                                //Contagem para saber a media
+                                oCountDaysTotal  += oObjectTime.days;
+                                oCountHoursTotal += oObjectTime.hours;
+                                oCountMinTotal   += oObjectTime.minutes;
+                                oCountSecTotal   += oObjectTime.seconds;
 
                                 oItems.push(oObject);
-
-                                oCount++;
                             });
+
+                            let oDivisor = oData.results.length;
+
+                            //Preenche os campos de média de cada ciclo
+                            oModel.averageSalesOrder = this._validTheTime(this._calculateTheAverage(oCountDaysSaleOrder, oDivisor), this._calculateTheAverage(oCountHoursSaleOrder, oDivisor), this._calculateTheAverage(oCountMinSaleOrder, oDivisor), this._calculateTheAverage(oCountSecSaleOrder, oDivisor)).dateHoursFormatted;
+                            oModel.averageShipping   = this._validTheTime(this._calculateTheAverage(oCountDaysShipping, oDivisor), this._calculateTheAverage(oCountHoursShipping, oDivisor), this._calculateTheAverage(oCountMinShipping, oDivisor), this._calculateTheAverage(oCountSecShipping, oDivisor)).dateHoursFormatted;
+                            oModel.averageCredit     = this._validTheTime(this._calculateTheAverage(oCountDaysCredit, oDivisor), this._calculateTheAverage(oCountHoursCredit, oDivisor), this._calculateTheAverage(oCountMinCredit, oDivisor), this._calculateTheAverage(oCountSecCredit, oDivisor)).dateHoursFormatted;
+                            oModel.averageTransport  = this._validTheTime(this._calculateTheAverage(oCountDaysTransport, oDivisor), this._calculateTheAverage(oCountHoursTransport, oDivisor), this._calculateTheAverage(oCountMinTransport, oDivisor), this._calculateTheAverage(oCountSecTransport, oDivisor)).dateHoursFormatted;
+                            oModel.averageInvoicing  = this._validTheTime(this._calculateTheAverage(oCountDaysInvoicing, oDivisor), this._calculateTheAverage(oCountHoursInvoicing, oDivisor), this._calculateTheAverage(oCountMinInvoicing, oDivisor), this._calculateTheAverage(oCountSecInvoicing, oDivisor)).dateHoursFormatted;
+                            oModel.averageTotal      = this._validTheTime(this._calculateTheAverage(oCountDaysTotal, oDivisor), this._calculateTheAverage(oCountHoursTotal, oDivisor), this._calculateTheAverage(oCountMinTotal, oDivisor), this._calculateTheAverage(oCountSecTotal, oDivisor)).dateHoursFormatted;
+
+                            //SLA cadastrado pelo usuário
+                            oModel.averageSalesOrderSLA = "";
+                            oModel.averageShippingSLA   = "";
+                            oModel.averageCreditSLA     = "";
+                            oModel.averageTransportSLA  = "";
+                            oModel.averageInvoicingSLA  = "";
+                            oModel.averageTotalSLA      = "";
+
                         }
 
-                        this.getModel("orders").getData().items = oItems;
+                        oModel.items = oItems;
                         this.getModel("orders").refresh(true);
 
                         this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainGridListHeaderTextLength", [oItems.length]));
@@ -360,6 +453,58 @@ sap.ui.define([
                 this.setAppBusy(false);
             },
 
+            _calculateTheAverage: function(sValue, sDivisor){
+                let oResultValue = `${sValue / sDivisor}`,
+                    oPosition    = oResultValue.indexOf(".");
+
+                if(oPosition != -1) oResultValue = oResultValue.substring(0, oPosition);
+
+                return oResultValue;
+            },
+
+            _validTheTime: function(sDays, sHours, sMin, sSec){
+                if(sSec >= 60){
+                    let oCountMin = 0;
+
+                    while(sSec >= 60){
+                        sSec = sSec - 60;
+                        oCountMin++;
+                    }
+
+                    sMin += oCountMin;
+                }
+
+                if(sMin >= 60){
+                    let oCountHours = 0;
+
+                    while(sMin >= 60){
+                        sMin = sMin - 60;
+                        oCountHours++;
+                    }
+
+                    sHours += oCountHours;
+                }
+
+                if(sHours >= 24){
+                    let oCountDays = 0;
+
+                    while(sHours >= 24){
+                        sHours = sHours - 24;
+                        oCountDays++;
+                    }
+
+                    sDays += oCountDays;
+                }
+
+                return {
+                    days: sDays,
+                    hours: sHours,
+                    minutes: sMin,
+                    seconds: sSec,
+                    dateHoursFormatted: `${sDays} dias ${sHours} Horas ${sMin} Min e ${sSec} Seg`
+                }
+            },
+
             _formateValuesInDaysAndHours: function(sModel){
                 let oDatesTotal = [];
 
@@ -418,7 +563,7 @@ sap.ui.define([
                     sModel.leadTime.InvoicingFormatted = oDateHour.dateHourFormatted;
                 }
 
-                if(sModel.leadTime.Saleorder != "" &&    
+                /*if(sModel.leadTime.Saleorder != "" &&    
                    sModel.leadTime.SaleorderFinish != "" &&
                    sModel.leadTime.Shipping != "" &&    
                    sModel.leadTime.ShippingFinish != "" &&
@@ -440,8 +585,8 @@ sap.ui.define([
                     /*
                     sModel.leadTime.Total              = oDatesTotal[0];
                     sModel.leadTime.TotalFinish        = oDatesTotal[oDatesTotal.length -1];
-                    */
-                }                
+                    
+                }*/           
             },
 
             _resetFilterToAbap: function(sListValues){

@@ -5,89 +5,111 @@ sap.ui.define([
     return {	
 		initModel: function() {
 			return {
-			    items: [/*
-					{
-						numberOrder: "06161151564",
-						saleOrder: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#008000"
-						},
-						shipping: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						},
-						credit: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FF0000"
-						},
-						transport: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF"
-						},
-						invoicing: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF",
-						},
-						totalTime: {
-							time: "10 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						}
-					},
-					{
-						numberOrder: "06161151564",
-						saleOrder: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#008000"
-						},
-						shipping: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						},
-						credit: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FF0000"
-						},
-						transport: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF"
-						},
-						invoicing: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF",
-						},
-						totalTime: {
-							time: "10 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						}
-					},
-					{
-						numberOrder: "06161151564",
-						saleOrder: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#008000"
-						},
-						shipping: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						},
-						credit: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#FF0000"
-						},
-						transport: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF"
-						},
-						invoicing: {
-							time: "2 dias e 20 horas e 20 minutos",
-							color: "#0000FF",
-						},
-						totalTime: {
-							time: "10 dias e 20 horas e 20 minutos",
-							color: "#FFA500"
-						}
-					}*/
-				]
+				averageSalesOrder: "",
+				averageShipping: "",
+				averageCredit: "",
+				averageTransport: "",
+				averageInvoicing: "",
+				averageTotal: "",
+				averageSalesOrderSLA: "",
+				averageShippingSLA: "",
+				averageCreditSLA: "",
+				averageTransportSLA: "",
+				averageInvoicingSLA: "",
+				averageTotalSLA: "",
+				State: {
+					averageSalesOrder: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageShipping: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageCredit: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageTransport: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageInvoicing: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageTotal: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageSalesOrderSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageShippingSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageCreditSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageTransportSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageInvoicingSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    },
+					averageTotalSLA: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: "",
+						color: ""
+                    }
+				},
+			    items: []
+				/*	
+				color: "#008000"
+				color: "#FFA500"
+				color: "#FF0000"
+				color: "#0000FF"
+				*/
 			};
 		}
 	};
