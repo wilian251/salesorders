@@ -6,7 +6,15 @@ sap.ui.define([
 	return {
 		initSelectionModel: function(oI18n) {
 			return {
-				headerTextTitle: oI18n.headerTextTitle
+				headerTextTitle: oI18n.headerTextTitle,
+				State: {
+					headerTextTitle: {
+						Enabled: true,
+						Visible: false,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+					}
+				}
 			};
 		}
 	};

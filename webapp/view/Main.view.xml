@@ -6,7 +6,7 @@
 	displayBlock="true">
 	<NavContainer id="navContainer">
 		<pages>
-			<Page id="contentPage" title="{i18n>mainViewTitle}" titleLevel="H1">
+			<Page id="contentPage">
 				<Panel backgroundDesign="Solid">
 					<content>
 						<VBox class="contentDTOVCCSELE">
@@ -155,23 +155,25 @@
 				</Panel>
 
 				<content>
-					<VBox class="containerGridListTitleButton">
-						<VBox>
-							<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4"/>
-						</VBox>
+					<Panel>
+						<VBox class="containerGridListTitleButton">
+							<VBox>
+								<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4" visible="{orderTexts>/State/headerTextTitle/Visible}"/>
+							</VBox>
 
-						<VBox class="contentGridListButton">
-							<Button 
-								text="{i18n>mainButtonStart}"
-								enabled="{filters>/buttonStartEnabled}"
-								press="onPressStartReport"
-								type="Emphasized"
-								width="100%"
-							/>
+							<VBox>
+								<Button 
+									text="{i18n>mainButtonStart}"
+									enabled="{filters>/buttonStartEnabled}"
+									press="onPressStartReport"
+									type="Emphasized"
+									width="8rem"
+								/>
+							</VBox>
 						</VBox>
-					</VBox>
+					</Panel>
 
-					<VBox>
+					<Panel id="averageSalesOrders" visible="false" backgroundDesign="Transparent">
 						<!--<VBox class="contentHeaderOrder">
 							<VBox class="headerTitleNumberOrder">
 								<ObjectIdentifier
@@ -474,7 +476,7 @@
 								</VBox>
 							</VBox>
 						</VBox>
-					</VBox>
+					</Panel>
 				</content>
 			</Page>
 
