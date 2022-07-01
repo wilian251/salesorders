@@ -7,6 +7,17 @@
         headerText="{i18n>leadTimeTitle}"
         backgroundDesign="Transparent"
     >
+        <headerToolbar>
+            <Toolbar>
+                <ObjectAttribute
+                    active="false"
+                    text="{leadTime>/leadTime/Vbeln}"
+                    textDirection="Inherit"
+                    title="{i18n>mainTableNumberDocument}"
+                />
+            </Toolbar>
+        </headerToolbar>
+
         <f:SimpleForm
             id="SimpleFormEditLeadTime"
             editable="false"

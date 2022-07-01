@@ -7,10 +7,11 @@ sap.ui.define([
 		initSelectionModel: function(oI18n) {
 			return {
 				headerTextTitle: oI18n.headerTextTitle,
+				headerTitleTable: "",
 				State: {
 					headerTextTitle: {
 						Enabled: true,
-						Visible: false,
+						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
 					}

@@ -54,7 +54,7 @@ sap.ui.define([
             /* event handlers                                              */
             /* =========================================================== */
             
-            onPressGridListItem: function(oEvent){
+            onItemTable: function(oEvent){
                 let oPath     = oEvent.getSource().getBindingContext("orders").getPath(),
                     oPathLine = oPath.split("/").slice(-1).pop(),
                     oOrders   = this.getModel("orders").getData().items;
@@ -62,6 +62,60 @@ sap.ui.define([
                 this.getRouter().navTo("object", {
                     id: oOrders[oPathLine].Vbeln
                 });
+            },
+
+            onSearch: function(oEvent){
+                let oTable   = this.byId("tableSalesOrders"),
+                    oBinding = oTable.getBinding("items");
+
+                if (oEvent.getParameters().refreshButtonPressed){
+                    oBinding.refresh(true);
+                } else {
+                    let aTableSearchState = [];
+                    let sQuery 			  = oEvent.getParameter("query");
+
+                    if (sQuery && sQuery.length > 0) {
+                        aTableSearchState = new Filter({
+                            and: false,
+                            filters: [
+                                new Filter("Vbeln",             FilterOperator.Contains, sQuery),
+                                new Filter("CompanyName",       FilterOperator.Contains, sQuery),
+                                new Filter("CustomerReference", FilterOperator.Contains, sQuery),
+                                new Filter("SalesOrganization", FilterOperator.Contains, sQuery)
+                            ]
+                        })
+        
+                    }
+                    
+                    oBinding.filter(aTableSearchState, "Application");
+                }
+            },
+
+            onUpdateFinished: function(oEvent) {
+                let oTitle,
+                    oTable       = oEvent.getSource(),
+                    oItemsOrders = this.getModel("priceTable").getData(),
+                    iTotalItems  = oEvent.getParameter("total");
+
+                // only update the counter if the length is final and
+                // the table is not empty
+                if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
+                    oTitle = this.getResourceBundle().getText("mainTableHeaderTitleLength", [iTotalItems]);
+                        
+                    oItemsOrders.map(sOrder => {
+                        
+                    });
+           
+                    
+                } else {
+                    oTitle = this.getResourceBundle().getText("mainTableHeaderTitle");
+                }
+
+                this.getModel("orderTexts").setProperty("/headerTitleTable", oTitle);
+            },
+
+            onExportExcel: function(oEvent){
+
             },
 
             onPressEditLead: function(oEvent){
@@ -259,7 +313,7 @@ sap.ui.define([
                                     oCountMinSaleOrder   += oDateHour.dateHour.minutes;
                                     oCountSecSaleOrder   += oDateHour.dateHour.seconds;
                                 }else{
-                                    oObject.SaleorderFormatted = "";
+                                    oObject.SaleorderFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     //oObject.SaleorderColor     = "#FFA500"
                                 }
 
@@ -284,7 +338,7 @@ sap.ui.define([
                                     oCountSecShipping   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.ShippingFormatted = "";
+                                    oObject.ShippingFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     //oObject.ShippingColor     = "#FFA500"
 
                                 }
@@ -307,7 +361,7 @@ sap.ui.define([
                                     oCountMinCredit   += oDateHour.dateHour.minutes;
                                     oCountSecCredit   += oDateHour.dateHour.seconds;
                                 }else{
-                                    oObject.CreditFormatted = "";
+                                    oObject.CreditFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     //oObject.CreditColor     = "#FFA500"
                                 }
 
@@ -329,7 +383,7 @@ sap.ui.define([
                                     oCountSecTransport   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.TransportFormatted = "";
+                                    oObject.TransportFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     //oObject.TransportColor     = "#FFA500"
                                 }
 
@@ -351,7 +405,7 @@ sap.ui.define([
                                     oCountSecInvoicing   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.InvoicingFormatted = "";
+                                    oObject.InvoicingFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     //oObject.InvoicingColor     = "#FFA500"
                                 }
 
@@ -391,7 +445,7 @@ sap.ui.define([
                         oModel.items = oItems;
                         this.getModel("orders").refresh(true);
 
-                        this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainGridListHeaderTextLength", [oItems.length]));
+                        this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainPanelHeaderTextLength", [oItems.length]));
 
                         this.setAppBusy(false);
                     }.bind(this),
@@ -444,7 +498,7 @@ sap.ui.define([
                 this.getModel("leadTime").refresh(true); 
 
                 let oI18n = {
-                    headerTextTitle: this.getResourceBundle().getText("mainGridListHeaderText")
+                    headerTextTitle: this.getResourceBundle().getText("mainPanelHeaderText")
                 }
 
                 this.getModel("orderTexts").setData(OrderTexts.initSelectionModel(oI18n));
