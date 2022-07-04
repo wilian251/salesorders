@@ -94,18 +94,12 @@ sap.ui.define([
             onUpdateFinished: function(oEvent) {
                 let oTitle,
                     oTable       = oEvent.getSource(),
-                    oItemsOrders = this.getModel("priceTable").getData(),
                     iTotalItems  = oEvent.getParameter("total");
 
                 // only update the counter if the length is final and
                 // the table is not empty
                 if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
                     oTitle = this.getResourceBundle().getText("mainTableHeaderTitleLength", [iTotalItems]);
-                        
-                    oItemsOrders.map(sOrder => {
-                        
-                    });
-           
                     
                 } else {
                     oTitle = this.getResourceBundle().getText("mainTableHeaderTitle");
@@ -139,24 +133,30 @@ sap.ui.define([
                         let oModel = this.getModel("leadTime").getData();
 
                         oModel.leadTime.Vbeln              = oData.Vbeln;
-                        oModel.leadTime.Saleorder          = oData.Saleorder;
-                        oModel.leadTime.SaleorderFinish    = oData.SaleorderFinish;
-                        oModel.leadTime.SaleorderFormatted = oData.SaleorderFormatted;
-                        oModel.leadTime.Shipping           = oData.Shipping;
-                        oModel.leadTime.ShippingFinish     = oData.ShippingFinish;
-                        oModel.leadTime.ShippingFormatted  = oData.ShippingFormatted;
-                        oModel.leadTime.Credit             = oData.Credit;
-                        oModel.leadTime.CreditFinish       = oData.CreditFinish;
-                        oModel.leadTime.CreditFormatted    = oData.CreditFormatted;
-                        oModel.leadTime.Transport          = oData.Transport;
-                        oModel.leadTime.TransportFinish    = oData.TransportFinish;
-                        oModel.leadTime.TransportFormatted = oData.TransportFormatted;
-                        oModel.leadTime.Invoicing          = oData.Invoicing;
-                        oModel.leadTime.InvoicingFinish    = oData.InvoicingFinish;
-                        oModel.leadTime.InvoicingFormatted = oData.InvoicingFormatted;
-                        oModel.leadTime.Total              = oData.Total;
-                        oModel.leadTime.TotalFinish        = oData.TotalFinish;
-                        oModel.leadTime.TotalFormatted     = oData.TotalFormatted;
+                        oModel.leadTime.CreditDays         = oData.CreditDays;
+                        oModel.leadTime.CreditHours        = oData.CreditHours;
+                        oModel.leadTime.CreditMin          = oData.CreditMin;
+                        oModel.leadTime.CreditSec          = oData.CreditSec;
+                        oModel.leadTime.InvoicingDays      = oData.InvoicingDays;
+                        oModel.leadTime.InvoicingHours     = oData.InvoicingHours;
+                        oModel.leadTime.InvoicingMin       = oData.InvoicingMin;
+                        oModel.leadTime.InvoicingSec       = oData.InvoicingSec;
+                        oModel.leadTime.SaleorderDays      = oData.SaleorderDays;
+                        oModel.leadTime.SaleorderHours     = oData.SaleorderHours;
+                        oModel.leadTime.SaleorderMin       = oData.SaleorderMin;
+                        oModel.leadTime.SaleorderSec       = oData.SaleorderSec;
+                        oModel.leadTime.ShippingDays       = oData.ShippingDays;
+                        oModel.leadTime.ShippingHours      = oData.ShippingHours;
+                        oModel.leadTime.ShippingMin        = oData.ShippingMin;
+                        oModel.leadTime.ShippingSec        = oData.ShippingSec;
+                        oModel.leadTime.TotalDays          = oData.TotalDays;
+                        oModel.leadTime.TotalHours         = oData.TotalHours;
+                        oModel.leadTime.TotalMin           = oData.TotalMin;
+                        oModel.leadTime.TotalSec           = oData.TotalSec;
+                        oModel.leadTime.TransportDays      = oData.TransportDays;
+                        oModel.leadTime.TransportHours     = oData.TransportHours;
+                        oModel.leadTime.TransportMin       = oData.TransportMin;
+                        oModel.leadTime.TransportSec       = oData.TransportSec;
 
                         this.getModel("leadTime").refresh(true);
 
@@ -252,37 +252,37 @@ sap.ui.define([
                             oItems = [];
 
                         if(oData.results.length != 0){
-                            //Dias
-                            let oCountDaysSaleOrder = 0,
-                                oCountDaysShipping  = 0,
-                                oCountDaysCredit    = 0,
-                                oCountDaysTransport = 0,
-                                oCountDaysInvoicing = 0,
-                                oCountDaysTotal     = 0;
+                            //Dias                        
+                            let oCountDaysSaleOrder = 0, oCountDaysSaleOrderSLA = 0,
+                                oCountDaysShipping  = 0, oCountDaysShippingSLA  = 0,
+                                oCountDaysCredit    = 0, oCountDaysCreditSLA    = 0,
+                                oCountDaysTransport = 0, oCountDaysTransportSLA = 0,
+                                oCountDaysInvoicing = 0, oCountDaysInvoicingSLA = 0,
+                                oCountDaysTotal     = 0, oCountDaysTotalSLA     = 0;
 
                             //Horas
-                            let oCountHoursSaleOrder = 0,
-                                oCountHoursShipping  = 0,
-                                oCountHoursCredit    = 0,
-                                oCountHoursTransport = 0,
-                                oCountHoursInvoicing = 0,
-                                oCountHoursTotal     = 0;
+                            let oCountHoursSaleOrder = 0, oCountHoursSaleOrderSLA = 0,
+                                oCountHoursShipping  = 0, oCountHoursShippingSLA  = 0,
+                                oCountHoursCredit    = 0, oCountHoursCreditSLA    = 0,
+                                oCountHoursTransport = 0, oCountHoursTransportSLA = 0,
+                                oCountHoursInvoicing = 0, oCountHoursInvoicingSLA = 0,
+                                oCountHoursTotal     = 0, oCountHoursTotalSLA     = 0;
 
                             //Minitos
-                            let oCountMinSaleOrder = 0,
-                                oCountMinShipping  = 0,
-                                oCountMinCredit    = 0,
-                                oCountMinTransport = 0,
-                                oCountMinInvoicing = 0,
-                                oCountMinTotal     = 0;
+                            let oCountMinSaleOrder = 0, oCountMinSaleOrderSLA = 0,
+                                oCountMinShipping  = 0, oCountMinShippingSLA  = 0,
+                                oCountMinCredit    = 0, oCountMinCreditSLA    = 0,
+                                oCountMinTransport = 0, oCountMinTransportSLA = 0,
+                                oCountMinInvoicing = 0, oCountMinInvoicingSLA = 0,
+                                oCountMinTotal     = 0, oCountMinTotalSLA     = 0;
 
                             //Segundos
-                            let oCountSecSaleOrder = 0,
-                                oCountSecShipping  = 0,
-                                oCountSecCredit    = 0,
-                                oCountSecTransport = 0,
-                                oCountSecInvoicing = 0,
-                                oCountSecTotal     = 0;
+                            let oCountSecSaleOrder = 0, oCountSecSaleOrderSLA = 0,
+                                oCountSecShipping  = 0, oCountSecShippingSLA  = 0,
+                                oCountSecCredit    = 0, oCountSecCreditSLA    = 0,
+                                oCountSecTransport = 0, oCountSecTransportSLA = 0,
+                                oCountSecInvoicing = 0, oCountSecInvoicingSLA = 0,
+                                oCountSecTotal     = 0, oCountSecTotalSLA     = 0;
 
 
                             oData.results.map(sItem => {

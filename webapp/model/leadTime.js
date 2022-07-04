@@ -7,129 +7,171 @@ sap.ui.define([
 			return {
 				leadTime:{
                     Vbeln: "",
-                    Saleorder: "",
-                    SaleorderFinish: "",
-                    SaleorderFormatted: "",
-                    Shipping: "",
-                    ShippingFinish: "",
-                    ShippingFormatted: "",
-                    Credit: "",
-                    CreditFinish: "",
-                    CreditFormatted: "",
-                    Transport: "",
-                    TransportFinish: "",
-                    TransportFormatted: "",
-                    Invoicing: "",
-                    InvoicingFinish: "",
-                    InvoicingFormatted: "",
-                    Total: "",
-                    TotalFinish: "",
-                    TotalFormatted: "",
+                    CreditDays: "",
+                    CreditHours: "",
+                    CreditMin: "",
+                    CreditSec: "",
+                    InvoicingDays: "",
+                    InvoicingHours: "",
+                    InvoicingMin: "",
+                    InvoicingSec: "",
+                    SaleorderDays: "",
+                    SaleorderHours: "",
+                    SaleorderMin: "",
+                    SaleorderSec: "",
+                    ShippingDays: "",
+                    ShippingHours: "",
+                    ShippingMin: "",
+                    ShippingSec: "",
+                    TotalDays: "",
+                    TotalHours: "",
+                    TotalMin: "",
+                    TotalSec: "",
+                    TransportDays: "",
+                    TransportHours: "",
+                    TransportMin: "",
+                    TransportSec: "",
                 },
 				State: {
-					Saleorder: {
+                    CreditDays: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					SaleorderFinish: {
+                    CreditHours: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					SaleorderFormatted: {
+                    CreditMin: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					Shipping: {
+                    CreditSec: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					ShippingFinish: {
+                    InvoicingDays: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					ShippingFormatted: {
+                    InvoicingHours: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					Credit: {
+                    InvoicingMin: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					CreditFinish: {
+                    InvoicingSec: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					CreditFormatted: {
+                    SaleorderDays: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					Transport: {
+                    SaleorderHours: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					TransportFinish: {
+                    SaleorderMin: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					TransportFormatted: {
+                    SaleorderSec: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					Invoicing: {
+                    ShippingDays: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					InvoicingFinish: {
+                    ShippingHours: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					InvoicingFormatted: {
+                    ShippingMin: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					Total: {
+                    ShippingSec: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					TotalFinish: {
+                    TotalDays: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,
                         ValueStateText: ""
                     },
-					TotalFormatted: {
+                    TotalHours: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TotalMin: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TotalSec: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TransportDays: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TransportHours: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TransportMin: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
+                    TransportSec: {
                         Enabled: true,
 						Visible: true,
                         ValueState: sap.ui.core.ValueState.None,

@@ -372,7 +372,7 @@
                         growingScrollToLoad="true"
                         updateFinished="onUpdateFinished"
                         sticky="ColumnHeaders,HeaderToolbar"
-                        items="{priceTable>/items}"
+                        items="{saleOrderItems>/items}"
                     >
                         <headerToolbar>
                             <Toolbar width="100%" class="toolbar">
@@ -381,61 +381,35 @@
                         </headerToolbar>
 
                         <columns>
-                            <Column id="tableUnit" width="8.5em">
-                                <Label text="Item da OV"/>
+                            <Column id="tableCycleName" width="100%">
+                                <Label text="{i18n>objectCycleName}"/>
                             </Column>
-                            <Column id="tableArea" width="5.5em">
-                                <Label text="Quantidade"/>
+                            <Column id="tableVbeln" width="100%">
+                                <Label text="{i18n>objectVbeln}"/>
                             </Column>
-                            <Column id="tablePrice" width="7.5em">
-                                <Label text="Data Efetiva"/>
+                            <Column id="tablePosnr" width="100%">
+                                <Label text="{i18n>objectPosnr}"/>
                             </Column>
-                            <Column id="tableVacancies" width="100%">
-                                <Label text="Data do Preenchimento Efetiva"/>
+                            <Column id="tableErdat" width="100%">
+                                <Label text="{i18n>objectErdat}"/>
                             </Column>
-                            <Column id="tableSignal" width="9em">
-                                <Label text="Horário do Preenchimento Efetiva"/>
+                            <Column id="tableErzet" width="100%">
+                                <Label text="{i18n>objectErzet}"/>
                             </Column>
-                            <Column id="tableFGTS" width="9em">
-                                <Label text="SLA OV"/>
-                            </Column>
-                            <Column id="tableFinancing" width="9em">
-                                <Label text="Data Bloqueio Remessa OV"/>
-                            </Column>
-                            <Column id="tableSubsidy" width="9em">
-                                <Label text="Hora do bloqueio Remessa OV"/>
-                            </Column>
-                            <Column id="tableSBPEValue" width="10em">
-                                <Label text="Hora Desbloqueio Remessa OV"/>
-                            </Column>
-                            <Column id="tableCVAValue" width="10em">
-                                <Label text="Data da Remessa"/>
+                            <Column id="tableErnam" width="100%">
+                                <Label text="{i18n>objectErnam}"/>
                             </Column>
                         </columns>
 
                         <items>
-                            <ColumnListItem
-                                type="Navigation"
-                                press="onPress">
+                            <ColumnListItem type="Inactive">
                                 <cells>
-                                    <ObjectStatus
-                                        text="{priceTable>block} - {priceTable>unit}"
-                                        state="{
-                                            path: 'priceTable>status',
-                                            formatter: '.formatter.brzSalesStatus'
-                                        }"
-                                        icon="sap-icon://circle-task-2"
-                                    />
-                                    <Text text="{priceTable>area}"/>
-                                    <Text text="{priceTable>price}"/>
-                                    <Text text="{priceTable>vacancies}"/>
-                                    <Text text="{priceTable>tableParms/signal}"/>
-                                    <Text text="{priceTable>tableParms/FGTS}"/>
-                                    <Text text="{priceTable>tableParms/financing}"/>
-                                    <Text text="{priceTable>tableParms/subsidy}"/>
-                                    <Text text="{priceTable>SBPEValue}"/>
-                                    <Text text="{priceTable>CVAValue}"/>
-                                    <Text text="{priceTable>tableValue}"/>
+                                    <Text text="{saleOrderItems>Cyclename}"/>
+                                    <Text text="{saleOrderItems>Vbeln}"/>
+                                    <Text text="{saleOrderItems>Posnr}"/>
+                                    <Text text="{saleOrderItems>Erdat}"/>
+                                    <Text text="{saleOrderItems>Erzet}"/>
+                                    <Text text="{saleOrderItems>Ernam}"/>
                                 </cells>
                             </ColumnListItem>
                         </items>
