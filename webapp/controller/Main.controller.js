@@ -175,24 +175,46 @@ sap.ui.define([
             onPressSaveLeadTime: function(oEvent){
                 this.setAppBusy(true);
 
-                let oModel = this.getModel("leadTime").getData();
+                let oModelLeadTime = this.getModel("leadTime").getData();
 
-                this.getModel().create("/LeadTimeSet", oModel.leadTime, {
+                this.getModel().create("/LeadTimeSet", oModelLeadTime.leadTime, {
                     success: function(oData){
                         let oModel = this.getModel("orders").getData();
 
                         oModel.items.map(sOrder => {
                             if(sOrder.Vbeln === oData.Vbeln){
-                                sOrder.Saleorderformattedlt = oData.SaleorderFormatted;
-                                sOrder.Shippingformattedlt  = oData.ShippingFormatted;
-                                sOrder.Creditformattedlt    = oData.CreditFormatted;
-                                sOrder.Invoicingformattedlt = oData.InvoicingFormatted;
-                                sOrder.Transportformattedlt = oData.TransportFormatted;
-                                sOrder.Totalformattedlt     = oData.TotalFormatted;
+                                sOrder.CreditDays     = oData.CreditDays;
+                                sOrder.CreditHours    = oData.CreditHours;
+                                sOrder.CreditMin      = oData.CreditMin;
+                                sOrder.CreditSec      = oData.CreditSec;
+                                sOrder.InvoicingDays  = oData.InvoicingDays;
+                                sOrder.InvoicingHours = oData.InvoicingHours;
+                                sOrder.InvoicingMin   = oData.InvoicingMin;
+                                sOrder.InvoicingSec   = oData.InvoicingSec;
+                                sOrder.SaleorderDays  = oData.SaleorderDays;
+                                sOrder.SaleorderHours = oData.SaleorderHours;
+                                sOrder.SaleorderMin   = oData.SaleorderMin;
+                                sOrder.SaleorderSec   = oData.SaleorderSec;
+                                sOrder.ShippingDays   = oData.ShippingDays;
+                                sOrder.ShippingHours  = oData.ShippingHours;
+                                sOrder.ShippingMin    = oData.ShippingMin;
+                                sOrder.ShippingSec    = oData.ShippingSec;
+                                sOrder.TotalDays      = oData.TotalDays;
+                                sOrder.TotalHours     = oData.TotalHours;
+                                sOrder.TotalMin       = oData.TotalMin;
+                                sOrder.TotalSec       = oData.TotalSec;
+                                sOrder.TransportDays  = oData.TransportDays;
+                                sOrder.TransportHours = oData.TransportHours;
+                                sOrder.TransportMin   = oData.TransportMin;
+                                sOrder.TransportSec   = oData.TransportSec;
                             }
                         });
 
+                        this._calculateTotalTimeAndAverage(oModel);
+
                         this.getModel("orders").refresh(true);
+
+                        
 
                         MessageBox.success(this.getResourceBundle().getText("messageSuccessCreateLeadTime"), {
                             actions: [MessageBox.Action.CLOSE],
@@ -216,11 +238,84 @@ sap.ui.define([
             },
 
             onValidatedFieldsLeadTime: function(oEvent){
-                let oModel = this.getModel("leadTime").getData();
+                let oModel      = this.getModel("leadTime").getData(),
+                    aFieldClassDays  = ["CreditDays", "InvoicingDays", "SaleorderDays", "ShippingDays", "TransportDays"],
+                    aFieldClassHours = ["CreditHours", "InvoicingHours", "SaleorderHours", "ShippingHours", "TransportHours"],
+                    aFieldClassMin   = ["CreditMin", "InvoicingMin", "SaleorderMin", "ShippingMin", "TransportMin"],
+                    aFieldClassSec   = ["CreditSec", "InvoicingSec", "SaleorderSec", "ShippingSec", "TransportSec"],
+                    oCountDays       = 0,
+                    oCountHours      = 0,
+                    oCountMin        = 0,
+                    oCountSec        = 0,
+                    bValid           = true;
 
-                this._formateValuesInDaysAndHours(oModel);
+                aFieldClassDays.forEach(sField => {
+                    oCountDays += Number(oModel.leadTime[sField]);
+
+                    if(oModel.leadTime[sField] === ""){
+                        oModel.State[sField].ValueState 	 = sap.ui.core.ValueState.Error;
+                        oModel.State[sField].ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                        bValid = false;
+                    }else{
+                        oModel.State[sField].ValueState     = sap.ui.core.ValueState.None;
+                        oModel.State[sField].ValueStateText = "";
+                    }
+                });
+
+                aFieldClassHours.forEach(sField => {
+                    oCountHours += Number(oModel.leadTime[sField]);
+
+                    if(oModel.leadTime[sField] === ""){
+                        oModel.State[sField].ValueState 	 = sap.ui.core.ValueState.Error;
+                        oModel.State[sField].ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                        bValid = false;
+                    }else{
+                        oModel.State[sField].ValueState     = sap.ui.core.ValueState.None;
+                        oModel.State[sField].ValueStateText = "";
+                    }
+                });
+
+                aFieldClassMin.forEach(sField => {
+                    oCountMin += Number(oModel.leadTime[sField]);
+
+                    if(oModel.leadTime[sField] === ""){
+                        oModel.State[sField].ValueState 	 = sap.ui.core.ValueState.Error;
+                        oModel.State[sField].ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                        bValid = false;
+                    }else{
+                        oModel.State[sField].ValueState     = sap.ui.core.ValueState.None;
+                        oModel.State[sField].ValueStateText = "";
+                    }
+                });
+
+                aFieldClassSec.forEach(sField => {
+                    oCountSec += Number(oModel.leadTime[sField]);
+
+                    if(oModel.leadTime[sField] === ""){
+                        oModel.State[sField].ValueState 	 = sap.ui.core.ValueState.Error;
+                        oModel.State[sField].ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                        bValid = false;
+                    }else{
+                        oModel.State[sField].ValueState     = sap.ui.core.ValueState.None;
+                        oModel.State[sField].ValueStateText = "";
+                    }
+                });
+
+                oModel.leadTime.TotalDays  = String(oCountDays);
+                oModel.leadTime.TotalHours = String(oCountHours);
+                oModel.leadTime.TotalMin   = String(oCountMin);
+                oModel.leadTime.TotalSec   = String(oCountSec);
+
+                let oObjectTime = this._validTheTime(oCountDays, oCountHours, oCountMin, oCountSec);
+
+                oModel.TotalFormatted = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
 
                 this.getModel("leadTime").refresh(true);
+
+                this.getModel("filters").getData().buttonStartEnabled = bValid
+                this.getModel("filters").refresh(true);
+
+                
             },
 
             onPressStartReport: function(oEvent){
@@ -296,40 +391,43 @@ sap.ui.define([
                                 if(sItem.Saleorder != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Saleorder, sItem.SaleorderFinish);
                                     
-                                    oObject.SaleorderFormatted = oDateHour.dateHourFormatted;
-                                    oObject.dateHour           = oDateHour.dateHour;
+                                    oObject.SaleorderFormatted  = oDateHour.dateHourFormatted;
+                                    oObject.dateHour            = oDateHour.dateHour;
+                                    oObject.SaleorderValueState = "Success";
+                                    oObject.SaleorderColor      = "#008000"
 
                                     oCountTotalDay  += oDateHour.dateHour.days;
                                     oCountTotalHour += oDateHour.dateHour.hours;
                                     oCountTotalMin  += oDateHour.dateHour.minutes;
                                     oCountTotalSec  += oDateHour.dateHour.seconds;
-
-                                    oObject.SaleorderColor     = "#008000"
-
 
                                     //Contagem para saber a media
                                     oCountDaysSaleOrder  += oDateHour.dateHour.days;
                                     oCountHoursSaleOrder += oDateHour.dateHour.hours;
                                     oCountMinSaleOrder   += oDateHour.dateHour.minutes;
                                     oCountSecSaleOrder   += oDateHour.dateHour.seconds;
+
+                                    
+
                                 }else{
-                                    oObject.SaleorderFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
-                                    //oObject.SaleorderColor     = "#FFA500"
+                                    oObject.SaleorderFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
+                                    oObject.SaleorderColor      = "#FFA500"
+                                    oObject.SaleorderValueState = "Warning";
                                 }
 
                                 //Remessa
                                 if(sItem.Shipping != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Shipping, sItem.ShippingFinish);
                                     
-                                    oObject.ShippingFormatted = oDateHour.dateHourFormatted;
-                                    oObject.dateHour          = oDateHour.dateHour;
-                                    oObject.ShippingColor     = "#008000"
+                                    oObject.ShippingFormatted  = oDateHour.dateHourFormatted;
+                                    oObject.dateHour           = oDateHour.dateHour;
+                                    oObject.ShippingColor      = "#008000"
+                                    oObject.ShippingValueState = "Success";
 
                                     oCountTotalDay  += oDateHour.dateHour.days;
                                     oCountTotalHour += oDateHour.dateHour.hours;
                                     oCountTotalMin  += oDateHour.dateHour.minutes;
                                     oCountTotalSec  += oDateHour.dateHour.seconds;
-
 
                                     //Contagem para saber a media
                                     oCountDaysShipping  += oDateHour.dateHour.days;
@@ -338,8 +436,9 @@ sap.ui.define([
                                     oCountSecShipping   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.ShippingFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
-                                    //oObject.ShippingColor     = "#FFA500"
+                                    oObject.ShippingFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
+                                    oObject.ShippingColor      = "#FFA500"
+                                    oObject.ShippingValueState = "Warning";
 
                                 }
 
@@ -347,8 +446,10 @@ sap.ui.define([
                                 if(sItem.Credit != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Credit, sItem.CreditFinish);
                                     
-                                    oObject.CreditFormatted = oDateHour.dateHourFormatted;
-                                    oObject.dateHour        = oDateHour.dateHour;
+                                    oObject.CreditFormatted  = oDateHour.dateHourFormatted;
+                                    oObject.dateHour         = oDateHour.dateHour;
+                                    oObject.CreditValueState = "Success";
+                                    oObject.CreditColor      = "#008000"
 
                                     oCountTotalDay  += oDateHour.dateHour.days;
                                     oCountTotalHour += oDateHour.dateHour.hours;
@@ -361,15 +462,18 @@ sap.ui.define([
                                     oCountMinCredit   += oDateHour.dateHour.minutes;
                                     oCountSecCredit   += oDateHour.dateHour.seconds;
                                 }else{
-                                    oObject.CreditFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
-                                    //oObject.CreditColor     = "#FFA500"
+                                    oObject.CreditFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
+                                    oObject.CreditColor      = "#FFA500"
+                                    oObject.CreditValueState = "Warning";
                                 }
 
                                 //Transporte
                                 if(sItem.Transport != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Transport, sItem.TransportFinish);
-                                    oObject.TransportFormatted = oDateHour.dateHourFormatted;
-                                    oObject.dateHour           = oDateHour.dateHour;
+                                    oObject.TransportFormatted  = oDateHour.dateHourFormatted;
+                                    oObject.dateHour            = oDateHour.dateHour;
+                                    oObject.TransportValueState = "Success";
+                                    oObject.TransportColor      = "#008000"
 
                                     oCountTotalDay  += oDateHour.dateHour.days;
                                     oCountTotalHour += oDateHour.dateHour.hours;
@@ -383,15 +487,18 @@ sap.ui.define([
                                     oCountSecTransport   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.TransportFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
-                                    //oObject.TransportColor     = "#FFA500"
+                                    oObject.TransportFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
+                                    oObject.TransportColor      = "#FFA500"
+                                    oObject.TransportValueState = "Warning";
                                 }
 
                                 //Faturamento
                                 if(sItem.Invoicing != ""){
                                     let oDateHour = this._converter_date_to_daysAndHours(sItem.Invoicing, sItem.InvoicingFinish);
-                                    oObject.InvoicingFormatted = oDateHour.dateHourFormatted;
-                                    oObject.dateHour           = oDateHour.dateHour;
+                                    oObject.InvoicingFormatted  = oDateHour.dateHourFormatted;
+                                    oObject.dateHour            = oDateHour.dateHour;
+                                    oObject.InvoicingValueState = "Success";
+                                    oObject.InvoicingColor      = "#008000"
 
                                     oCountTotalDay  += oDateHour.dateHour.days;
                                     oCountTotalHour += oDateHour.dateHour.hours;
@@ -405,14 +512,15 @@ sap.ui.define([
                                     oCountSecInvoicing   += oDateHour.dateHour.seconds;
 
                                 }else{
-                                    oObject.InvoicingFormatted = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
-                                    //oObject.InvoicingColor     = "#FFA500"
+                                    oObject.InvoicingFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
+                                    oObject.InvoicingColor      = "#FFA500"
+                                    oObject.InvoicingValueState = "Warning";
                                 }
 
                                 let oObjectTime = this._validTheTime(oCountTotalDay, oCountTotalHour, oCountTotalMin, oCountTotalSec);
 
-                                oObject.TotalFormatted = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
-
+                                oObject.TotalFormatted  = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
+                                oObject.TotalValueState = "Success";
                                 //Contagem para saber a media
                                 oCountDaysTotal  += oObjectTime.days;
                                 oCountHoursTotal += oObjectTime.hours;
@@ -507,6 +615,12 @@ sap.ui.define([
                 this.setAppBusy(false);
             },
 
+            _calculateTotalTimeAndAverage(sModel){
+                /*sModel.items(sOrder => {
+                    sOrder.ateHour
+                });*/
+            },
+
             _calculateTheAverage: function(sValue, sDivisor){
                 let oResultValue = `${sValue / sDivisor}`,
                     oPosition    = oResultValue.indexOf(".");
@@ -557,90 +671,6 @@ sap.ui.define([
                     seconds: sSec,
                     dateHoursFormatted: `${sDays} dias ${sHours} Horas ${sMin} Min e ${sSec} Seg`
                 }
-            },
-
-            _formateValuesInDaysAndHours: function(sModel){
-                let oDatesTotal = [];
-
-                //Ordem de venda
-                if(sModel.leadTime.Saleorder != "" &&    
-                   sModel.leadTime.SaleorderFinish != "")
-                {
-                    oDatesTotal.push(sModel.leadTime.Saleorder);
-                    oDatesTotal.push(sModel.leadTime.SaleorderFinish);
-
-                    let oDateHour = this._converter_date_to_daysAndHours(sModel.leadTime.Saleorder, sModel.leadTime.SaleorderFinish);
-                    sModel.leadTime.SaleorderFormatted = oDateHour.dateHourFormatted;
-                }
-
-                //Remessa
-                if(sModel.leadTime.Shipping != "" && 
-                   sModel.leadTime.ShippingFinish != "")
-                {
-                    oDatesTotal.push(sModel.leadTime.Shipping);
-                    oDatesTotal.push(sModel.leadTime.ShippingFinish);
-
-                    let oDateHour = this._converter_date_to_daysAndHours(sModel.leadTime.Shipping, sModel.leadTime.ShippingFinish);
-                    sModel.leadTime.ShippingFormatted = oDateHour.dateHourFormatted;
-                }
-
-                //Crédito
-                if(sModel.leadTime.Credit != "" && 
-                   sModel.leadTime.CreditFinish != "")
-                {
-                    oDatesTotal.push(sModel.leadTime.Credit);
-                    oDatesTotal.push(sModel.leadTime.CreditFinish);
-
-                    let oDateHour = this._converter_date_to_daysAndHours(sModel.leadTime.Credit, sModel.leadTime.CreditFinish);
-                    sModel.leadTime.CreditFormatted = oDateHour.dateHourFormatted;
-                }
-
-                //Transporte
-                if(sModel.leadTime.Transport != "" && 
-                   sModel.leadTime.TransportFinish != "")
-                {
-                    oDatesTotal.push(sModel.leadTime.Transport);
-                    oDatesTotal.push(sModel.leadTime.TransportFinish);
-
-                    let oDateHour = this._converter_date_to_daysAndHours(sModel.leadTime.Transport, sModel.leadTime.TransportFinish);
-                    sModel.leadTime.TransportFormatted = oDateHour.dateHourFormatted;
-                }
-
-                //Faturamento
-                if(sModel.leadTime.Invoicing != "" && 
-                   sModel.leadTime.InvoicingFinish != "")
-                {
-                    oDatesTotal.push(sModel.leadTime.Invoicing);
-                    oDatesTotal.push(sModel.leadTime.InvoicingFinish);
-
-                    let oDateHour = this._converter_date_to_daysAndHours(sModel.leadTime.Invoicing, sModel.leadTime.InvoicingFinish);
-                    sModel.leadTime.InvoicingFormatted = oDateHour.dateHourFormatted;
-                }
-
-                /*if(sModel.leadTime.Saleorder != "" &&    
-                   sModel.leadTime.SaleorderFinish != "" &&
-                   sModel.leadTime.Shipping != "" &&    
-                   sModel.leadTime.ShippingFinish != "" &&
-                   sModel.leadTime.Credit != "" &&    
-                   sModel.leadTime.CreditFinish != "" &&
-                   sModel.leadTime.Transport != "" &&    
-                   sModel.leadTime.TransportFinish != "" &&
-                   sModel.leadTime.Invoicing != "" &&    
-                   sModel.leadTime.InvoicingFinish != "")
-                {
-                    oDatesTotal.sort(function(sDateOne, sDateTwo){    
-                        return sDateOne === sDateTwo ? 0 : sDateOne > sDateTwo ? 1 : -1
-                    });
-
-                    let oDateHour = this._converter_date_to_daysAndHours(oDatesTotal[0], oDatesTotal[oDatesTotal.length -1]);
-
-                    sModel.leadTime.TotalFormatted = oDateHour.dateHourFormatted;
-                    
-                    /*
-                    sModel.leadTime.Total              = oDatesTotal[0];
-                    sModel.leadTime.TotalFinish        = oDatesTotal[oDatesTotal.length -1];
-                    
-                }*/           
             },
 
             _resetFilterToAbap: function(sListValues){

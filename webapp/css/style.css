@@ -132,3 +132,23 @@
 .time {
    margin-top: 1rem; 
 }
+
+.containerLeadTimeEdit {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 2rem;
+
+    width: 100%;
+}
+
+.contentCycleLeadTime {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    grid-gap: 0.5rem;
+
+    margin-top: 0.5rem;
+}

@@ -1,7 +1,6 @@
 <core:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
-    xmlns:f="sap.ui.layout.form"
 >
     <Panel
         headerText="{i18n>leadTimeTitle}"
@@ -18,162 +17,294 @@
             </Toolbar>
         </headerToolbar>
 
-        <f:SimpleForm
-            id="SimpleFormEditLeadTime"
-            editable="false"
-            layout="ResponsiveGridLayout"
-            labelSpanXL="12"
-            labelSpanL="4"
-            labelSpanM="8"
-            labelSpanS="12"
-            adjustLabelSpan="false"
-            emptySpanXL="0"
-            emptySpanL="4"
-            emptySpanM="0"
-            emptySpanS="0"
-            columnsXL="2"
-            columnsL="2"
-            columnsM="2"
-            singleContainerFullSize="false"
-            backgroundDesign="Solid"
-        >
-            <f:content>
-                <core:Title text="{i18n>leadTimeSaleOrder}"/>
-                <Label text="{i18n>leadTimeDateInitial}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/Saleorder}"
-                    valueState="{leadTime>/State/Saleorder/ValueState}"
-                    valueStateText="{leadTime>/State/Saleorder/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateFinish}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/SaleorderFinish}"
-                    valueState="{leadTime>/State/SaleorderFinish/ValueState}"
-                    valueStateText="{leadTime>/State/SaleorderFinish/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+        <VBox class="containerLeadTimeEdit">
+            <VBox>
+                <Title text="{i18n>leadTimeSaleOrder}"/>
+
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDays}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/SaleorderDays}"
+                            valueState="{leadTime>/State/SaleorderDays/ValueState}"
+                            valueStateText="{leadTime>/State/SaleorderDays/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeHour}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/SaleorderHours}"
+                            valueState="{leadTime>/State/SaleorderHours/ValueState}"
+                            valueStateText="{leadTime>/State/SaleorderHours/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeMinutes}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/SaleorderMin}"
+                            valueState="{leadTime>/State/SaleorderMin/ValueState}"
+                            valueStateText="{leadTime>/State/SaleorderMin/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeSeconds}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/SaleorderSec}"
+                            valueState="{leadTime>/State/SaleorderSec/ValueState}"
+                            valueStateText="{leadTime>/State/SaleorderSec/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>       
+                </VBox>
+
+                <!--<Label text="{i18n>leadTimeDateHourFormatted}:"/>
                 <Text
                     text="{leadTime>/leadTime/SaleorderFormatted}"
-                />
-                        
-                <core:Title text="{i18n>leadTimeShipping}"/>
-                <Label text="{i18n>leadTimeDateInitial}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/Shipping}"
-                    valueState="{leadTime>/State/Shipping/ValueState}"
-                    valueStateText="{leadTime>/State/Shipping/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateFinish}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/ShippingFinish}"
-                    valueState="{leadTime>/State/ShippingFinish/ValueState}"
-                    valueStateText="{leadTime>/State/ShippingFinish/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
-                <Text
-                    text="{leadTime>/leadTime/ShippingFormatted}"
-                />
+                />-->
+            </VBox>
+                    
+            <VBox>
+                <Title text="{i18n>leadTimeCredit}"/>
 
-                <core:Title text="{i18n>leadTimeCredit}"/>
-                <Label text="{i18n>leadTimeDateInitial}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/Credit}"
-                    valueState="{leadTime>/State/Credit/ValueState}"
-                    valueStateText="{leadTime>/State/Credit/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateFinish}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/CreditFinish}"
-                    valueState="{leadTime>/State/CreditFinish/ValueState}"
-                    valueStateText="{leadTime>/State/CreditFinish/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
-                <Text
-                    text="{leadTime>/leadTime/CreditFormatted}"
-                />
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDays}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/CreditDays}"
+                            valueState="{leadTime>/State/CreditDays/ValueState}"
+                            valueStateText="{leadTime>/State/CreditDays/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
 
-                <core:Title text="{i18n>leadTimeTransport}"/>
-                <Label text="{i18n>leadTimeDateInitial}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/Transport}"
-                    valueState="{leadTime>/State/Transport/ValueState}"
-                    valueStateText="{leadTime>/State/Transport/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateFinish}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/TransportFinish}"
-                    valueState="{leadTime>/State/TransportFinish/ValueState}"
-                    valueStateText="{leadTime>/State/TransportFinish/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
-                <Text
-                    text="{leadTime>/leadTime/TransportFormatted}"
-                />
+                    <VBox>
+                        <Label text="{i18n>leadTimeHour}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/CreditHours}"
+                            valueState="{leadTime>/State/CreditHours/ValueState}"
+                            valueStateText="{leadTime>/State/CreditHours/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
 
-                <core:Title text="{i18n>leadTimeInvoicing}"/>
-                <Label text="{i18n>leadTimeDateInitial}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/Invoicing}"
-                    valueState="{leadTime>/State/Invoicing/ValueState}"
-                    valueStateText="{leadTime>/State/Invoicing/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateFinish}"/>
-                <DateTimePicker
-                    showCurrentDateButton="true"
-			        showCurrentTimeButton="true"
-                    valueFormat="dd/MM/yyyy HH:mm:ss"
-                    value="{leadTime>/leadTime/InvoicingFinish}"
-                    valueState="{leadTime>/State/InvoicingFinish/ValueState}"
-                    valueStateText="{leadTime>/State/InvoicingFinish/ValueStateText}"
-                    change="onValidatedFieldsLeadTime"
-                />
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
-                <Text
-                    text="{leadTime>/leadTime/InvoicingFormatted}"
-                />
+                    <VBox>
+                        <Label text="{i18n>leadTimeMinutes}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/CreditMin}"
+                            valueState="{leadTime>/State/CreditMin/ValueState}"
+                            valueStateText="{leadTime>/State/CreditMin/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
 
-                <core:Title text="{i18n>leadTimeTotal}"/>
-                <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                    <VBox>
+                        <Label text="{i18n>leadTimeSeconds}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/CreditSec}"
+                            valueState="{leadTime>/State/CreditSec/ValueState}"
+                            valueStateText="{leadTime>/State/CreditSec/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+                </VBox>
+
+                <!--<Label text="{i18n>leadTimeDateHourFormatted}:"/>
                 <Text
-                    text="{leadTime>/leadTime/TotalFormatted}"
-                />
-            </f:content>      
-        </f:SimpleForm>
+                    text="{leadTime>/leadTime/SaleorderFormatted}"
+                />-->
+            </VBox>
+
+            <VBox>
+                <Title text="{i18n>leadTimeShipping}"/>
+
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDays}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/ShippingDays}"
+                            valueState="{leadTime>/State/ShippingDays/ValueState}"
+                            valueStateText="{leadTime>/State/ShippingDays/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeHour}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/ShippingHours}"
+                            valueState="{leadTime>/State/ShippingHours/ValueState}"
+                            valueStateText="{leadTime>/State/ShippingHours/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeMinutes}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/ShippingMin}"
+                            valueState="{leadTime>/State/ShippingMin/ValueState}"
+                            valueStateText="{leadTime>/State/ShippingMin/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeSeconds}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/ShippingSec}"
+                            valueState="{leadTime>/State/ShippingSec/ValueState}"
+                            valueStateText="{leadTime>/State/ShippingSec/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+                </VBox>
+
+                <!--<Label text="{i18n>leadTimeDateHourFormatted}:"/>
+                <Text
+                    text="{leadTime>/leadTime/SaleorderFormatted}"
+                />-->
+            </VBox>
+
+            <VBox>
+                <Title text="{i18n>leadTimeTransport}"/>
+
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDays}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/TransportDays}"
+                            valueState="{leadTime>/State/TransportDays/ValueState}"
+                            valueStateText="{leadTime>/State/TransportDays/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeHour}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/TransportHours}"
+                            valueState="{leadTime>/State/TransportHours/ValueState}"
+                            valueStateText="{leadTime>/State/TransportHours/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeMinutes}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/TransportMin}"
+                            valueState="{leadTime>/State/TransportMin/ValueState}"
+                            valueStateText="{leadTime>/State/TransportMin/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeSeconds}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/TransportSec}"
+                            valueState="{leadTime>/State/TransportSec/ValueState}"
+                            valueStateText="{leadTime>/State/TransportSec/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+                </VBox>
+
+                <!--<Label text="{i18n>leadTimeDateHourFormatted}:"/>
+                <Text
+                    text="{leadTime>/leadTime/SaleorderFormatted}"
+                />-->
+            </VBox>
+
+            <VBox>
+                <Title text="{i18n>leadTimeInvoicing}"/>
+
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDays}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/InvoicingDays}"
+                            valueState="{leadTime>/State/InvoicingDays/ValueState}"
+                            valueStateText="{leadTime>/State/InvoicingDays/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeHour}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/InvoicingHours}"
+                            valueState="{leadTime>/State/InvoicingHours/ValueState}"
+                            valueStateText="{leadTime>/State/InvoicingHours/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="{i18n>leadTimeMinutes}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/InvoicingMin}"
+                            valueState="{leadTime>/State/InvoicingMin/ValueState}"
+                            valueStateText="{leadTime>/State/InvoicingMin/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+                    
+                    <VBox>
+                        <Label text="{i18n>leadTimeSeconds}:"/>
+                        <Input
+                            type="Number"
+                            value="{leadTime>/leadTime/InvoicingSec}"
+                            valueState="{leadTime>/State/InvoicingSec/ValueState}"
+                            valueStateText="{leadTime>/State/InvoicingSec/ValueStateText}"
+                            change="onValidatedFieldsLeadTime"
+                        />
+                    </VBox>
+                </VBox>
+
+                <!--<Label text="{i18n>leadTimeDateHourFormatted}:"/>
+                <Text
+                    text="{leadTime>/leadTime/SaleorderFormatted}"
+                />-->
+            </VBox>
+
+            <VBox>
+                <Title text="{i18n>leadTimeTotal}:"/>
+
+                <VBox class="contentCycleLeadTime">
+                    <VBox>
+                        <Label text="{i18n>leadTimeDateHourFormatted}:"/>
+                        <Text
+                            text="{leadTime>/TotalFormatted}"
+                        />  
+                    </VBox>
+                </VBox>
+            </VBox>  
+        </VBox>
     </Panel>
 </core:FragmentDefinition>

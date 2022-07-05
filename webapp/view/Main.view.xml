@@ -295,7 +295,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Error"
+											state="Success"
 											text="{orders>/averageCredit}"
 											visible="{=${orders>/averageCredit} === '' ? false : true}"
 										/>
@@ -341,7 +341,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Information"
+											state="Success"
 											text="{orders>/averageTransport}"
 											visible="{=${orders>/averageTransport} === '' ? false : true}"
 										/>
@@ -387,7 +387,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Information"
+											state="Success"
 											text="{orders>/averageInvoicing}"
 											visible="{=${orders>/averageInvoicing} === '' ? false : true}"
 										/>
@@ -433,7 +433,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Warning"
+											state="Success"
 											text="{orders>/averageTotal}"
 											visible="{=${orders>/averageTotal} === '' ? false : true}"
 										/>
@@ -622,6 +622,7 @@
 							icon="sap-icon://save"
 							text="Gravar"
 							press="onPressSaveLeadTime"
+							enabled="{filters>/buttonStartEnabled}"
 						/>
 						<Button
 							icon="sap-icon://cancel"
