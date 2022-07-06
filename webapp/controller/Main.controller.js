@@ -567,7 +567,7 @@ sap.ui.define([
 
             onValidatedFieldsRequired: function(oEvent){
                 let oModel      = this.getModel("filters").getData(),
-                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil"],
+                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil", "selectionSetorAt"],
                     bValid      = true;
 
                 aFieldClass.forEach(sField => {

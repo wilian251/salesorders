@@ -50,6 +50,25 @@
 							<!--</VBox>-->
 
 							<VBox>
+								<Label text="{i18n>mainFilterSector}:" required="true"/>
+								<MultiComboBox
+									id="Setor"
+									items="{
+										path: '/HTvakSet'
+									}"
+									width="100%"
+									required="true"
+									selectedKeys="{filters>/selectionSetorAt}"
+									valueState="{filters>/State/selectionSetorAt/ValueState}"
+									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
+									enabled="{filters>/State/selectionSetorAt/Enabled}"
+									visible="{filters>/State/selectionSetorAt/Visible}"
+								>
+									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox>
 								<Label text="{i18n>mainFilterTypeOV}:"/>
 								<MultiComboBox
 									id="typeOV"
@@ -104,24 +123,6 @@
 							</VBox>
 						
 							<VBox>
-								<Label text="{i18n>mainFilterSector}:"/>
-								<MultiComboBox
-									id="Setor"
-									items="{
-										path: '/HTvakSet'
-									}"
-									width="100%"
-									selectedKeys="{filters>/selectionSetorAt}"
-									valueState="{filters>/State/selectionSetorAt/ValueState}"
-									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
-									enabled="{filters>/State/selectionSetorAt/Enabled}"
-									visible="{filters>/State/selectionSetorAt/Visible}"
-								>
-									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
-								</MultiComboBox>		
-							</VBox>
-
-							<VBox>
 								<Label text="{i18n>mainFilterCompany}:"/>
 								<MultiComboBox
 									id="company"
@@ -169,7 +170,18 @@
 					<Panel id="averageSalesOrders" visible="true" backgroundDesign="Transparent">
 						<headerToolbar>
 							<Toolbar width="100%">
-								<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4" visible="{orderTexts>/State/headerTextTitle/Visible}"/>
+								<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4" visible="{orderTexts>/State/headerTextTitle/Visible}"/>									
+
+								<ToolbarSpacer/>
+								<Button
+									icon="sap-icon://edit"
+									press="onPressEditLead"
+									type="Emphasized"
+								>
+									<dependents>
+										<Text text="{orders>Vbeln}"/>
+									</dependents>
+								</Button>
 							</Toolbar>
 						</headerToolbar>
 
@@ -222,6 +234,52 @@
 									</VBox>
 								</VBox>
 
+								<!-- Crédito -->
+								<VBox id="credit">
+									<VBox class="mainLead">
+										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>Creditformattedlt}"/>
+									</VBox>
+
+									<VBox class="mainTitulo">
+										<Title text="{i18n>mainCycleCredit}" titleStyle="H4"/>
+									</VBox>	
+
+									<VBox class="icon">
+										<core:Icon
+											id="creditIcon"
+											alt="{i18n>mainCycleCredit}"
+											color="{orders>CreditColor}"
+											size="64px"
+											src="sap-icon://credit-card"
+										/>
+									</VBox>
+											
+									<VBox class="time">
+										<ObjectStatus
+											active="false"
+											icon="sap-icon://pending"
+											iconDensityAware="true"
+											state="Success"
+											text="{orders>/averageCredit}"
+											visible="{=${orders>/averageCredit} === '' ? false : true}"
+										/>
+
+										<Text 
+											text="{i18n>mainLeadTimeCycleNotStarted}" 
+											visible="{=${orders>/averageCredit} === '' ? true : false}"
+										/> 
+
+										<ObjectStatus
+											active="false"
+											icon=""
+											iconDensityAware="true"
+											state="Success"
+											text="{orders>totalTime/time}"
+										/>
+									</VBox>
+								</VBox>
+
 								<!-- Remessa -->
 								<VBox id="shipping">
 									<VBox class="mainLead">
@@ -259,52 +317,6 @@
 											visible="{=${orders>/averageShipping} === '' ? true : false}"
 										/>
 								
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
-										/>
-									</VBox>
-								</VBox>
-
-								<!-- Crédito -->
-								<VBox id="credit">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Creditformattedlt}"/>
-									</VBox>
-
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleCredit}" titleStyle="H4"/>
-									</VBox>	
-
-									<VBox class="icon">
-										<core:Icon
-											id="creditIcon"
-											alt="{i18n>mainCycleCredit}"
-											color="{orders>CreditColor}"
-											size="64px"
-											src="sap-icon://credit-card"
-										/>
-									</VBox>
-											
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="Success"
-											text="{orders>/averageCredit}"
-											visible="{=${orders>/averageCredit} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageCredit} === '' ? true : false}"
-										/> 
-
 										<ObjectStatus
 											active="false"
 											icon=""
@@ -540,12 +552,6 @@
 											<Text text="{i18n>mainCycleInvoicing}"/>
 										</header>
 									</Column>
-
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainLeadTimeAction}"/>
-										</header>
-									</Column>
 								</columns>
 
 								<items>
@@ -590,16 +596,6 @@
 												icon="sap-icon://pending"
 												state="{orders>InvoicingValueState}"
 											/>
-
-											<Button
-												icon="sap-icon://edit"
-												press="onPressEditLead"
-												type="Emphasized"
-											>
-												<dependents>
-													<Text text="{orders>Vbeln}"/>
-												</dependents>
-											</Button>
 										</cells>
 									</ColumnListItem>
 								</items>
