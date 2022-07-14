@@ -6,7 +6,7 @@ sap.ui.define([
 		initModel: function() {
 			return {
 				leadTime:{
-                    Vbeln: 0,
+                    Spart: "",
                     CreditDays: 0,
                     CreditHours: 0,
                     CreditMin: 0,

@@ -5,12 +5,14 @@ sap.ui.define([
     "../model/orderTexts",
     "../model/leadTime",
     "../model/formatter",
+    "../model/columnsExcel",
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/ui/export/Spreadsheet",
 ],
     function (
         BaseController, 
@@ -18,13 +20,15 @@ sap.ui.define([
         Filters, 
         OrderTexts, 
         LeadTime, 
-        Formatter, 
+        Formatter,
+        ColumnsExcel,
         Sorter, 
         Filter, 
         FilterOperator, 
         JSONModel, 
         Fragment,
-        MessageBox
+        MessageBox,
+        Spreadsheet
     ) {
         "use strict";
 
@@ -34,20 +38,6 @@ sap.ui.define([
             /* =========================================================== */
             onInit: function(){
                 this.getRouter().getRoute("main").attachPatternMatched(this._onObjectMatched.bind(this), this);
-            },
-
-            onBeforeRendering: function(){
-                this.byId("saleOrder").addStyleClass("colorSuccess");
-
-                this.byId("shipping").addStyleClass("colorSuccess");
-
-                this.byId("credit").addStyleClass("colorSuccess");
-
-                this.byId("transport").addStyleClass("colorSuccess");
-
-                this.byId("invoicing").addStyleClass("colorSuccess");
-
-                this.byId("totalTime").addStyleClass("colorSuccess");
             },
 
             /* =========================================================== */
@@ -109,30 +99,41 @@ sap.ui.define([
             },
 
             onExportExcel: function(oEvent){
+                let oName  = this.getResourceBundle().getText("mainTableHeaderTitle"),
+                    oModel = this.getModel("filters").getData(),
+                    oItems = this.getModel("orders").getData().items;
 
+
+                new sap.ui.export.Spreadsheet({
+                    workbook: { 
+                        columns: ColumnsExcel.initModel()
+                    },
+                    sheetName: `${oName} - ${oModel.selectionDateIn} Até ${oModel.selectionDateUpUntil}`,
+                    metaSheetName: `${oName} - ${oModel.selectionDateIn} Até ${oModel.selectionDateUpUntil}`,
+                    dataSource: oItems,//oTable.getBinding("items"),
+                    fileName: `${oName} - ${oModel.selectionDateIn}_${oModel.selectionDateUpUntil}.xlsx`,
+                    worker: false
+                }).build();
             },
 
             onPressEditLead: function(oEvent){
                 this.setAppBusy(true);
 
-                let oVbeln = oEvent.getSource().getDependents()[0].getProperty("text");
+                let oSpart = oEvent.getSource().getDependents()[0].getProperty("text");
 
                 this._oNavContainer.to(this._oEditLeadTimePage, "slide");
 
                 let oLeadTimeEntity = this.getModel().createKey("/LeadTimeSet", {
-                    Vbeln: oVbeln,
+                    Spart: oSpart,
                     Mandt: '400'
                 });
 
                 this.getModel().read(oLeadTimeEntity, {
-                    urlParameters: {
-                        Vbeln: oVbeln
-                    },
                     success: function(oData){
                         //console.log(oData);
                         let oModel = this.getModel("leadTime").getData();
 
-                        oModel.leadTime.Vbeln              = oData.Vbeln;
+                        oModel.leadTime.Spart              = oData.Spart;
                         oModel.leadTime.CreditDays         = oData.CreditDays;
                         oModel.leadTime.CreditHours        = oData.CreditHours;
                         oModel.leadTime.CreditMin          = oData.CreditMin;
@@ -158,6 +159,13 @@ sap.ui.define([
                         oModel.leadTime.TransportMin       = oData.TransportMin;
                         oModel.leadTime.TransportSec       = oData.TransportSec;
 
+                        let oModelFilters = this.getModel("filters").getData();
+
+                        //if(oData.SaleorderDays != "") oModelFilters.buttonUpdateVisible = true; 
+                        //else oModelFilters.buttonStartVisible = true;
+
+                        this.getModel("filters").refresh(true);
+
                         this.getModel("leadTime").refresh(true);
 
                         this.setAppBusy(false);
@@ -172,6 +180,144 @@ sap.ui.define([
                 });
             },
 
+            onPressUpdateLeadTime: function(oEvent){
+                this.setAppBusy(true);
+
+                let oModelLeadTime = this.getModel("leadTime").getData(),
+                    oSpart         = oModelLeadTime.leadTime.Spart;
+                    
+                let oLeadTimeEntity = this.getModel().createKey("/LeadTimeSet", {
+                    Spart: oSpart,
+                    Mandt: '400'
+                });
+
+                this.getModel().update(oLeadTimeEntity, oModelLeadTime.leadTime, {
+                    urlParameters: {
+                        Spart: oSpart
+                    },
+                    success: function(oData){
+                        let oModel = this.getModel("orders").getData();
+                        
+                        let oSaleOrder = this._calculateTheDifferenceDays(oModel.averageSalesOrderDateHours, 
+                            {
+                                days: oData.SaleorderDays,
+                                hours: oData.SaleorderHours,
+                                minutes: oData.SaleorderMin,
+                                seconds: oData.SaleorderSec
+                            }
+                        );
+
+                        let oShipping = this._calculateTheDifferenceDays(oModel.averageShippingDateHours, 
+                            {
+                                days: oData.ShippingDays,
+                                hours: oData.ShippingHours,
+                                minutes: oData.ShippingMin,
+                                seconds: oData.ShippingSec
+                            }
+                        );
+
+                        let oCredit = this._calculateTheDifferenceDays(oModel.averageCreditDateHours, 
+                            {
+                                days: oData.CreditDays,
+                                hours: oData.CreditHours,
+                                minutes: oData.CreditMin,
+                                seconds: oData.CreditSec
+                            }
+                        );
+
+                        let oTransport = this._calculateTheDifferenceDays(oModel.averageTransportDateHours, 
+                            {
+                                days: oData.TransportDays,
+                                hours: oData.TransportHours,
+                                minutes: oData.TransportMin,
+                                seconds: oData.TransportSec
+                            }
+                        );
+
+                        let oInvoicing = this._calculateTheDifferenceDays(oModel.averageInvoicingDateHours, 
+                            {
+                                days: oData.InvoicingDays,
+                                hours: oData.InvoicingHours,
+                                minutes: oData.InvoicingMin,
+                                seconds: oData.InvoicingSec
+                            }
+                        );
+
+                        let oTotal = this._calculateTheDifferenceDays(oModel.averageTotalDateHours, 
+                            {
+                                days: oData.TotalDays,
+                                hours: oData.TotalHours,
+                                minutes: oData.TotalMin,
+                                seconds: oData.TotalSec
+                            }
+                        );
+
+                        oModel.averageSalesOrderDiff = oSaleOrder.dateHourFormatted;
+                        oModel.State.averageSalesOrder.ValueState = oSaleOrder.state;
+                        oModel.State.averageSalesOrder.color      = oSaleOrder.color;
+                        this.byId("saleOrder").addStyleClass(oSaleOrder.class);
+
+                        oModel.averageShippingDiff   = oShipping.dateHourFormatted;
+                        oModel.State.averageShipping.ValueState = oShipping.state;
+                        oModel.State.averageShipping.color      = oShipping.color;
+                        this.byId("shipping").addStyleClass(oShipping.class);
+
+                        oModel.averageCreditDiff     = oCredit.dateHourFormatted;
+                        oModel.State.averageCredit.ValueState = oCredit.state;
+                        oModel.State.averageCredit.color      = oCredit.color;
+                        this.byId("credit").addStyleClass(oCredit.class);
+
+                        oModel.averageTransportDiff  = oTransport.dateHourFormatted;
+                        oModel.State.averageTransport.ValueState = oTransport.state;
+                        oModel.State.averageTransport.color      = oTransport.color;
+                        this.byId("transport").addStyleClass(oTransport.class);
+
+                        oModel.averageInvoicingDiff  = oInvoicing.dateHourFormatted;
+                        oModel.State.averageInvoicing.ValueState = oInvoicing.state;
+                        oModel.State.averageInvoicing.color      = oInvoicing.color;
+                        this.byId("invoicing").addStyleClass(oInvoicing.class);
+
+                        oModel.averageTotalDiff      = oTotal.dateHourFormatted;
+                        oModel.State.averageTotal.ValueState = oTotal.state;
+                        oModel.State.averageTotal.color      = oTotal.color;
+                        this.byId("totalTime").addStyleClass(oTotal.class);
+
+                        oModel.averageCreditSLA     = `${oData.CreditDays} dias ${oData.CreditHours} Horas ${oData.CreditMin} Min e ${oData.CreditSec} Seg`;
+                        oModel.averageInvoicingSLA  = `${oData.InvoicingDays} dias ${oData.InvoicingHours} Horas ${oData.InvoicingMin} Min e ${oData.InvoicingSec} Seg`;
+                        oModel.averageSalesOrderSLA = `${oData.SaleorderDays} dias ${oData.SaleorderHours} Horas ${oData.SaleorderMin} Min e ${oData.SaleorderSec} Seg`;
+                        oModel.averageShippingSLA   = `${oData.ShippingDays} dias ${oData.ShippingHours} Horas ${oData.ShippingMin} Min e ${oData.ShippingSec} Seg`;
+                        oModel.averageTotalSLA      = `${oData.TotalDays} dias ${oData.TotalHours} Horas ${oData.TotalMin} Min e ${oData.TotalSec} Seg`;
+                        oModel.averageTransportSLA  = `${oData.TransportDays} dias ${oData.TransportHours} Horas ${oData.TransportMin} Min e ${oData.TransportSec} Seg`;
+
+                        this._calculateTotalTimeAndAverage(oModel);
+
+                        this.getModel("orders").refresh(true);
+
+                        
+                        let oModelFilters = this.getModel("filters").getData();
+
+                        oModelFilters.buttonUpdateVisible = false; 
+                        oModelFilters.buttonStartVisible  = false;
+
+                        this.getModel("filters").refresh(true);
+
+                        MessageBox.success(this.getResourceBundle().getText("messageSuccessUpdateLeadTime"), {
+                            actions: [MessageBox.Action.CLOSE],
+                            onClose: function(sAction){
+                                this._oNavContainer.back();
+                            }.bind(this)
+                        });
+
+                        this.setAppBusy(false);
+                    }.bind(this),
+                    error: function(oError){
+                        MessageBox.error(this.getResourceBundle().getText("messageErrorUpdateLeadTime"));
+
+                        this.setAppBusy(false);
+                    }.bind(this)
+                });
+            },
+
             onPressSaveLeadTime: function(oEvent){
                 this.setAppBusy(true);
 
@@ -180,41 +326,108 @@ sap.ui.define([
                 this.getModel().create("/LeadTimeSet", oModelLeadTime.leadTime, {
                     success: function(oData){
                         let oModel = this.getModel("orders").getData();
-
-                        oModel.items.map(sOrder => {
-                            if(sOrder.Vbeln === oData.Vbeln){
-                                sOrder.CreditDays     = oData.CreditDays;
-                                sOrder.CreditHours    = oData.CreditHours;
-                                sOrder.CreditMin      = oData.CreditMin;
-                                sOrder.CreditSec      = oData.CreditSec;
-                                sOrder.InvoicingDays  = oData.InvoicingDays;
-                                sOrder.InvoicingHours = oData.InvoicingHours;
-                                sOrder.InvoicingMin   = oData.InvoicingMin;
-                                sOrder.InvoicingSec   = oData.InvoicingSec;
-                                sOrder.SaleorderDays  = oData.SaleorderDays;
-                                sOrder.SaleorderHours = oData.SaleorderHours;
-                                sOrder.SaleorderMin   = oData.SaleorderMin;
-                                sOrder.SaleorderSec   = oData.SaleorderSec;
-                                sOrder.ShippingDays   = oData.ShippingDays;
-                                sOrder.ShippingHours  = oData.ShippingHours;
-                                sOrder.ShippingMin    = oData.ShippingMin;
-                                sOrder.ShippingSec    = oData.ShippingSec;
-                                sOrder.TotalDays      = oData.TotalDays;
-                                sOrder.TotalHours     = oData.TotalHours;
-                                sOrder.TotalMin       = oData.TotalMin;
-                                sOrder.TotalSec       = oData.TotalSec;
-                                sOrder.TransportDays  = oData.TransportDays;
-                                sOrder.TransportHours = oData.TransportHours;
-                                sOrder.TransportMin   = oData.TransportMin;
-                                sOrder.TransportSec   = oData.TransportSec;
+                        
+                        let oSaleOrder = this._calculateTheDifferenceDays(oModel.averageSalesOrderDateHours, 
+                            {
+                                days: oData.SaleorderDays,
+                                hours: oData.SaleorderHours,
+                                minutes: oData.SaleorderMin,
+                                seconds: oData.SaleorderSec
                             }
-                        });
+                        );
+
+                        let oShipping = this._calculateTheDifferenceDays(oModel.averageShippingDateHours, 
+                            {
+                                days: oData.ShippingDays,
+                                hours: oData.ShippingHours,
+                                minutes: oData.ShippingMin,
+                                seconds: oData.ShippingSec
+                            }
+                        );
+
+                        let oCredit = this._calculateTheDifferenceDays(oModel.averageCreditDateHours, 
+                            {
+                                days: oData.CreditDays,
+                                hours: oData.CreditHours,
+                                minutes: oData.CreditMin,
+                                seconds: oData.CreditSec
+                            }
+                        );
+
+                        let oTransport = this._calculateTheDifferenceDays(oModel.averageTransportDateHours, 
+                            {
+                                days: oData.TransportDays,
+                                hours: oData.TransportHours,
+                                minutes: oData.TransportMin,
+                                seconds: oData.TransportSec
+                            }
+                        );
+
+                        let oInvoicing = this._calculateTheDifferenceDays(oModel.averageInvoicingDateHours, 
+                            {
+                                days: oData.InvoicingDays,
+                                hours: oData.InvoicingHours,
+                                minutes: oData.InvoicingMin,
+                                seconds: oData.InvoicingSec
+                            }
+                        );
+
+                        let oTotal = this._calculateTheDifferenceDays(oModel.averageTotalDateHours, 
+                            {
+                                days: oData.TotalDays,
+                                hours: oData.TotalHours,
+                                minutes: oData.TotalMin,
+                                seconds: oData.TotalSec
+                            }
+                        );
+
+                        oModel.averageSalesOrderDiff = oSaleOrder.dateHourFormatted;
+                        oModel.State.averageSalesOrder.ValueState = oSaleOrder.state;
+                        oModel.State.averageSalesOrder.color      = oSaleOrder.color;
+                        this.byId("saleOrder").addStyleClass(oSaleOrder.class);
+
+                        oModel.averageShippingDiff   = oShipping.dateHourFormatted;
+                        oModel.State.averageShipping.ValueState = oShipping.state;
+                        oModel.State.averageShipping.color      = oShipping.color;
+                        this.byId("shipping").addStyleClass(oShipping.class);
+
+                        oModel.averageCreditDiff     = oCredit.dateHourFormatted;
+                        oModel.State.averageCredit.ValueState = oCredit.state;
+                        oModel.State.averageCredit.color      = oCredit.color;
+                        this.byId("credit").addStyleClass(oCredit.class);
+
+                        oModel.averageTransportDiff  = oTransport.dateHourFormatted;
+                        oModel.State.averageTransport.ValueState = oTransport.state;
+                        oModel.State.averageTransport.color      = oTransport.color;
+                        this.byId("transport").addStyleClass(oTransport.class);
+
+                        oModel.averageInvoicingDiff  = oInvoicing.dateHourFormatted;
+                        oModel.State.averageInvoicing.ValueState = oInvoicing.state;
+                        oModel.State.averageInvoicing.color      = oInvoicing.color;
+                        this.byId("invoicing").addStyleClass(oInvoicing.class);
+
+                        oModel.averageTotalDiff      = oTotal.dateHourFormatted;
+                        oModel.State.averageTotal.ValueState = oTotal.state;
+                        oModel.State.averageTotal.color      = oTotal.color;
+                        this.byId("totalTime").addStyleClass(oTotal.class);
+
+                        oModel.averageCreditSLA     = `${oData.CreditDays} dias ${oData.CreditHours} Horas ${oData.CreditMin} Min e ${oData.CreditSec} Seg`;
+                        oModel.averageInvoicingSLA  = `${oData.InvoicingDays} dias ${oData.InvoicingHours} Horas ${oData.InvoicingMin} Min e ${oData.InvoicingSec} Seg`;
+                        oModel.averageSalesOrderSLA = `${oData.SaleorderDays} dias ${oData.SaleorderHours} Horas ${oData.SaleorderMin} Min e ${oData.SaleorderSec} Seg`;
+                        oModel.averageShippingSLA   = `${oData.ShippingDays} dias ${oData.ShippingHours} Horas ${oData.ShippingMin} Min e ${oData.ShippingSec} Seg`;
+                        oModel.averageTotalSLA      = `${oData.TotalDays} dias ${oData.TotalHours} Horas ${oData.TotalMin} Min e ${oData.TotalSec} Seg`;
+                        oModel.averageTransportSLA  = `${oData.TransportDays} dias ${oData.TransportHours} Horas ${oData.TransportMin} Min e ${oData.TransportSec} Seg`;
 
                         this._calculateTotalTimeAndAverage(oModel);
 
                         this.getModel("orders").refresh(true);
 
-                        
+                        let oModelFilters = this.getModel("filters").getData();
+
+                        oModelFilters.buttonUpdateVisible = false; 
+                        oModelFilters.buttonStartVisible  = false;
+
+                        this.getModel("filters").refresh(true);
 
                         MessageBox.success(this.getResourceBundle().getText("messageSuccessCreateLeadTime"), {
                             actions: [MessageBox.Action.CLOSE],
@@ -308,11 +521,11 @@ sap.ui.define([
 
                 let oObjectTime = this._validTheTime(oCountDays, oCountHours, oCountMin, oCountSec);
 
-                oModel.TotalFormatted = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
+                oModel.TotalFormatted = `${oObjectTime.dateHours.days} dias ${oObjectTime.dateHours.hours} Horas ${oObjectTime.dateHours.minutes} Min e ${oObjectTime.dateHours.seconds} Seg`;
 
                 this.getModel("leadTime").refresh(true);
 
-                this.getModel("filters").getData().buttonStartEnabled = bValid
+                this.getModel("filters").getData().buttonStartVisible = bValid
                 this.getModel("filters").refresh(true);
 
                 
@@ -327,14 +540,10 @@ sap.ui.define([
                     oTypeOV    = this._resetFilterToAbap(oModel.selectionTypeOV),
                     oCodClient = this._resetFilterToAbap(oModel.selectionClient),
                     oCNLDist   = this._resetFilterToAbap(oModel.selectionCanalDist),
-                    oSetorAt   = this._resetFilterToAbap(oModel.selectionSetorAt),
-                    oCompany   = this._resetFilterToAbap(oModel.selectionCompany),
-                    oLCExp     = "";
+                    oSetorAt   = oModel.selectionSetorAt;
 
                 this.getModel().callFunction("/ListSalesOrderTime", {
                     urlParameters: {
-						IV_LCEXP: oLCExp,
-                        IV_COMPANY: oCompany,
                         IV_SETORAT: oSetorAt,
                         IV_CNLDIST: oCNLDist,
                         IV_DATEORDER: oDateOrder,
@@ -342,42 +551,50 @@ sap.ui.define([
                         IV_CODCLIENT: oCodClient
 					},
                     success: function(oData){
-                        //console.log(oData.results);
+                        console.log(oData.results);
                         let oModel = this.getModel("orders").getData(),
                             oItems = [];
 
                         if(oData.results.length != 0){
+                            //Números de etapas que começaram
+                            let oCountSaleOrderIsNotEmpty = 0,
+                                oCountShippingIsNotEmpty  = 0,
+                                oCountCreditIsNotEmpty    = 0,
+                                oCountTransportIsNotEmpty = 0,
+                                oCountInvoicingIsNotEmpty = 0,
+                                oCountTotalIsNotEmpty     = 0;
+
                             //Dias                        
-                            let oCountDaysSaleOrder = 0, oCountDaysSaleOrderSLA = 0,
-                                oCountDaysShipping  = 0, oCountDaysShippingSLA  = 0,
-                                oCountDaysCredit    = 0, oCountDaysCreditSLA    = 0,
-                                oCountDaysTransport = 0, oCountDaysTransportSLA = 0,
-                                oCountDaysInvoicing = 0, oCountDaysInvoicingSLA = 0,
-                                oCountDaysTotal     = 0, oCountDaysTotalSLA     = 0;
+                            let oCountDaysSaleOrder = 0,
+                                oCountDaysShipping  = 0,
+                                oCountDaysCredit    = 0,
+                                oCountDaysTransport = 0,
+                                oCountDaysInvoicing = 0,
+                                oCountDaysTotal     = 0;
 
                             //Horas
-                            let oCountHoursSaleOrder = 0, oCountHoursSaleOrderSLA = 0,
-                                oCountHoursShipping  = 0, oCountHoursShippingSLA  = 0,
-                                oCountHoursCredit    = 0, oCountHoursCreditSLA    = 0,
-                                oCountHoursTransport = 0, oCountHoursTransportSLA = 0,
-                                oCountHoursInvoicing = 0, oCountHoursInvoicingSLA = 0,
-                                oCountHoursTotal     = 0, oCountHoursTotalSLA     = 0;
+                            let oCountHoursSaleOrder = 0,
+                                oCountHoursShipping  = 0,
+                                oCountHoursCredit    = 0,
+                                oCountHoursTransport = 0,
+                                oCountHoursInvoicing = 0,
+                                oCountHoursTotal     = 0;
 
                             //Minitos
-                            let oCountMinSaleOrder = 0, oCountMinSaleOrderSLA = 0,
-                                oCountMinShipping  = 0, oCountMinShippingSLA  = 0,
-                                oCountMinCredit    = 0, oCountMinCreditSLA    = 0,
-                                oCountMinTransport = 0, oCountMinTransportSLA = 0,
-                                oCountMinInvoicing = 0, oCountMinInvoicingSLA = 0,
-                                oCountMinTotal     = 0, oCountMinTotalSLA     = 0;
+                            let oCountMinSaleOrder = 0,
+                                oCountMinShipping  = 0,
+                                oCountMinCredit    = 0,
+                                oCountMinTransport = 0,
+                                oCountMinInvoicing = 0,
+                                oCountMinTotal     = 0;
 
                             //Segundos
-                            let oCountSecSaleOrder = 0, oCountSecSaleOrderSLA = 0,
-                                oCountSecShipping  = 0, oCountSecShippingSLA  = 0,
-                                oCountSecCredit    = 0, oCountSecCreditSLA    = 0,
-                                oCountSecTransport = 0, oCountSecTransportSLA = 0,
-                                oCountSecInvoicing = 0, oCountSecInvoicingSLA = 0,
-                                oCountSecTotal     = 0, oCountSecTotalSLA     = 0;
+                            let oCountSecSaleOrder = 0,
+                                oCountSecShipping  = 0,
+                                oCountSecCredit    = 0,
+                                oCountSecTransport = 0,
+                                oCountSecInvoicing = 0, 
+                                oCountSecTotal     = 0;
 
 
                             oData.results.map(sItem => {
@@ -407,7 +624,7 @@ sap.ui.define([
                                     oCountMinSaleOrder   += oDateHour.dateHour.minutes;
                                     oCountSecSaleOrder   += oDateHour.dateHour.seconds;
 
-                                    
+                                    oCountSaleOrderIsNotEmpty++;
 
                                 }else{
                                     oObject.SaleorderFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
@@ -435,6 +652,8 @@ sap.ui.define([
                                     oCountMinShipping   += oDateHour.dateHour.minutes;
                                     oCountSecShipping   += oDateHour.dateHour.seconds;
 
+                                    oCountShippingIsNotEmpty++;
+
                                 }else{
                                     oObject.ShippingFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     oObject.ShippingColor      = "#FFA500"
@@ -461,6 +680,8 @@ sap.ui.define([
                                     oCountHoursCredit += oDateHour.dateHour.hours;
                                     oCountMinCredit   += oDateHour.dateHour.minutes;
                                     oCountSecCredit   += oDateHour.dateHour.seconds;
+
+                                    oCountCreditIsNotEmpty++;
                                 }else{
                                     oObject.CreditFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     oObject.CreditColor      = "#FFA500"
@@ -485,6 +706,8 @@ sap.ui.define([
                                     oCountHoursTransport += oDateHour.dateHour.hours;
                                     oCountMinTransport   += oDateHour.dateHour.minutes;
                                     oCountSecTransport   += oDateHour.dateHour.seconds;
+
+                                    oCountTransportIsNotEmpty++;
 
                                 }else{
                                     oObject.TransportFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
@@ -511,6 +734,8 @@ sap.ui.define([
                                     oCountMinInvoicing   += oDateHour.dateHour.minutes;
                                     oCountSecInvoicing   += oDateHour.dateHour.seconds;
 
+                                    oCountInvoicingIsNotEmpty++;
+
                                 }else{
                                     oObject.InvoicingFormatted  = this.getResourceBundle().getText("mainLeadTimeCycleNotStarted");
                                     oObject.InvoicingColor      = "#FFA500"
@@ -519,34 +744,134 @@ sap.ui.define([
 
                                 let oObjectTime = this._validTheTime(oCountTotalDay, oCountTotalHour, oCountTotalMin, oCountTotalSec);
 
-                                oObject.TotalFormatted  = `${oObjectTime.days} dias ${oObjectTime.hours} Horas ${oObjectTime.minutes} Min e ${oObjectTime.seconds} Seg`;
+                                oObject.TotalFormatted  = `${oObjectTime.dateHours.days} dias ${oObjectTime.dateHours.hours} Horas ${oObjectTime.dateHours.minutes} Min e ${oObjectTime.dateHours.seconds} Seg`;
                                 oObject.TotalValueState = "Success";
                                 //Contagem para saber a media
-                                oCountDaysTotal  += oObjectTime.days;
-                                oCountHoursTotal += oObjectTime.hours;
-                                oCountMinTotal   += oObjectTime.minutes;
-                                oCountSecTotal   += oObjectTime.seconds;
-
+                                oCountDaysTotal  += oObjectTime.dateHours.days;
+                                oCountHoursTotal += oObjectTime.dateHours.hours;
+                                oCountMinTotal   += oObjectTime.dateHours.minutes;
+                                oCountSecTotal   += oObjectTime.dateHours.seconds;
+                                
                                 oItems.push(oObject);
                             });
 
                             let oDivisor = oData.results.length;
 
+
+                            let oAverageSalesOrder = this._validTheTime(this._calculateTheAverage(oCountDaysSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountHoursSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountMinSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountSecSaleOrder, oCountSaleOrderIsNotEmpty)),
+                                oAverageShipping   = this._validTheTime(this._calculateTheAverage(oCountDaysShipping, oCountShippingIsNotEmpty), this._calculateTheAverage(oCountHoursShipping, oCountShippingIsNotEmpty), this._calculateTheAverage(oCountMinShipping, oCountShippingIsNotEmpty), this._calculateTheAverage(oCountSecShipping, oCountShippingIsNotEmpty)),
+                                oAverageCredit     = this._validTheTime(this._calculateTheAverage(oCountDaysCredit, oCountCreditIsNotEmpty), this._calculateTheAverage(oCountHoursCredit, oCountCreditIsNotEmpty), this._calculateTheAverage(oCountMinCredit, oCountCreditIsNotEmpty), this._calculateTheAverage(oCountSecCredit, oCountCreditIsNotEmpty)),
+                                oAverageTransport  = this._validTheTime(this._calculateTheAverage(oCountDaysTransport, oCountTransportIsNotEmpty), this._calculateTheAverage(oCountHoursTransport, oCountTransportIsNotEmpty), this._calculateTheAverage(oCountMinTransport, oCountTransportIsNotEmpty), this._calculateTheAverage(oCountSecTransport, oCountTransportIsNotEmpty)),
+                                oAverageInvoicing  = this._validTheTime(this._calculateTheAverage(oCountDaysInvoicing, oCountInvoicingIsNotEmpty), this._calculateTheAverage(oCountHoursInvoicing, oCountInvoicingIsNotEmpty), this._calculateTheAverage(oCountMinInvoicing, oCountInvoicingIsNotEmpty), this._calculateTheAverage(oCountSecInvoicing, oCountInvoicingIsNotEmpty)),
+                                oAverageTotal      = this._validTheTime(this._calculateTheAverage(oCountDaysTotal, oDivisor), this._calculateTheAverage(oCountHoursTotal, oDivisor), this._calculateTheAverage(oCountMinTotal, oDivisor), this._calculateTheAverage(oCountSecTotal, oDivisor));
+
                             //Preenche os campos de média de cada ciclo
-                            oModel.averageSalesOrder = this._validTheTime(this._calculateTheAverage(oCountDaysSaleOrder, oDivisor), this._calculateTheAverage(oCountHoursSaleOrder, oDivisor), this._calculateTheAverage(oCountMinSaleOrder, oDivisor), this._calculateTheAverage(oCountSecSaleOrder, oDivisor)).dateHoursFormatted;
-                            oModel.averageShipping   = this._validTheTime(this._calculateTheAverage(oCountDaysShipping, oDivisor), this._calculateTheAverage(oCountHoursShipping, oDivisor), this._calculateTheAverage(oCountMinShipping, oDivisor), this._calculateTheAverage(oCountSecShipping, oDivisor)).dateHoursFormatted;
-                            oModel.averageCredit     = this._validTheTime(this._calculateTheAverage(oCountDaysCredit, oDivisor), this._calculateTheAverage(oCountHoursCredit, oDivisor), this._calculateTheAverage(oCountMinCredit, oDivisor), this._calculateTheAverage(oCountSecCredit, oDivisor)).dateHoursFormatted;
-                            oModel.averageTransport  = this._validTheTime(this._calculateTheAverage(oCountDaysTransport, oDivisor), this._calculateTheAverage(oCountHoursTransport, oDivisor), this._calculateTheAverage(oCountMinTransport, oDivisor), this._calculateTheAverage(oCountSecTransport, oDivisor)).dateHoursFormatted;
-                            oModel.averageInvoicing  = this._validTheTime(this._calculateTheAverage(oCountDaysInvoicing, oDivisor), this._calculateTheAverage(oCountHoursInvoicing, oDivisor), this._calculateTheAverage(oCountMinInvoicing, oDivisor), this._calculateTheAverage(oCountSecInvoicing, oDivisor)).dateHoursFormatted;
-                            oModel.averageTotal      = this._validTheTime(this._calculateTheAverage(oCountDaysTotal, oDivisor), this._calculateTheAverage(oCountHoursTotal, oDivisor), this._calculateTheAverage(oCountMinTotal, oDivisor), this._calculateTheAverage(oCountSecTotal, oDivisor)).dateHoursFormatted;
+                            oModel.averageSalesOrder = oAverageSalesOrder.dateHoursFormatted;
+                            oModel.averageShipping   = oAverageShipping.dateHoursFormatted;
+                            oModel.averageCredit     = oAverageCredit.dateHoursFormatted;
+                            oModel.averageTransport  = oAverageTransport.dateHoursFormatted;
+                            oModel.averageInvoicing  = oAverageInvoicing.dateHoursFormatted;
+                            oModel.averageTotal      = oAverageTotal.dateHoursFormatted;
+
+                            oModel.averageSalesOrderDateHours = oAverageSalesOrder.dateHours;
+                            oModel.averageShippingDateHours   = oAverageShipping.dateHours;
+                            oModel.averageCreditDateHours     = oAverageCredit.dateHours;
+                            oModel.averageTransportDateHours  = oAverageTransport.dateHours;
+                            oModel.averageInvoicingDateHours  = oAverageInvoicing.dateHours;
+                            oModel.averageTotalDateHours      = oAverageTotal.dateHours;
+
+
+                            let oSaleOrder = this._calculateTheDifferenceDays(oModel.averageSalesOrderDateHours, 
+                                {
+                                    days: Number(oData.results[0].SaleorderDays),
+                                    hours: Number(oData.results[0].SaleorderHours),
+                                    minutes: Number(oData.results[0].SaleorderMin),
+                                    seconds: Number(oData.results[0].SaleorderSec)
+                                }
+                            );
+    
+                            let oShipping = this._calculateTheDifferenceDays(oModel.averageShippingDateHours, 
+                                {
+                                    days: Number(oData.results[0].ShippingDays),
+                                    hours: Number(oData.results[0].ShippingHours),
+                                    minutes: Number(oData.results[0].ShippingMin),
+                                    seconds: Number(oData.results[0].ShippingSec)
+                                }
+                            );
+    
+                            let oCredit = this._calculateTheDifferenceDays(oModel.averageCreditDateHours, 
+                                {
+                                    days: Number(oData.results[0].CreditDays),
+                                    hours: Number(oData.results[0].CreditHours),
+                                    minutes: Number(oData.results[0].CreditMin),
+                                    seconds: Number(oData.results[0].CreditSec)
+                                }
+                            );
+    
+                            let oTransport = this._calculateTheDifferenceDays(oModel.averageTransportDateHours, 
+                                {
+                                    days: Number(oData.results[0].TransportDays),
+                                    hours: Number(oData.results[0].TransportHours),
+                                    minutes: Number(oData.results[0].TransportMin),
+                                    seconds: Number(oData.results[0].TransportSec)
+                                }
+                            );
+    
+                            let oInvoicing = this._calculateTheDifferenceDays(oModel.averageInvoicingDateHours, 
+                                {
+                                    days: Number(oData.results[0].InvoicingDays),
+                                    hours: Number(oData.results[0].InvoicingHours),
+                                    minutes: Number(oData.results[0].InvoicingMin),
+                                    seconds: Number(oData.results[0].InvoicingSec)
+                                }
+                            );
+    
+                            let oTotal = this._calculateTheDifferenceDays(oModel.averageTotalDateHours, 
+                                {
+                                    days: Number(oData.results[0].TotalDays),
+                                    hours: Number(oData.results[0].TotalHours),
+                                    minutes: Number(oData.results[0].TotalMin),
+                                    seconds: Number(oData.results[0].TotalSec)
+                                }
+                            );
+    
+                            oModel.averageSalesOrderDiff = oSaleOrder.dateHourFormatted;
+                            oModel.State.averageSalesOrder.ValueState = oSaleOrder.state;
+                            oModel.State.averageSalesOrder.color      = oSaleOrder.color;
+                            this.byId("saleOrder").addStyleClass(oSaleOrder.class);
+    
+                            oModel.averageShippingDiff   = oShipping.dateHourFormatted;
+                            oModel.State.averageShipping.ValueState = oShipping.state;
+                            oModel.State.averageShipping.color      = oShipping.color;
+                            this.byId("shipping").addStyleClass(oShipping.class);
+    
+                            oModel.averageCreditDiff     = oCredit.dateHourFormatted;
+                            oModel.State.averageCredit.ValueState = oCredit.state;
+                            oModel.State.averageCredit.color      = oCredit.color;
+                            this.byId("credit").addStyleClass(oCredit.class);
+    
+                            oModel.averageTransportDiff  = oTransport.dateHourFormatted;
+                            oModel.State.averageTransport.ValueState = oTransport.state;
+                            oModel.State.averageTransport.color      = oTransport.color;
+                            this.byId("transport").addStyleClass(oTransport.class);
+    
+                            oModel.averageInvoicingDiff  = oInvoicing.dateHourFormatted;
+                            oModel.State.averageInvoicing.ValueState = oInvoicing.state;
+                            oModel.State.averageInvoicing.color      = oInvoicing.color;
+                            this.byId("invoicing").addStyleClass(oInvoicing.class);
+    
+                            oModel.averageTotalDiff      = oTotal.dateHourFormatted;
+                            oModel.State.averageTotal.ValueState = oTotal.state;
+                            oModel.State.averageTotal.color      = oTotal.color;
+                            this.byId("totalTime").addStyleClass(oTotal.class);
 
                             //SLA cadastrado pelo usuário
-                            oModel.averageSalesOrderSLA = "";
-                            oModel.averageShippingSLA   = "";
-                            oModel.averageCreditSLA     = "";
-                            oModel.averageTransportSLA  = "";
-                            oModel.averageInvoicingSLA  = "";
-                            oModel.averageTotalSLA      = "";
+                            oModel.averageCreditSLA     = `${oData.results[0].CreditDays} dias ${oData.results[0].CreditHours} Horas ${oData.results[0].CreditMin} Min e ${oData.results[0].CreditSec} Seg`;
+                            oModel.averageInvoicingSLA  = `${oData.results[0].InvoicingDays} dias ${oData.results[0].InvoicingHours} Horas ${oData.results[0].InvoicingMin} Min e ${oData.results[0].InvoicingSec} Seg`;
+                            oModel.averageSalesOrderSLA = `${oData.results[0].SaleorderDays} dias ${oData.results[0].SaleorderHours} Horas ${oData.results[0].SaleorderMin} Min e ${oData.results[0].SaleorderSec} Seg`;
+                            oModel.averageShippingSLA   = `${oData.results[0].ShippingDays} dias ${oData.results[0].ShippingHours} Horas ${oData.results[0].ShippingMin} Min e ${oData.results[0].ShippingSec} Seg`;
+                            oModel.averageTotalSLA      = `${oData.results[0].TotalDays} dias ${oData.results[0].TotalHours} Horas ${oData.results[0].TotalMin} Min e ${oData.results[0].TotalSec} Seg`;
+                            oModel.averageTransportSLA  = `${oData.results[0].TransportDays} dias ${oData.results[0].TransportHours} Horas ${oData.results[0].TransportMin} Min e ${oData.results[0].TransportSec} Seg`;
 
                         }
 
@@ -554,6 +879,8 @@ sap.ui.define([
                         this.getModel("orders").refresh(true);
 
                         this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainPanelHeaderTextLength", [oItems.length]));
+
+                        this.byId("averageMediaSalesOrders").setVisible(true);
 
                         this.setAppBusy(false);
                     }.bind(this),
@@ -567,29 +894,75 @@ sap.ui.define([
 
             onValidatedFieldsRequired: function(oEvent){
                 let oModel      = this.getModel("filters").getData(),
-                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil", "selectionSetorAt"],
-                    bValid      = true;
+                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil"],
+                    oId         = oEvent.getParameter("id"),
+                    oPosition   = oId.indexOf("Setor"),
+                    bValid      = false,
+                    bValidSetor = false;
 
+                if(oModel.selectionSetorAt === "") {
+                    oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.Error;
+                    oModel.State.selectionSetorAt.ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                }else{
+                    oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.None;
+                    oModel.State.selectionSetorAt.ValueStateText = "";
+
+                    bValidSetor = true;
+                }
+               
                 aFieldClass.forEach(sField => {
                     if(oModel[sField].length === 0 || oModel[sField] === "") {
                         oModel.State[sField].ValueState     = sap.ui.core.ValueState.Error;
                         oModel.State[sField].ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
-                        bValid = false;
                     } else {
                         oModel.State[sField].ValueState     = sap.ui.core.ValueState.None;
                         oModel.State[sField].ValueStateText = "";
+
+                        bValid = true;
                     }
                 });
 
-                oModel.buttonStartEnabled = bValid;
+                /*if(oPosition != -1){
+                    if(oValueSetor === ""){
+                        oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.Error;
+                        oModel.State.selectionSetorAt.ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
+                    }else{
+                        oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.None;
+                        oModel.State.selectionSetorAt.ValueStateText = "";
+
+                        bValidSetor = true;
+                    }
+                }*/
+
+                if(bValid && bValidSetor){
+                    oModel.buttonStartVisible = true;
+                }else{
+                    oModel.buttonStartVisible = false;
+                }
 
                 this.getModel("filters").refresh(true);
+            },
+
+            onPressMicro: function(oEvent){
+                this.byId("averageMediaSalesOrders").setVisible(false);
+
+                this.byId("panelTableSalesOrders").setVisible(true);
+            },
+            
+            onPressMacro: function(oEvent){
+                this.byId("panelTableSalesOrders").setVisible(false);
+
+                this.byId("averageMediaSalesOrders").setVisible(true);
             },
             /* =========================================================== */
             /* internal methods                                            */
             /* =========================================================== */
             _onObjectMatched: async function(oEvent){
                 this.setAppBusy(true);
+
+                this.byId("panelTableSalesOrders").setVisible(false);
+
+                this.byId("averageMediaSalesOrders").setVisible(false);
 
                 this._oNavContainer     = this.byId("navContainer");
                 this._oEditLeadTimePage = this.byId("editLeadTimePage");
@@ -622,12 +995,158 @@ sap.ui.define([
             },
 
             _calculateTheAverage: function(sValue, sDivisor){
-                let oResultValue = `${sValue / sDivisor}`,
-                    oPosition    = oResultValue.indexOf(".");
+                let oResultValue = 0;
 
-                if(oPosition != -1) oResultValue = oResultValue.substring(0, oPosition);
+                if(sDivisor != 0){
+                    oResultValue = `${sValue / sDivisor}`;
+
+                    let oPosition = oResultValue.indexOf(".");
+
+                    if(oPosition != -1) oResultValue = oResultValue.substring(0, oPosition);
+                }
 
                 return oResultValue;
+            },
+
+            _calculateTheDifferenceDays: function(sModel, sModelSLA){
+                if(sModel.days    != 0 &&
+                   sModel.hours   != 0 &&
+                   sModel.minutes != 0 &&
+                   sModel.seconds != 0 )
+                {
+
+                    let { oResultDays, oResultHours, oResultMin, oResultSec } = this._calculateTheTime(sModel, sModelSLA);
+
+                    if(oResultDays < 0){
+                        return {
+                            dateHours: {
+                                days: oResultDays,
+                                hours: oResultHours,
+                                minutes: oResultMin,
+                                seconds: oResultSec
+                            },
+                            state: sap.ui.core.ValueState.Error,
+                            color: "#FF0000",
+                            class: "colorError",
+                            dateHourFormatted: `${oResultDays} dias ${oResultHours} Horas ${oResultMin} Min e ${oResultSec} Seg`
+                        };
+                    }else{
+                        if(oResultHours < 0){
+                            return {
+                                dateHours: {
+                                    days: oResultDays,
+                                    hours: oResultHours,
+                                    minutes: oResultMin,
+                                    seconds: oResultSec
+                                },
+                                state: sap.ui.core.ValueState.Error,
+                                color: "#FF0000",
+                                class: "colorError",
+                                dateHourFormatted: `${oResultDays} dias ${oResultHours} Horas ${oResultMin} Min e ${oResultSec} Seg`
+                            };  
+                        }else{
+                            if(oResultMin < 0){
+                                return {
+                                    dateHours: {
+                                        days: oResultDays,
+                                        hours: oResultHours,
+                                        minutes: oResultMin,
+                                        seconds: oResultSec
+                                    },
+                                    state: sap.ui.core.ValueState.Error,
+                                    color: "#FF0000",
+                                    class: "colorError",
+                                    dateHourFormatted: `${oResultDays} dias ${oResultHours} Horas ${oResultMin} Min e ${oResultSec} Seg`
+                                };  
+                            }else{
+                                if(oResultSec < 0){
+                                    return {
+                                        dateHours: {
+                                            days: oResultDays,
+                                            hours: oResultHours,
+                                            minutes: oResultMin,
+                                            seconds: oResultSec
+                                        },
+                                        state: sap.ui.core.ValueState.Error,
+                                        color: "#FF0000",
+                                        class: "colorError",
+                                        dateHourFormatted: `${oResultDays} dias ${oResultHours} Horas ${oResultMin} Min e ${oResultSec} Seg`
+                                    };  
+                                }
+
+                                return {
+                                    dateHours: {
+                                        days: oResultDays,
+                                        hours: oResultHours,
+                                        minutes: oResultMin,
+                                        seconds: oResultSec
+                                    },
+                                    state: sap.ui.core.ValueState.Success,
+                                    color: "#008000",
+                                    class: "colorSuccess",
+                                    dateHourFormatted: `${oResultDays} dias ${oResultHours} Horas ${oResultMin} Min e ${oResultSec} Seg`
+                                };  
+
+                            }
+                        }
+                    }
+                }else{
+                    return {
+                        dateHours: {
+                            days: sModelSLA.days,
+                            hours: sModelSLA.hours,
+                            minutes: sModelSLA.minutes,
+                            seconds: sModelSLA.seconds
+                        },
+                        state: sap.ui.core.ValueState.Success,
+                        color: "#008000",
+                        class: "colorSuccess",
+                        dateHourFormatted: `${sModelSLA.days} dias ${sModelSLA.hours} Horas ${sModelSLA.minutes} Min e ${sModelSLA.seconds} Seg`
+                    };
+                }
+            },
+
+            _calculateTheTime: function(sModel, sModelSLA){
+                let oResultDays,  // sModelSLA.days    - sModel.days,
+                    oResultHours, // sModelSLA.hours   - sModel.hours,
+                    oResultMin,   // sModelSLA.minutes - sModel.minutes,
+                    oResultSec;   // sModelSLA.seconds - sModel.seconds;
+
+                if(sModelSLA.seconds < sModel.seconds){
+                    sModelSLA.minutes = sModelSLA.minutes - 1;
+                    sModelSLA.seconds = sModelSLA.seconds + 60;
+
+                    oResultSec = sModelSLA.seconds - sModel.seconds
+                }else{
+                    oResultSec = sModelSLA.seconds - sModel.seconds
+                }
+
+                if(sModelSLA.minutes < sModel.minutes){
+                    sModelSLA.hours   = sModelSLA.hours - 1;
+                    sModelSLA.minutes = sModelSLA.minutes + 60;
+
+                    oResultMin = sModelSLA.minutes - sModel.minutes;
+                }else{
+                    oResultMin = sModelSLA.minutes - sModel.minutes;
+                }
+
+                if(sModelSLA.hours < sModel.hours){
+                    sModelSLA.days  = sModelSLA.days - 1;
+                    sModelSLA.hours = sModelSLA.hours + 24;
+
+                    oResultHours = sModelSLA.hours - sModel.hours;
+                }else{
+                    oResultHours = sModelSLA.hours - sModel.hours;
+                }
+
+                oResultDays = sModelSLA.days - sModel.days;
+
+                return {
+                    oResultDays: Number(oResultDays),
+                    oResultHours: Number(oResultHours),
+                    oResultMin: Number(oResultMin),
+                    oResultSec: Number(oResultSec)
+                }
             },
 
             _validTheTime: function(sDays, sHours, sMin, sSec){
@@ -665,10 +1184,12 @@ sap.ui.define([
                 }
 
                 return {
-                    days: sDays,
-                    hours: sHours,
-                    minutes: sMin,
-                    seconds: sSec,
+                    dateHours: {
+                        days: Number(sDays),
+                        hours: Number(sHours),
+                        minutes: Number(sMin),
+                        seconds: Number(sSec)
+                    },
                     dateHoursFormatted: `${sDays} dias ${sHours} Horas ${sMin} Min e ${sSec} Seg`
                 }
             },

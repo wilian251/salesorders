@@ -9,12 +9,13 @@ sap.ui.define([
                 selectionDateIn: "",
                 selectionDateUpUntil: "",
                 selectionCompany: [],
-                selectionSetorAt: [],
+                selectionSetorAt: "",
                 selectionCanalDist: [],
                 selectionClient: [],
                 selectionTypeOV: [],
                 selectionLocalExp: "",
-                buttonStartEnabled: false,
+                buttonStartVisible: false,
+                buttonUpdateVisible: false,
                 State: {
                     selectionDateIn: {
                         Enabled: true,

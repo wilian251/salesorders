@@ -61,6 +61,11 @@
     margin-left: 0.5rem;
 }
 
+.contentFilter {
+    width: 100%;
+    max-width: 30rem;
+}
+
 .colorSuccess {
     align-items: center;
     justify-content: center;

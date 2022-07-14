@@ -10,70 +10,71 @@
 				<Panel backgroundDesign="Solid">
 					<content>
 						<VBox class="contentDTOVCCSELE">
-							<!--<VBox class="contentDatesSaleOrder">-->
-								<VBox>
-									<Label text="{i18n>mainFilterOrderDateIn}:" required="true"/>
-									<DatePicker
-										id="DateIn"
-										valueFormat="dd/MM/yyyy"
-										displayFormat="short"
-										placeholder="dd/mm/aaaa"
-										width="100%"
-										value="{filters>/selectionDateIn}"
-										valueState="{filters>/State/selectionDateIn/ValueState}"
-										valueStateText="{filters>/State/selectionDateIn/ValueStateText}"
-										enabled="{filters>/State/selectionDateIn/Enabled}"
-										visible="{filters>/State/selectionDateIn/Visible}"
-										change="onValidatedFieldsRequired"
-										required="true"
-									/>	
-								</VBox>
-								<!--class="contentDateUpUntil"-->
-								<VBox>
-									<Label text="{i18n>mainFilterOrderDateUpUntil}:" required="true"/>
-								
-									<DatePicker
-										id="DateUpUntil"
-										valueFormat="dd/MM/yyyy"
-										displayFormat="short"
-										placeholder="dd/mm/aaaa"
-										width="100%"
-										value="{filters>/selectionDateUpUntil}"
-										valueState="{filters>/State/selectionDateUpUntil/ValueState}"
-										valueStateText="{filters>/State/selectionDateUpUntil/ValueStateText}"
-										enabled="{filters>/State/selectionDateUpUntil/Enabled}"
-										visible="{filters>/State/selectionDateUpUntil/Visible}"
-										change="onValidatedFieldsRequired"
-										required="true"
-									/>
-								</VBox>
-							<!--</VBox>-->
+							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterOrderDateIn}:" required="true"/>
+								<DatePicker
+									id="DateIn"
+									valueFormat="dd/MM/yyyy"
+									displayFormat="short"
+									placeholder="dd/mm/aaaa"
+									width="100%"
+									value="{filters>/selectionDateIn}"
+									valueState="{filters>/State/selectionDateIn/ValueState}"
+									valueStateText="{filters>/State/selectionDateIn/ValueStateText}"
+									enabled="{filters>/State/selectionDateIn/Enabled}"
+									visible="{filters>/State/selectionDateIn/Visible}"
+									change="onValidatedFieldsRequired"
+									required="true"
+								/>	
+							</VBox>
+							
+							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterOrderDateUpUntil}:" required="true"/>
+							
+								<DatePicker
+									id="DateUpUntil"
+									valueFormat="dd/MM/yyyy"
+									displayFormat="short"
+									placeholder="dd/mm/aaaa"
+									width="100%"
+									value="{filters>/selectionDateUpUntil}"
+									valueState="{filters>/State/selectionDateUpUntil/ValueState}"
+									valueStateText="{filters>/State/selectionDateUpUntil/ValueStateText}"
+									enabled="{filters>/State/selectionDateUpUntil/Enabled}"
+									visible="{filters>/State/selectionDateUpUntil/Visible}"
+									change="onValidatedFieldsRequired"
+									required="true"
+								/>
+							</VBox>
 
-							<VBox>
+							<VBox class="contentFilter">
 								<Label text="{i18n>mainFilterSector}:" required="true"/>
-								<MultiComboBox
+								<ComboBox
 									id="Setor"
 									items="{
-										path: '/HTvakSet'
+										path: '/HTspaSet',
+										length: '5000'
 									}"
 									width="100%"
 									required="true"
-									selectedKeys="{filters>/selectionSetorAt}"
+									selectedKey="{filters>/selectionSetorAt}"
 									valueState="{filters>/State/selectionSetorAt/ValueState}"
 									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
 									enabled="{filters>/State/selectionSetorAt/Enabled}"
 									visible="{filters>/State/selectionSetorAt/Visible}"
+									change="onValidatedFieldsRequired"
 								>
-									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
-								</MultiComboBox>		
+									<core:Item key="{Spart}" text="{Spart} - {Vtext}"/>
+								</ComboBox>		
 							</VBox>
 
-							<VBox>
+							<VBox class="contentFilter">
 								<Label text="{i18n>mainFilterTypeOV}:"/>
 								<MultiComboBox
 									id="typeOV"
 									items="{
-										path: '/HTvakSet'
+										path: '/HTvakSet',
+										length: '5000'
 									}"
 									width="100%"
 									selectedKeys="{filters>/selectionTypeOV}"
@@ -86,12 +87,13 @@
 								</MultiComboBox>	
 							</VBox>
 
-							<VBox>
+							<VBox class="contentFilter">
 								<Label text="{i18n>mainFilterClientCode}:"/>
 								<MultiComboBox
 									id="codClient"
 									items="{
-										path: '/ZshCodclientSet'
+										path: '/ZshCodclientSet',
+										length: '5000'
 									}"
 									width="100%"
 									selectedKeys="{filters>/selectionClient}"
@@ -104,12 +106,13 @@
 								</MultiComboBox>		
 							</VBox>
 
-							<VBox>
+							<VBox class="contentFilter"> 
 								<Label text="{i18n>mainFilterDistributionChannel}:"/>
 								<MultiComboBox
 									id="CNLDIST"
 									items="{
-										path: '/HTvkovSet'
+										path: '/HTvkovSet',
+										length: '5000'
 									}"
 									width="100%"
 									selectedKeys="{filters>/selectionCanalDist}"
@@ -122,12 +125,13 @@
 								</MultiComboBox>		
 							</VBox>
 						
-							<VBox>
+							<!--<VBox visible="false">
 								<Label text="{i18n>mainFilterCompany}:"/>
 								<MultiComboBox
 									id="company"
 									items="{
-										path: '/ZshCompanySet'
+										path: '/ZshCompanySet',
+										length: '5000'
 									}"
 									width="100%"
 									selectedKeys="{filters>/selectionCompany}"
@@ -150,7 +154,9 @@
 									enabled="{filters>/State/selectionLocalExp/Enabled}"
 									visible="{filters>/State/selectionLocalExp/Visible}"
 								/>	
-							</VBox>
+							</VBox>-->
+
+							<VBox />
 
 							<VBox width="100%" alignItems="End">
 								<Label />
@@ -167,19 +173,25 @@
 				</Panel>
 
 				<content>
-					<Panel id="averageSalesOrders" visible="true" backgroundDesign="Transparent">
+					<Panel id="averageMediaSalesOrders" visible="false" backgroundDesign="Transparent">
 						<headerToolbar>
 							<Toolbar width="100%">
 								<Title text="{orderTexts>/headerTextTitle}" titleStyle="H4" visible="{orderTexts>/State/headerTextTitle/Visible}"/>									
 
 								<ToolbarSpacer/>
+
+								<Button 
+									text="{i18n>mainButtonMicroText}"
+									press="onPressMicro"
+								/>
+
 								<Button
 									icon="sap-icon://edit"
 									press="onPressEditLead"
 									type="Emphasized"
 								>
 									<dependents>
-										<Text text="{orders>Vbeln}"/>
+										<Text text="{filters>/selectionSetorAt}"/>
 									</dependents>
 								</Button>
 							</Toolbar>
@@ -190,8 +202,8 @@
 								<!-- Ordem de venda -->
 								<VBox id="saleOrder">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Saleorderformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageSalesOrderSLA}"/>
 									</VBox>
 
 									<VBox class="mainTitulo">
@@ -203,7 +215,7 @@
 											id="saleOrderIcon"
 											alt="{i18n>mainCycleSaleOrder}"
 											backgroundColor=""
-											color="{orders>SaleorderColor}"
+											color="{orders>/State/averageSalesOrder/color}"
 											size="64px"
 											src="sap-icon://write-new-document"
 										/>
@@ -214,7 +226,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageSalesOrder/ValueState}"
 											text="{orders>/averageSalesOrder}"
 											visible="{=${orders>/averageSalesOrder} === '' ? false : true}"
 										/>
@@ -228,8 +240,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageSalesOrder/ValueState}"
+											text="{orders>/averageSalesOrderDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -237,8 +249,8 @@
 								<!-- Crédito -->
 								<VBox id="credit">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Creditformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageCreditSLA}"/>
 									</VBox>
 
 									<VBox class="mainTitulo">
@@ -249,7 +261,7 @@
 										<core:Icon
 											id="creditIcon"
 											alt="{i18n>mainCycleCredit}"
-											color="{orders>CreditColor}"
+											color="{orders>/State/averageCredit/color}"
 											size="64px"
 											src="sap-icon://credit-card"
 										/>
@@ -260,7 +272,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageCredit/ValueState}"
 											text="{orders>/averageCredit}"
 											visible="{=${orders>/averageCredit} === '' ? false : true}"
 										/>
@@ -274,8 +286,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageCredit/ValueState}"
+											text="{orders>/averageCreditDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -283,8 +295,8 @@
 								<!-- Remessa -->
 								<VBox id="shipping">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Shippingformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageShippingSLA}"/>
 									</VBox>
 
 
@@ -296,7 +308,7 @@
 										<core:Icon
 											id="shippingIcon"
 											alt="{i18n>mainCycleShipping}"
-											color="{orders>ShippingColor}"
+											color="{orders>/State/averageShipping/color}"
 											size="64px"
 											src="sap-icon://course-program"
 										/>
@@ -307,7 +319,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageShipping/ValueState}"
 											text="{orders>/averageShipping}"
 											visible="{=${orders>/averageShipping} === '' ? false : true}"
 										/>
@@ -321,8 +333,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageShipping/ValueState}"
+											text="{orders>/averageShippingDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -330,8 +342,8 @@
 								<!-- Transporte -->
 								<VBox id="transport">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Transportformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageTransportSLA}"/>
 									</VBox>
 
 									<VBox class="mainTitulo">	
@@ -342,7 +354,7 @@
 										<core:Icon
 											id="transportIcon"
 											alt="{i18n>mainCycleTransport}"
-											color="{orders>TransportColor}"
+											color="{orders>/State/averageTransport/color}"
 											size="64px"
 											src="sap-icon://shipping-status"
 										/>
@@ -353,7 +365,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageTransport/ValueState}"
 											text="{orders>/averageTransport}"
 											visible="{=${orders>/averageTransport} === '' ? false : true}"
 										/>
@@ -367,8 +379,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageTransport/ValueState}"
+											text="{orders>/averageTransportDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -376,8 +388,8 @@
 								<!-- Faturamento -->
 								<VBox id="invoicing">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Invoicingformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageInvoicingSLA}"/>
 									</VBox>
 
 									<VBox class="mainTitulo">
@@ -388,7 +400,7 @@
 										<core:Icon
 											id="invoicingIcon"
 											alt="{i18n>mainCycleInvoicing}"
-											color="{orders>InvoicingColor}"
+											color="{orders>/State/averageInvoicing/color}"
 											size="64px"
 											src="sap-icon://monitor-payments"
 										/>
@@ -399,7 +411,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageInvoicing/ValueState}"
 											text="{orders>/averageInvoicing}"
 											visible="{=${orders>/averageInvoicing} === '' ? false : true}"
 										/>
@@ -413,8 +425,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageInvoicing/ValueState}"
+											text="{orders>/averageInvoicingDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -422,8 +434,8 @@
 								<!-- Total do Tempo -->
 								<VBox id="totalTime">
 									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>leadTimeTitle}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>Totalformattedlt}"/>
+										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+										<Text class="mainLeadText" text="{orders>/averageTotalSLA}"/>
 									</VBox>
 
 									<VBox class="mainTitulo">
@@ -434,7 +446,7 @@
 										<core:Icon
 											id="totalTimeIcon"
 											alt="{i18n>mainCycleTotal}"
-											color="{orders>TotalColor}"
+											color="{orders>/State/averageTotal/color}"
 											size="64px"
 											src="sap-icon://date-time"
 										/>
@@ -445,7 +457,7 @@
 											active="false"
 											icon="sap-icon://pending"
 											iconDensityAware="true"
-											state="Success"
+											state="{orders>/State/averageTotal/ValueState}"
 											text="{orders>/averageTotal}"
 											visible="{=${orders>/averageTotal} === '' ? false : true}"
 										/>
@@ -459,8 +471,8 @@
 											active="false"
 											icon=""
 											iconDensityAware="true"
-											state="Success"
-											text="{orders>totalTime/time}"
+											state="{orders>/State/averageTotal/ValueState}"
+											text="{orders>/averageTotalDiff}"
 										/>
 									</VBox>
 								</VBox>
@@ -468,7 +480,7 @@
 						</content>
 					</Panel>
 
-					<Panel id="panelSalesOrders">
+					<Panel id="panelTableSalesOrders" visible="false">
 
 						<content>
 							<Table 
@@ -492,6 +504,11 @@
 											icon="sap-icon://excel-attachment"
 											tooltip="{i18n>mainExportExcel}"
 											press="onExportExcel"
+										/>
+
+										<Button 
+											text="{i18n>mainButtonMacroText}"
+											press="onPressMacro"
 										/>
 									</Toolbar>
 								</headerToolbar>
@@ -522,6 +539,33 @@
 											<Text text="{i18n>mainTableSalesOrganization}"/>
 										</header>
 									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="Emissor da ordem"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="Tipo de documento de vendas"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="Nome do responsável"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="Data de Criação"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="Hora de Criação"/>
+										</header>
+									</Column>
+
+
 									<!--Ordem de Venda-->
 									<Column hAlign="Center" width="100%">
 										<header>
@@ -566,6 +610,12 @@
 											<Text text="{orders>CustomerReference}"/>
 											<Text text="{orders>CustomerReferenceDate}"/>
 											<Text text="{orders>SalesOrganization}"/>
+											<Text text="{orders>OrderIssuer}"/>
+											<Text text="{orders>SalesDocumentType}"/>
+											<Text text="{orders>Ernam}"/>
+											<Text text="{orders>Erdat}"/>
+											<Text text="{orders>Erzet}"/>
+						
 											<!--Ordem de venda-->
 											<ObjectStatus 
 												text="{orders>SaleorderFormatted}"
@@ -616,9 +666,15 @@
 						<ToolbarSpacer/>
 						<Button
 							icon="sap-icon://save"
+							text="Atualizar"
+							press="onPressUpdateLeadTime"
+							visible="{filters>/buttonUpdateVisible}"
+						/>
+						<Button
+							icon="sap-icon://save"
 							text="Gravar"
 							press="onPressSaveLeadTime"
-							enabled="{filters>/buttonStartEnabled}"
+							visible="{filters>/buttonStartVisible}"
 						/>
 						<Button
 							icon="sap-icon://cancel"

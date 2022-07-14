@@ -10,9 +10,9 @@
             <Toolbar>
                 <ObjectAttribute
                     active="false"
-                    text="{leadTime>/leadTime/Vbeln}"
+                    text="{leadTime>/leadTime/Spart} - {leadTime>/SpartDescription}"
                     textDirection="Inherit"
-                    title="{i18n>mainTableNumberDocument}"
+                    title="{i18n>mainFilterSector}"
                 />
             </Toolbar>
         </headerToolbar>

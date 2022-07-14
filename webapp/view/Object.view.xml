@@ -180,6 +180,8 @@
 
                             <Label text="{i18n>objectCustomerReferenceDate}"/>
                             <Text text="{orders>/CustomerReferenceDate}"/>
+
+                            
                         </f:content>      
                     </f:SimpleForm>                                     
                 </Panel>
@@ -207,6 +209,26 @@
                         <f:content>
                             <Label text="{i18n>objectSalesOrganization}"/>
                             <Text text="{orders>/SalesOrganization}"/>
+                            <Label text="{i18n>objectOrderIssuer}"/>
+                            <Text text="{orders>OrderIssuer}"/>
+                            <Label text="{i18n>objectSalesDocumentType}"/>
+                            <Text text="{orders>SalesDocumentType}"/>
+                        </f:content>      
+                    </f:SimpleForm>                                     
+                </Panel>
+                <Panel backgroundDesign="Transparent">
+                    <f:SimpleForm 
+                        id="SimpleStatusCreate"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        singleContainerFullSize="true">
+                        <f:content>
+                            <Label text="{i18n>objectErnam}"/>
+                            <Text text="{orders>Ernam}"/>
+                            <Label text="{i18n>objectErdat}"/>
+                            <Text text="{orders>Erdat}"/>
+                            <Label text="{i18n>objectErzet}"/>
+                            <Text text="{orders>Erzet}"/>
                         </f:content>      
                     </f:SimpleForm>                                     
                 </Panel>
@@ -223,12 +245,7 @@
                         <Toolbar>
                             <Title text="{i18n>objectHeaderTitle}" titleStyle="H2"/> 
                             <ToolbarSpacer/>
-                            <Button 
-                                id="ObjectEditLead"
-                                text="Editar Lead"
-                                icon="sap-icon://edit"
-                                press="onPressEditLead"
-                            />
+                            
                         </Toolbar>
                     </headerToolbar>
                     <f:SimpleForm id="SimpleFormLeadTime"
@@ -252,7 +269,7 @@
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
-                                state="Success"
+                                state="{orders>/SaleorderValueState}"
                                 text="{orders>/SaleorderFormatted}"
                                 visible="{=${orders>/SaleorderFormatted} === '' ? false : true}"
                             />
@@ -260,17 +277,17 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/SaleorderFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                            <!--<Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Saleorderformattedlt}"
-							/>
+							/>-->
                         
                             <core:Title text="{i18n>leadTimeShipping}"/>
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
-                                state="Information"
+                                state="{orders>/ShippingValueState}"
                                 text="{orders>/ShippingFormatted}"
                                 visible="{=${orders>/ShippingFormatted} === '' ? false : true}"
                             />
@@ -278,17 +295,17 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/ShippingFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                            <!--<Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Shippingformattedlt}"
-							/>  
+							/>  -->
 
                             <core:Title text="{i18n>leadTimeCredit}"/>
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
-                                state="Warning"
+                                state="{orders>/CreditValueState}"
                                 text="{orders>/CreditFormatted}"
                                 visible="{=${orders>/CreditFormatted} === '' ? false : true}"
                             />
@@ -296,17 +313,17 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/CreditFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                            <!--<Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Creditformattedlt}"
-							/>  
+							/>-->  
 
                             <core:Title text="{i18n>leadTimeTransport}"/>
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
-                                state="Information"
+                                state="{orders>/TransportValueState}"
                                 text="{orders>/TransportFormatted}"
                                 visible="{=${orders>/TransportFormatted} === '' ? false : true}"
                             />
@@ -314,17 +331,17 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/TransportFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                            <!--<Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Transportformattedlt}"
-							/>  
+							/>  -->
 
                             <core:Title text="{i18n>leadTimeInvoicing}"/>
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://pending"
-                                state="Error"
+                                state="{orders>/InvoicingValueState}"
                                 text="{orders>/InvoicingFormatted}"
                                 visible="{=${orders>/InvoicingFormatted} === '' ? false : true}"
                             />
@@ -332,17 +349,17 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/InvoicingFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                           <!-- <Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Invoicingformattedlt}"
-							/>  
+							/>  -->
 
                             <core:Title text="{i18n>leadTimeTotal}"/>
                             <Label text="{i18n>leadTimeDateHourElapsedTimeFormatted}"/>
                             <ObjectStatus
                                 icon="sap-icon://date-time"
-                                state="Warning"
+                                state="{orders>/TotalValueState}"
                                 text="{orders>/TotalFormatted}"
                                 visible="{=${orders>/TotalFormatted} === '' ? false : true}"
                             />
@@ -350,11 +367,11 @@
                                 text="{i18n>mainLeadTimeCycleNotStarted}" 
                                 visible="{=${orders>/TotalFormatted} === '' ? true : false}"
                             />
-                            <Label text="{i18n>leadTimeDateHourFormatted}"/>
+                            <!--<Label text="{i18n>leadTimeDateHourFormatted}"/>
                             <ObjectStatus
 								state="Success"
 								text="{orders>/Totalformattedlt}"
-							/>                 
+							/>      -->           
                         </f:content>      
                     </f:SimpleForm>
                 </Panel>
