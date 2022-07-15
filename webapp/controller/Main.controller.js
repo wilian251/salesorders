@@ -159,13 +159,6 @@ sap.ui.define([
                         oModel.leadTime.TransportMin       = oData.TransportMin;
                         oModel.leadTime.TransportSec       = oData.TransportSec;
 
-                        let oModelFilters = this.getModel("filters").getData();
-
-                        //if(oData.SaleorderDays != "") oModelFilters.buttonUpdateVisible = true; 
-                        //else oModelFilters.buttonStartVisible = true;
-
-                        this.getModel("filters").refresh(true);
-
                         this.getModel("leadTime").refresh(true);
 
                         this.setAppBusy(false);
@@ -525,7 +518,7 @@ sap.ui.define([
 
                 this.getModel("leadTime").refresh(true);
 
-                this.getModel("filters").getData().buttonStartVisible = bValid
+                this.getModel("filters").getData().buttonSaveVisible = bValid
                 this.getModel("filters").refresh(true);
 
                 
@@ -540,10 +533,12 @@ sap.ui.define([
                     oTypeOV    = this._resetFilterToAbap(oModel.selectionTypeOV),
                     oCodClient = this._resetFilterToAbap(oModel.selectionClient),
                     oCNLDist   = this._resetFilterToAbap(oModel.selectionCanalDist),
+                    oSalesOrg  = oModel.selectionSalesOrg,
                     oSetorAt   = oModel.selectionSetorAt;
 
                 this.getModel().callFunction("/ListSalesOrderTime", {
                     urlParameters: {
+                        IV_SALESORG: oSalesOrg,
                         IV_SETORAT: oSetorAt,
                         IV_CNLDIST: oCNLDist,
                         IV_DATEORDER: oDateOrder,
@@ -866,13 +861,14 @@ sap.ui.define([
                             this.byId("totalTime").addStyleClass(oTotal.class);
 
                             //SLA cadastrado pelo usuário
-                            oModel.averageCreditSLA     = `${oData.results[0].CreditDays} dias ${oData.results[0].CreditHours} Horas ${oData.results[0].CreditMin} Min e ${oData.results[0].CreditSec} Seg`;
-                            oModel.averageInvoicingSLA  = `${oData.results[0].InvoicingDays} dias ${oData.results[0].InvoicingHours} Horas ${oData.results[0].InvoicingMin} Min e ${oData.results[0].InvoicingSec} Seg`;
-                            oModel.averageSalesOrderSLA = `${oData.results[0].SaleorderDays} dias ${oData.results[0].SaleorderHours} Horas ${oData.results[0].SaleorderMin} Min e ${oData.results[0].SaleorderSec} Seg`;
-                            oModel.averageShippingSLA   = `${oData.results[0].ShippingDays} dias ${oData.results[0].ShippingHours} Horas ${oData.results[0].ShippingMin} Min e ${oData.results[0].ShippingSec} Seg`;
-                            oModel.averageTotalSLA      = `${oData.results[0].TotalDays} dias ${oData.results[0].TotalHours} Horas ${oData.results[0].TotalMin} Min e ${oData.results[0].TotalSec} Seg`;
-                            oModel.averageTransportSLA  = `${oData.results[0].TransportDays} dias ${oData.results[0].TransportHours} Horas ${oData.results[0].TransportMin} Min e ${oData.results[0].TransportSec} Seg`;
-
+                            if(oData.results[0].SaleorderDays != ""){
+                                oModel.averageCreditSLA     = `${oData.results[0].CreditDays} dias ${oData.results[0].CreditHours} Horas ${oData.results[0].CreditMin} Min e ${oData.results[0].CreditSec} Seg`;
+                                oModel.averageInvoicingSLA  = `${oData.results[0].InvoicingDays} dias ${oData.results[0].InvoicingHours} Horas ${oData.results[0].InvoicingMin} Min e ${oData.results[0].InvoicingSec} Seg`;
+                                oModel.averageSalesOrderSLA = `${oData.results[0].SaleorderDays} dias ${oData.results[0].SaleorderHours} Horas ${oData.results[0].SaleorderMin} Min e ${oData.results[0].SaleorderSec} Seg`;
+                                oModel.averageShippingSLA   = `${oData.results[0].ShippingDays} dias ${oData.results[0].ShippingHours} Horas ${oData.results[0].ShippingMin} Min e ${oData.results[0].ShippingSec} Seg`;
+                                oModel.averageTotalSLA      = `${oData.results[0].TotalDays} dias ${oData.results[0].TotalHours} Horas ${oData.results[0].TotalMin} Min e ${oData.results[0].TotalSec} Seg`;
+                                oModel.averageTransportSLA  = `${oData.results[0].TransportDays} dias ${oData.results[0].TransportHours} Horas ${oData.results[0].TransportMin} Min e ${oData.results[0].TransportSec} Seg`;
+                            }
                         }
 
                         oModel.items = oItems;
@@ -893,22 +889,29 @@ sap.ui.define([
             },
 
             onValidatedFieldsRequired: function(oEvent){
-                let oModel      = this.getModel("filters").getData(),
-                    aFieldClass = ["selectionDateIn", "selectionDateUpUntil"],
-                    oId         = oEvent.getParameter("id"),
-                    oPosition   = oId.indexOf("Setor"),
-                    bValid      = false,
-                    bValidSetor = false;
+                let oModel           = this.getModel("filters").getData(),
+                    aFieldClass      = ["selectionSalesOrg", "selectionSetorAt", "selectionDateIn", "selectionDateUpUntil"],
+                    oId              = oEvent.getParameter("id"),
+                    oPositionSaleOrg = oId.indexOf("SaleOrg"),
+                    oPositionCNLDIST = oId.indexOf("SaleOrg"),
+                    bValid           = false;
 
-                if(oModel.selectionSetorAt === "") {
-                    oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.Error;
-                    oModel.State.selectionSetorAt.ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
-                }else{
-                    oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.None;
-                    oModel.State.selectionSetorAt.ValueStateText = "";
+                if(oPositionSaleOrg != -1){
+                    let oFilter = new Filter({
+                            and: true,
+                            filters: [ 
+                                new Filter("Vkorg", FilterOperator.EQ, oModel.selectionSalesOrg),
+                                new Filter("Vtweg", FilterOperator.EQ, "10") 
+                            ]
+                        });
 
-                    bValidSetor = true;
+                    this.byId("Setor").getBinding("items").filter(oFilter);
+                    this.byId("CNLDIST").getBinding("items").filter(new Filter("Vkorg", FilterOperator.EQ, oModel.selectionSalesOrg));
+                    this.byId("typeOV").getBinding("items").filter(new Filter("Auart", FilterOperator.StartsWith, "Z"));
+                }else if(oPositionCNLDIST != -1){
+                    this.byId("Setor").getBinding("items").filter(new Filter("Vtweg", FilterOperator.EQ, oModel.selectionCanalDist[0]));
                 }
+                
                
                 aFieldClass.forEach(sField => {
                     if(oModel[sField].length === 0 || oModel[sField] === "") {
@@ -922,22 +925,11 @@ sap.ui.define([
                     }
                 });
 
-                /*if(oPosition != -1){
-                    if(oValueSetor === ""){
-                        oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.Error;
-                        oModel.State.selectionSetorAt.ValueStateText = this.getResourceBundle().getText("validationFieldRequired");
-                    }else{
-                        oModel.State.selectionSetorAt.ValueState     = sap.ui.core.ValueState.None;
-                        oModel.State.selectionSetorAt.ValueStateText = "";
 
-                        bValidSetor = true;
-                    }
-                }*/
-
-                if(bValid && bValidSetor){
-                    oModel.buttonStartVisible = true;
+                if(bValid){
+                    oModel.buttonStartEnabled = true;
                 }else{
-                    oModel.buttonStartVisible = false;
+                    oModel.buttonStartEnabled = false;
                 }
 
                 this.getModel("filters").refresh(true);
@@ -1111,6 +1103,12 @@ sap.ui.define([
                     oResultHours, // sModelSLA.hours   - sModel.hours,
                     oResultMin,   // sModelSLA.minutes - sModel.minutes,
                     oResultSec;   // sModelSLA.seconds - sModel.seconds;
+
+                let oNumberSLA = Number(`${sModelSLA.days}${String(sModelSLA.hours).padStart(2, "0")}${String(sModelSLA.minutes).padStart(2, "0")}${String(sModelSLA.seconds).padStart(2, "0")}`),
+                    oNumber    = Number(`${sModel.days}${String(sModel.hours).padStart(2, "0")}${String(sModel.minutes).padStart(2, "0")}${String(sModel.seconds).padStart(2, "0")}`),
+                    oResult    = oNumber - oNumberSLA;
+
+                    console.log(oResult);
 
                 if(sModelSLA.seconds < sModel.seconds){
                     sModelSLA.minutes = sModelSLA.minutes - 1;

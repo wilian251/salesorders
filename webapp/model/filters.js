@@ -6,6 +6,7 @@ sap.ui.define([
 	return {
 		initSelectionModel: function() {
 			return {
+                selectionSalesOrg: "",
                 selectionDateIn: "",
                 selectionDateUpUntil: "",
                 selectionCompany: [],
@@ -14,9 +15,16 @@ sap.ui.define([
                 selectionClient: [],
                 selectionTypeOV: [],
                 selectionLocalExp: "",
-                buttonStartVisible: false,
+                buttonStartEnabled: false,
+                buttonSaveVisible: false,
                 buttonUpdateVisible: false,
                 State: {
+                    selectionSalesOrg: {
+                        Enabled: true,
+						Visible: true,
+                        ValueState: sap.ui.core.ValueState.None,
+                        ValueStateText: ""
+                    },
                     selectionDateIn: {
                         Enabled: true,
 						Visible: true,

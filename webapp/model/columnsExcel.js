@@ -66,38 +66,62 @@ sap.ui.define([
                     width: "8rem"
                 },
                 {
-                    label: "Ordem de Venda",
-				    property: "SaleorderFormatted",
+                    label: "Pedido venda Inicio",
+				    property: "Saleorder",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Crédito",
-				    property: "CreditFormatted",
+                    label: "Pedido venda Final",
+				    property: "SaleorderFinish",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Remessa",
-				    property: "ShippingFormatted",
+                    label: "Crédito Inicio",
+				    property: "Credit",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Transporte",
-				    property: "TransportFormatted",
+                    label: "Crédito Final",
+				    property: "CreditFinish",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Remessa Inicio",
+				    property: "Shipping",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Remessa Final",
+				    property: "ShippingFinish",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Transporte Inicio",
+				    property: "Transport",
 					type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Faturamento",
-				    property: "InvoicingFormatted",
+                    label: "Transporte Final",
+				    property: "TransportFinish",
 					type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Total do Tempo",
-				    property: "TotalFormatted",
+                    label: "Faturamento Inicio",
+				    property: "Invoicing",
+					type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Faturamento Final",
+				    property: "InvoicingFinish",
 					type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 }

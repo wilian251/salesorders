@@ -11,6 +11,105 @@
 					<content>
 						<VBox class="contentDTOVCCSELE">
 							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterSalesOrganization}:" required="true"/>
+								<ComboBox
+									id="SaleOrg"
+									items="{
+										path: '/HTvkoSet',
+										length: '5000'
+									}"
+									width="100%"
+									required="true"
+									selectedKey="{filters>/selectionSalesOrg}"
+									valueState="{filters>/State/selectionSalesOrg/ValueState}"
+									valueStateText="{filters>/State/selectionSalesOrg/ValueStateText}"
+									enabled="{filters>/State/selectionSalesOrg/Enabled}"
+									visible="{filters>/State/selectionSalesOrg/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Vkorg}" text="{Vkorg} - {Vtext}"/>
+								</ComboBox>		
+							</VBox>
+
+							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterSector}:" required="true"/>
+								<ComboBox
+									id="Setor"
+									items="{
+										path: '/HTvtaSet',
+										length: '5000'
+									}"
+									width="100%"
+									required="true"
+									selectedKey="{filters>/selectionSetorAt}"
+									valueState="{filters>/State/selectionSetorAt/ValueState}"
+									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
+									enabled="{filters>/State/selectionSetorAt/Enabled}"
+									visible="{filters>/State/selectionSetorAt/Visible}"
+									change="onValidatedFieldsRequired"
+								>
+									<core:Item key="{Spart}" text="{Vkorg} - {Spart} - {VtextSpa}"/>
+								</ComboBox>		
+							</VBox>
+
+							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterTypeOV}:"/>
+								<MultiComboBox
+									id="typeOV"
+									items="{
+										path: '/HTvakSet',
+										length: '5000'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionTypeOV}"
+									valueState="{filters>/State/selectionTypeOV/ValueState}"
+									valueStateText="{filters>/State/selectionTypeOV/ValueStateText}"
+									enabled="{filters>/State/selectionTypeOV/Enabled}"
+									visible="{filters>/State/selectionTypeOV/Visible}"
+								>
+									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
+								</MultiComboBox>	
+							</VBox>
+
+							<VBox class="contentFilter"> 
+								<Label text="{i18n>mainFilterDistributionChannel}:"/>
+								<MultiComboBox
+									id="CNLDIST"
+									items="{
+										path: '/HTvkovSet',
+										length: '5000'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionCanalDist}"
+									valueState="{filters>/State/selectionCanalDist/ValueState}"
+									valueStateText="{filters>/State/selectionCanalDist/ValueStateText}"
+									enabled="{filters>/State/selectionCanalDist/Enabled}"
+									visible="{filters>/State/selectionCanalDist/Visible}"
+								>
+									<core:Item key="{Vtweg}" text="{Vkorg} - {Vtweg} - {Vtext}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox class="contentFilter">
+								<Label text="{i18n>mainFilterClientCode}:"/>
+								<MultiComboBox
+									id="codClient"
+									items="{
+										path: '/ZshCodclientSet',
+										length: '5000'
+									}"
+									width="100%"
+									selectedKeys="{filters>/selectionClient}"
+									valueState="{filters>/State/selectionClient/ValueState}"
+									valueStateText="{filters>/State/selectionClient/ValueStateText}"
+									enabled="{filters>/State/selectionClient/Enabled}"
+									visible="{filters>/State/selectionClient/Visible}"
+								>
+									<core:Item key="{Kunnr}" text="{Kunnr} - {Name1}"/>
+								</MultiComboBox>		
+							</VBox>
+
+							<VBox class="contentFilter">
 								<Label text="{i18n>mainFilterOrderDateIn}:" required="true"/>
 								<DatePicker
 									id="DateIn"
@@ -46,86 +145,8 @@
 									required="true"
 								/>
 							</VBox>
-
-							<VBox class="contentFilter">
-								<Label text="{i18n>mainFilterSector}:" required="true"/>
-								<ComboBox
-									id="Setor"
-									items="{
-										path: '/HTspaSet',
-										length: '5000'
-									}"
-									width="100%"
-									required="true"
-									selectedKey="{filters>/selectionSetorAt}"
-									valueState="{filters>/State/selectionSetorAt/ValueState}"
-									valueStateText="{filters>/State/selectionSetorAt/ValueStateText}"
-									enabled="{filters>/State/selectionSetorAt/Enabled}"
-									visible="{filters>/State/selectionSetorAt/Visible}"
-									change="onValidatedFieldsRequired"
-								>
-									<core:Item key="{Spart}" text="{Spart} - {Vtext}"/>
-								</ComboBox>		
-							</VBox>
-
-							<VBox class="contentFilter">
-								<Label text="{i18n>mainFilterTypeOV}:"/>
-								<MultiComboBox
-									id="typeOV"
-									items="{
-										path: '/HTvakSet',
-										length: '5000'
-									}"
-									width="100%"
-									selectedKeys="{filters>/selectionTypeOV}"
-									valueState="{filters>/State/selectionTypeOV/ValueState}"
-									valueStateText="{filters>/State/selectionTypeOV/ValueStateText}"
-									enabled="{filters>/State/selectionTypeOV/Enabled}"
-									visible="{filters>/State/selectionTypeOV/Visible}"
-								>
-									<core:Item key="{Auart}" text="{Auart} - {Bezei}"/>
-								</MultiComboBox>	
-							</VBox>
-
-							<VBox class="contentFilter">
-								<Label text="{i18n>mainFilterClientCode}:"/>
-								<MultiComboBox
-									id="codClient"
-									items="{
-										path: '/ZshCodclientSet',
-										length: '5000'
-									}"
-									width="100%"
-									selectedKeys="{filters>/selectionClient}"
-									valueState="{filters>/State/selectionClient/ValueState}"
-									valueStateText="{filters>/State/selectionClient/ValueStateText}"
-									enabled="{filters>/State/selectionClient/Enabled}"
-									visible="{filters>/State/selectionClient/Visible}"
-								>
-									<core:Item key="{Kunnr}" text="{Kunnr} - {Name1}"/>
-								</MultiComboBox>		
-							</VBox>
-
-							<VBox class="contentFilter"> 
-								<Label text="{i18n>mainFilterDistributionChannel}:"/>
-								<MultiComboBox
-									id="CNLDIST"
-									items="{
-										path: '/HTvkovSet',
-										length: '5000'
-									}"
-									width="100%"
-									selectedKeys="{filters>/selectionCanalDist}"
-									valueState="{filters>/State/selectionCanalDist/ValueState}"
-									valueStateText="{filters>/State/selectionCanalDist/ValueStateText}"
-									enabled="{filters>/State/selectionCanalDist/Enabled}"
-									visible="{filters>/State/selectionCanalDist/Visible}"
-								>
-									<core:Item key="{Vtweg}" text="{Vtweg} - {Vtext}"/>
-								</MultiComboBox>		
-							</VBox>
 						
-							<!--<VBox visible="false">
+							<!--<VBox class="contentFilter">
 								<Label text="{i18n>mainFilterCompany}:"/>
 								<MultiComboBox
 									id="company"
@@ -155,8 +176,6 @@
 									visible="{filters>/State/selectionLocalExp/Visible}"
 								/>	
 							</VBox>-->
-
-							<VBox />
 
 							<VBox width="100%" alignItems="End">
 								<Label />
@@ -569,31 +588,56 @@
 									<!--Ordem de Venda-->
 									<Column hAlign="Center" width="100%">
 										<header>
-											<Text text="{i18n>mainCycleSaleOrder}"/>
+											<Text text="{i18n>mainTableSaleOrderStart}"/>
 										</header>
 									</Column>
-									<!--Remessa-->
 									<Column hAlign="Center" width="100%">
 										<header>
-											<Text text="{i18n>mainCycleShipping}"/>
+											<Text text="{i18n>mainTableSaleOrderFinal}"/>
 										</header>
 									</Column>
 									<!--Crédito-->
 									<Column hAlign="Center" width="100%">
 										<header>
-											<Text text="{i18n>mainCycleCredit}"/>
+											<Text text="{i18n>mainTableCreditStart}"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="{i18n>mainTableCreditFinal}"/>
+										</header>
+									</Column>
+									<!--Remessa-->
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="{i18n>mainTableShippingStart}"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="{i18n>mainTableShippingFinal}"/>
 										</header>
 									</Column>
 									<!--Transporte-->
 									<Column hAlign="Center" width="100%">
 										<header>
-											<Text text="{i18n>mainCycleTransport}"/>
+											<Text text="{i18n>mainTableTransportStart}"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="{i18n>mainTableTransportFinal}"/>
 										</header>
 									</Column>
 									<!--Faturamento-->
 									<Column hAlign="Center" width="100%">
 										<header>
-											<Text text="{i18n>mainCycleInvoicing}"/>
+											<Text text="{i18n>mainTableInvoicingStart}"/>
+										</header>
+									</Column>
+									<Column hAlign="Center" width="100%">
+										<header>
+											<Text text="{i18n>mainTableInvoicingFinal}"/>
 										</header>
 									</Column>
 								</columns>
@@ -617,35 +661,20 @@
 											<Text text="{orders>Erzet}"/>
 						
 											<!--Ordem de venda-->
-											<ObjectStatus 
-												text="{orders>SaleorderFormatted}"
-												icon="sap-icon://pending"
-												state="{orders>SaleorderValueState}"
-											/>
-											<!--Remessa-->
-											<ObjectStatus 
-												text="{orders>ShippingFormatted}"
-												icon="sap-icon://pending"
-												state="{orders>ShippingValueState}"
-											/>
+											<Text text="{orders>Saleorder}"/>
+											<Text text="{orders>SaleorderFinish}"/>
 											<!--Crédito-->
-											<ObjectStatus 
-												text="{orders>CreditFormatted}"
-												icon="sap-icon://pending"
-												state="{orders>CreditValueState}"
-											/>
+											<Text text="{orders>Credit}"/>
+											<Text text="{orders>CreditFinish}"/>
+											<!--Remessa-->
+											<Text text="{orders>Shipping}"/>
+											<Text text="{orders>ShippingFinish}"/>
 											<!--Transporte-->
-											<ObjectStatus 
-												text="{orders>TransportFormatted}"
-												icon="sap-icon://pending"
-												state="{orders>TransportValueState}"
-											/>
+											<Text text="{orders>Transport}"/>
+											<Text text="{orders>TransportFinish}"/>
 											<!--Faturamento-->
-											<ObjectStatus 
-												text="{orders>InvoicingFormatted}"
-												icon="sap-icon://pending"
-												state="{orders>InvoicingValueState}"
-											/>
+											<Text text="{orders>Invoicing}"/>
+											<Text text="{orders>InvoicingFinish}"/>
 										</cells>
 									</ColumnListItem>
 								</items>
@@ -674,7 +703,7 @@
 							icon="sap-icon://save"
 							text="Gravar"
 							press="onPressSaveLeadTime"
-							visible="{filters>/buttonStartVisible}"
+							visible="{filters>/buttonSaveVisible}"
 						/>
 						<Button
 							icon="sap-icon://cancel"
