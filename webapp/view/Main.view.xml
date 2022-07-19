@@ -1,6 +1,7 @@
 <mvc:View 
 	xmlns:mvc="sap.ui.core.mvc" 
 	xmlns="sap.m"
+	xmlns:ui="sap.ui.table"
 	xmlns:core="sap.ui.core"
 	controllerName="com.thera.ajinomoto.salesorders.controller.Main" 
 	displayBlock="true">
@@ -208,6 +209,7 @@
 									icon="sap-icon://edit"
 									press="onPressEditLead"
 									type="Emphasized"
+									text="{i18n>mainEditLeadTime}"
 								>
 									<dependents>
 										<Text text="{filters>/selectionSetorAt}"/>
@@ -255,13 +257,15 @@
 											visible="{=${orders>/averageSalesOrder} === '' ? true : false}"
 										/>
 
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageSalesOrder/ValueState}"
-											text="{orders>/averageSalesOrderDiff}"
-										/>
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageSalesOrder/ValueState}"
+												text="{orders>/averageSalesOrderDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 
@@ -300,14 +304,16 @@
 											text="{i18n>mainLeadTimeCycleNotStarted}" 
 											visible="{=${orders>/averageCredit} === '' ? true : false}"
 										/> 
-
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageCredit/ValueState}"
-											text="{orders>/averageCreditDiff}"
-										/>
+										
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageCredit/ValueState}"
+												text="{orders>/averageCreditDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 
@@ -347,14 +353,16 @@
 											text="{i18n>mainLeadTimeCycleNotStarted}" 
 											visible="{=${orders>/averageShipping} === '' ? true : false}"
 										/>
-								
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageShipping/ValueState}"
-											text="{orders>/averageShippingDiff}"
-										/>
+
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageShipping/ValueState}"
+												text="{orders>/averageShippingDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 
@@ -394,13 +402,15 @@
 											visible="{=${orders>/averageTransport} === '' ? true : false}"
 										/> 
 
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageTransport/ValueState}"
-											text="{orders>/averageTransportDiff}"
-										/>
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageTransport/ValueState}"
+												text="{orders>/averageTransportDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 
@@ -439,14 +449,16 @@
 											text="{i18n>mainLeadTimeCycleNotStarted}" 
 											visible="{=${orders>/averageInvoicing} === '' ? true : false}"
 										/> 
-
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageInvoicing/ValueState}"
-											text="{orders>/averageInvoicingDiff}"
-										/>
+										
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageInvoicing/ValueState}"
+												text="{orders>/averageInvoicingDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 
@@ -486,13 +498,15 @@
 											visible="{=${orders>/averageTotal} === '' ? true : false}"
 										/>
 
-										<ObjectStatus
-											active="false"
-											icon=""
-											iconDensityAware="true"
-											state="{orders>/State/averageTotal/ValueState}"
-											text="{orders>/averageTotalDiff}"
-										/>
+										<VBox class="timeDiff">
+											<ObjectStatus
+												active="false"
+												icon=""
+												iconDensityAware="true"
+												state="{orders>/State/averageTotal/ValueState}"
+												text="{orders>/averageTotalDiff}"
+											/>
+										</VBox>
 									</VBox>
 								</VBox>
 							</VBox>

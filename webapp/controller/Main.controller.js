@@ -322,55 +322,55 @@ sap.ui.define([
                         
                         let oSaleOrder = this._calculateTheDifferenceDays(oModel.averageSalesOrderDateHours, 
                             {
-                                days: oData.SaleorderDays,
-                                hours: oData.SaleorderHours,
-                                minutes: oData.SaleorderMin,
-                                seconds: oData.SaleorderSec
+                                days: Number(oData.SaleorderDays),
+                                hours: Number(oData.SaleorderHours),
+                                minutes: Number(oData.SaleorderMin),
+                                seconds: Number(oData.SaleorderSec)
                             }
                         );
 
                         let oShipping = this._calculateTheDifferenceDays(oModel.averageShippingDateHours, 
                             {
-                                days: oData.ShippingDays,
-                                hours: oData.ShippingHours,
-                                minutes: oData.ShippingMin,
-                                seconds: oData.ShippingSec
+                                days: Number(oData.ShippingDays),
+                                hours: Number(oData.ShippingHours),
+                                minutes: Number(oData.ShippingMin),
+                                seconds: Number(oData.ShippingSec)
                             }
                         );
 
                         let oCredit = this._calculateTheDifferenceDays(oModel.averageCreditDateHours, 
                             {
-                                days: oData.CreditDays,
-                                hours: oData.CreditHours,
-                                minutes: oData.CreditMin,
-                                seconds: oData.CreditSec
+                                days: Number(oData.CreditDays),
+                                hours: Number(oData.CreditHours),
+                                minutes: Number(oData.CreditMin),
+                                seconds: Number(oData.CreditSec)
                             }
                         );
 
                         let oTransport = this._calculateTheDifferenceDays(oModel.averageTransportDateHours, 
                             {
-                                days: oData.TransportDays,
-                                hours: oData.TransportHours,
-                                minutes: oData.TransportMin,
-                                seconds: oData.TransportSec
+                                days: Number(oData.TransportDays),
+                                hours: Number(oData.TransportHours),
+                                minutes: Number(oData.TransportMin),
+                                seconds: Number(oData.TransportSec)
                             }
                         );
 
                         let oInvoicing = this._calculateTheDifferenceDays(oModel.averageInvoicingDateHours, 
                             {
-                                days: oData.InvoicingDays,
-                                hours: oData.InvoicingHours,
-                                minutes: oData.InvoicingMin,
-                                seconds: oData.InvoicingSec
+                                days: Number(oData.InvoicingDays),
+                                hours: Number(oData.InvoicingHours),
+                                minutes: Number(oData.InvoicingMin),
+                                seconds: Number(oData.InvoicingSec)
                             }
                         );
 
                         let oTotal = this._calculateTheDifferenceDays(oModel.averageTotalDateHours, 
                             {
-                                days: oData.TotalDays,
-                                hours: oData.TotalHours,
-                                minutes: oData.TotalMin,
-                                seconds: oData.TotalSec
+                                days: Number(oData.TotalDays),
+                                hours: Number(oData.TotalHours),
+                                minutes: Number(oData.TotalMin),
+                                seconds: Number(oData.TotalSec)
                             }
                         );
 
@@ -1001,11 +1001,11 @@ sap.ui.define([
             },
 
             _calculateTheDifferenceDays: function(sModel, sModelSLA){
-                if(sModel.days    != 0 &&
+                /*if(sModel.days    != 0 &&
                    sModel.hours   != 0 &&
                    sModel.minutes != 0 &&
                    sModel.seconds != 0 )
-                {
+                {*/
 
                     let { oResultDays, oResultHours, oResultMin, oResultSec } = this._calculateTheTime(sModel, sModelSLA);
 
@@ -1082,7 +1082,7 @@ sap.ui.define([
                             }
                         }
                     }
-                }else{
+                /*}else{
                     return {
                         dateHours: {
                             days: sModelSLA.days,
@@ -1095,7 +1095,7 @@ sap.ui.define([
                         class: "colorSuccess",
                         dateHourFormatted: `${sModelSLA.days} dias ${sModelSLA.hours} Horas ${sModelSLA.minutes} Min e ${sModelSLA.seconds} Seg`
                     };
-                }
+                }*/
             },
 
             _calculateTheTime: function(sModel, sModelSLA){
@@ -1104,11 +1104,17 @@ sap.ui.define([
                     oResultMin,   // sModelSLA.minutes - sModel.minutes,
                     oResultSec;   // sModelSLA.seconds - sModel.seconds;
 
-                let oNumberSLA = Number(`${sModelSLA.days}${String(sModelSLA.hours).padStart(2, "0")}${String(sModelSLA.minutes).padStart(2, "0")}${String(sModelSLA.seconds).padStart(2, "0")}`),
+                /*let oNumberSLA = Number(`${sModelSLA.days}${String(sModelSLA.hours).padStart(2, "0")}${String(sModelSLA.minutes).padStart(2, "0")}${String(sModelSLA.seconds).padStart(2, "0")}`),
                     oNumber    = Number(`${sModel.days}${String(sModel.hours).padStart(2, "0")}${String(sModel.minutes).padStart(2, "0")}${String(sModel.seconds).padStart(2, "0")}`),
-                    oResult    = oNumber - oNumberSLA;
+                    oResult    = `${oNumberSLA - oNumber}`;
 
-                    console.log(oResult);
+                oResultDays  = oResult.substring(0, oResult.length - 6);
+                oResultHours = oResult.substring(oResult.length - 6, oResult.length - 4);
+                oResultMin   = oResult.substring(oResult.length - 4, oResult.length -2);
+                oResultSec   = oResult.substring(oResult.length - 2, oResult.length);*/
+
+                
+                //console.log(oResult);
 
                 if(sModelSLA.seconds < sModel.seconds){
                     sModelSLA.minutes = sModelSLA.minutes - 1;
@@ -1139,11 +1145,13 @@ sap.ui.define([
 
                 oResultDays = sModelSLA.days - sModel.days;
 
+                let oResultFinal = this._validTheTime(Number(oResultDays), Number(oResultHours), Number(oResultMin), Number(oResultSec));
+
                 return {
-                    oResultDays: Number(oResultDays),
-                    oResultHours: Number(oResultHours),
-                    oResultMin: Number(oResultMin),
-                    oResultSec: Number(oResultSec)
+                    oResultDays: Number(oResultFinal.dateHours.days),
+                    oResultHours: Number(oResultFinal.dateHours.hours),
+                    oResultMin: Number(oResultFinal.dateHours.minutes),
+                    oResultSec: Number(oResultFinal.dateHours.seconds)
                 }
             },
 
