@@ -56,11 +56,12 @@ sap.ui.define([
 
             onSearch: function(oEvent){
                 let oTable   = this.byId("tableSalesOrders"),
-                    oBinding = oTable.getBinding("items");
+                    oBinding = oTable.getBinding(),
+                    oTitle   = "";
 
                 if (oEvent.getParameters().refreshButtonPressed){
                     oBinding.refresh(true);
-                } else {
+                }else{
                     let aTableSearchState = [];
                     let sQuery 			  = oEvent.getParameter("query");
 
@@ -68,10 +69,34 @@ sap.ui.define([
                         aTableSearchState = new Filter({
                             and: false,
                             filters: [
-                                new Filter("Vbeln",             FilterOperator.Contains, sQuery),
-                                new Filter("CompanyName",       FilterOperator.Contains, sQuery),
-                                new Filter("CustomerReference", FilterOperator.Contains, sQuery),
-                                new Filter("SalesOrganization", FilterOperator.Contains, sQuery)
+                                new Filter("Vbeln",                FilterOperator.Contains, sQuery),
+                                new Filter("CompanyName",          FilterOperator.Contains, sQuery),
+                                new Filter("CustomerReference",    FilterOperator.Contains, sQuery),
+                                new Filter("SalesOrganization",    FilterOperator.Contains, sQuery),
+                                new Filter("Erdat",                FilterOperator.Contains, sQuery),
+                                new Filter("ErdatItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Erzet",                FilterOperator.Contains, sQuery),
+                                new Filter("ErzetItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Ernam",                FilterOperator.Contains, sQuery),
+                                new Filter("ErnamItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Kwmeng",               FilterOperator.Contains, sQuery),
+                                new Filter("Lifsk",                FilterOperator.Contains, sQuery),
+                                new Filter("OrderIssuer",          FilterOperator.Contains, sQuery),
+                                new Filter("PosnrItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Spart",                FilterOperator.Contains, sQuery),
+                                new Filter("TypeItem",             FilterOperator.Contains, sQuery),
+                                new Filter("VbelnItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Vtweg",                FilterOperator.Contains, sQuery),
+                                new Filter("SaleOrderDateInitial", FilterOperator.Contains, sQuery),
+                                new Filter("SaleOrderDateFinal",   FilterOperator.Contains, sQuery),
+                                new Filter("CreditDateInitial",    FilterOperator.Contains, sQuery),
+                                new Filter("CreditDateFinal",      FilterOperator.Contains, sQuery),
+                                new Filter("ShippingDateInitial",  FilterOperator.Contains, sQuery),
+                                new Filter("ShippingDateFinal",    FilterOperator.Contains, sQuery),
+                                new Filter("TransportDateInitial", FilterOperator.Contains, sQuery),
+                                new Filter("TransportDateFinal",   FilterOperator.Contains, sQuery),
+                                new Filter("InvoicingDateInitial", FilterOperator.Contains, sQuery),
+                                new Filter("InvoicingDateFinal",   FilterOperator.Contains, sQuery)
                             ]
                         })
         
@@ -79,21 +104,8 @@ sap.ui.define([
                     
                     oBinding.filter(aTableSearchState, "Application");
                 }
-            },
 
-            onUpdateFinished: function(oEvent) {
-                let oTitle,
-                    oTable       = oEvent.getSource(),
-                    iTotalItems  = oEvent.getParameter("total");
-
-                // only update the counter if the length is final and
-                // the table is not empty
-                if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
-                    oTitle = this.getResourceBundle().getText("mainTableHeaderTitleLength", [iTotalItems]);
-                    
-                } else {
-                    oTitle = this.getResourceBundle().getText("mainTableHeaderTitle");
-                }
+                oTitle = this.getResourceBundle().getText("mainTableHeaderTitleLength", [oBinding.iLength]);
 
                 this.getModel("orderTexts").setProperty("/headerTitleTable", oTitle);
             },
@@ -592,7 +604,12 @@ sap.ui.define([
                                 oCountSecTotal     = 0;
 
 
-                            oData.results.map(sItem => {
+                            let oResults = oData.results.filter(function (a) {
+                                    return !this[a.Vbeln] && (this[a.Vbeln] = true);
+                                }, Object.create(null));
+
+
+                            oResults.map(sItem => {
                                 let oObject         = sItem,
                                     oCountTotalDay  = 0,
                                     oCountTotalHour = 0,
@@ -750,7 +767,7 @@ sap.ui.define([
                                 oItems.push(oObject);
                             });
 
-                            let oDivisor = oData.results.length;
+                            let oDivisor = oItems.length;
 
 
                             let oAverageSalesOrder = this._validTheTime(this._calculateTheAverage(oCountDaysSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountHoursSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountMinSaleOrder, oCountSaleOrderIsNotEmpty), this._calculateTheAverage(oCountSecSaleOrder, oCountSaleOrderIsNotEmpty)),
@@ -861,20 +878,86 @@ sap.ui.define([
                             this.byId("totalTime").addStyleClass(oTotal.class);
 
                             //SLA cadastrado pelo usuário
-                            if(oData.results[0].SaleorderDays != ""){
-                                oModel.averageCreditSLA     = `${oData.results[0].CreditDays} dias ${oData.results[0].CreditHours} Horas ${oData.results[0].CreditMin} Min e ${oData.results[0].CreditSec} Seg`;
-                                oModel.averageInvoicingSLA  = `${oData.results[0].InvoicingDays} dias ${oData.results[0].InvoicingHours} Horas ${oData.results[0].InvoicingMin} Min e ${oData.results[0].InvoicingSec} Seg`;
-                                oModel.averageSalesOrderSLA = `${oData.results[0].SaleorderDays} dias ${oData.results[0].SaleorderHours} Horas ${oData.results[0].SaleorderMin} Min e ${oData.results[0].SaleorderSec} Seg`;
-                                oModel.averageShippingSLA   = `${oData.results[0].ShippingDays} dias ${oData.results[0].ShippingHours} Horas ${oData.results[0].ShippingMin} Min e ${oData.results[0].ShippingSec} Seg`;
-                                oModel.averageTotalSLA      = `${oData.results[0].TotalDays} dias ${oData.results[0].TotalHours} Horas ${oData.results[0].TotalMin} Min e ${oData.results[0].TotalSec} Seg`;
-                                oModel.averageTransportSLA  = `${oData.results[0].TransportDays} dias ${oData.results[0].TransportHours} Horas ${oData.results[0].TransportMin} Min e ${oData.results[0].TransportSec} Seg`;
+                            if(oResults[0].SaleorderDays != ""){
+                                oModel.averageCreditSLA     = `${oResults[0].CreditDays} dias ${oResults[0].CreditHours} Horas ${oResults[0].CreditMin} Min e ${oResults[0].CreditSec} Seg`;
+                                oModel.averageInvoicingSLA  = `${oResults[0].InvoicingDays} dias ${oResults[0].InvoicingHours} Horas ${oResults[0].InvoicingMin} Min e ${oResults[0].InvoicingSec} Seg`;
+                                oModel.averageSalesOrderSLA = `${oResults[0].SaleorderDays} dias ${oResults[0].SaleorderHours} Horas ${oResults[0].SaleorderMin} Min e ${oResults[0].SaleorderSec} Seg`;
+                                oModel.averageShippingSLA   = `${oResults[0].ShippingDays} dias ${oResults[0].ShippingHours} Horas ${oResults[0].ShippingMin} Min e ${oResults[0].ShippingSec} Seg`;
+                                oModel.averageTotalSLA      = `${oResults[0].TotalDays} dias ${oResults[0].TotalHours} Horas ${oResults[0].TotalMin} Min e ${oResults[0].TotalSec} Seg`;
+                                oModel.averageTransportSLA  = `${oResults[0].TransportDays} dias ${oResults[0].TransportHours} Horas ${oResults[0].TransportMin} Min e ${oResults[0].TransportSec} Seg`;
                             }
                         }
 
-                        oModel.items = oItems;
+                        //separa as datas e horas em campos diferentes
+                        oData.results.map(sItem => {
+                            //Ordem de venda
+                            if(sItem.Saleorder != ""){
+                                let oDateHourInitial = sItem.Saleorder.split(" ");
+
+                                sItem.SaleorderDateInitial = oDateHourInitial[0];
+                                sItem.SaleorderHourInitial = oDateHourInitial[1];
+
+                                let oDateHourFinal = sItem.SaleorderFinish.split(" ");
+                                
+                                sItem.SaleorderDateFinal = oDateHourFinal[0];
+                                sItem.SaleorderHourFinal = oDateHourFinal[1];
+                            }
+                            //Remessa
+                            if(sItem.Shipping != ""){
+                                let oDateHourInitial = sItem.Shipping.split(" ");
+
+                                sItem.ShippingDateInitial = oDateHourInitial[0];
+                                sItem.ShippingHourInitial = oDateHourInitial[1];
+
+                                let oDateHourFinal = sItem.ShippingFinish.split(" ");
+                                
+                                sItem.ShippingDateFinal = oDateHourFinal[0];
+                                sItem.ShippingHourFinal = oDateHourFinal[1];
+                            }
+                            //Crédito
+                            if(sItem.Credit != ""){
+                                let oDateHourInitial = sItem.Credit.split(" ");
+
+                                sItem.CreditDateInitial = oDateHourInitial[0];
+                                sItem.CreditHourInitial = oDateHourInitial[1];
+
+                                let oDateHourFinal = sItem.CreditFinish.split(" ");
+                                
+                                sItem.CreditDateFinal = oDateHourFinal[0];
+                                sItem.CreditHourFinal = oDateHourFinal[1];
+                            }
+                            //Transporte
+                            if(sItem.Transport != ""){
+                                let oDateHourInitial = sItem.Transport.split(" ");
+
+                                sItem.TransportDateInitial = oDateHourInitial[0];
+                                sItem.TransportHourInitial = oDateHourInitial[1];
+
+                                let oDateHourFinal = sItem.TransportFinish.split(" ");
+                                
+                                sItem.TransportDateFinal = oDateHourFinal[0];
+                                sItem.TransportHourFinal = oDateHourFinal[1];
+                            }
+                            //Faturamento
+                            if(sItem.Invoicing != ""){
+                                let oDateHourInitial = sItem.Invoicing.split(" ");
+
+                                sItem.InvoicingDateInitial = oDateHourInitial[0];
+                                sItem.InvoicingHourInitial = oDateHourInitial[1];
+
+                                let oDateHourFinal = sItem.InvoicingFinish.split(" ");
+                                
+                                sItem.InvoicingDateFinal = oDateHourFinal[0];
+                                sItem.InvoicingHourFinal = oDateHourFinal[1];
+                            }
+                        });
+
+                        oModel.items = oData.results;
                         this.getModel("orders").refresh(true);
 
                         this.getModel("orderTexts").setProperty("/headerTextTitle", this.getResourceBundle().getText("mainPanelHeaderTextLength", [oItems.length]));
+
+                        this.getModel("orderTexts").setProperty("/headerTitleTable", this.getResourceBundle().getText("mainTableHeaderTitleLength", [oData.results.length]));
 
                         this.byId("averageMediaSalesOrders").setVisible(true);
 
@@ -882,6 +965,8 @@ sap.ui.define([
                     }.bind(this),
                     error: function(oError){
                         console.log(JSON.parse(oError.responseText));
+
+                        MessageBox.error(this.getResourceBundle().getText("messageErrorSearchOrders"));
 
                         this.setAppBusy(false);
                     }.bind(this)

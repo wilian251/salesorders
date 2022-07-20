@@ -514,18 +514,17 @@
 					</Panel>
 
 					<Panel id="panelTableSalesOrders" visible="false">
-
 						<content>
-							<Table 
-								id="tableSalesOrders" 
-								updateFinished="onUpdateFinished"
-								items="{
-									path: 'orders>/items',
-									length: '5000'
+							<ui:Table
+								id="tableSalesOrders"
+								rows="{
+									path: 'orders>/items'
 								}"
+								selectionMode="None"
+								visibleRowCount="12"
 							>
-								<headerToolbar>
-									<Toolbar width="100%">
+								<ui:extension>
+									<OverflowToolbar style="Clear">
 										<Title text="{orderTexts>/headerTitleTable}" level="H1" titleStyle="H3"/>
 										<ToolbarSpacer />
 										<SearchField
@@ -536,6 +535,7 @@
 										<Button
 											icon="sap-icon://excel-attachment"
 											tooltip="{i18n>mainExportExcel}"
+											text="{i18n>mainExportExcel}"
 											press="onExportExcel"
 										/>
 
@@ -543,156 +543,371 @@
 											text="{i18n>mainButtonMacroText}"
 											press="onPressMacro"
 										/>
-									</Toolbar>
-								</headerToolbar>
-
-								<columns>							
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableNumberDocument}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header> 
-											<Text  text="{i18n>mainTableCompanyName}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text  text="{i18n>mainTableCustomerReference}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableCustomerReferenceDate}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableSalesOrganization}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="Emissor da ordem"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="Tipo de documento de vendas"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="Nome do responsável"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="Data de Criação"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="Hora de Criação"/>
-										</header>
-									</Column>
-
-
-									<!--Ordem de Venda-->
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableSaleOrderStart}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableSaleOrderFinal}"/>
-										</header>
-									</Column>
-									<!--Crédito-->
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableCreditStart}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableCreditFinal}"/>
-										</header>
-									</Column>
-									<!--Remessa-->
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableShippingStart}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableShippingFinal}"/>
-										</header>
-									</Column>
-									<!--Transporte-->
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableTransportStart}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableTransportFinal}"/>
-										</header>
-									</Column>
-									<!--Faturamento-->
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableInvoicingStart}"/>
-										</header>
-									</Column>
-									<Column hAlign="Center" width="100%">
-										<header>
-											<Text text="{i18n>mainTableInvoicingFinal}"/>
-										</header>
-									</Column>
-								</columns>
-
-								<items>
-									<ColumnListItem 
-										id="tableDocsItems"
-										type="Navigation"
-										press="onItemTable"
+									</OverflowToolbar>
+								</ui:extension>
+								<ui:columns>
+									<ui:Column
+										width="8rem"
+										filterOperator="Contains" 
+										filterProperty="Vbeln"
+										sortProperty="Vbeln"
 									>
-										<cells>										
+										<Label text="{i18n>mainTableNumberDocument}" />
+										<ui:template>
 											<Text text="{orders>Vbeln}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="14rem">
+										<Label text="{i18n>mainTableCompanyName}" />
+										<ui:template>
 											<Text text="{orders>CompanyName}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainTableCustomerReference}" />
+										<ui:template>
 											<Text text="{orders>CustomerReference}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainTableCustomerReferenceDate}"/>
+										<ui:template>
 											<Text text="{orders>CustomerReferenceDate}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainTableSalesOrganization}"/>
+										<ui:template>
 											<Text text="{orders>SalesOrganization}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainTableOrderIssuer}"/>
+										<ui:template>
 											<Text text="{orders>OrderIssuer}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="6rem"
+										filterOperator="Contains" 
+										filterProperty="SalesDocumentType"
+										sortProperty="SalesDocumentType"	
+									>
+										<Label text="{i18n>mainTableSalesDocumentType}"/>
+										<ui:template>
 											<Text text="{orders>SalesDocumentType}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="5rem">
+										<Label text="{i18n>mainTableblockShipping}"/>
+										<ui:template>
+											<Text text="{orders>Lifsk}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainFilterSector}"/>
+										<ui:template>
+											<Text text="{orders>Spart}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainFilterDistributionChannel}"/>
+										<ui:template>
+											<Text text="{orders>Vtweg}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="Ernam"
+										sortProperty="Ernam"
+									>
+										<Label text="{i18n>mainTableErnam}"/>
+										<ui:template>
 											<Text text="{orders>Ernam}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="10rem"
+										filterOperator="Contains" 
+										filterProperty="Erdat"
+										sortProperty="Erdat"
+										sortOrder="Ascending"
+									>
+										<Label text="{i18n>mainTableErdat}"/>
+										<ui:template>
 											<Text text="{orders>Erdat}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="10rem">
+										<Label text="{i18n>mainTableErzet}"/>
+										<ui:template>
 											<Text text="{orders>Erzet}"/>
-						
-											<!--Ordem de venda-->
-											<Text text="{orders>Saleorder}"/>
-											<Text text="{orders>SaleorderFinish}"/>
-											<!--Crédito-->
-											<Text text="{orders>Credit}"/>
-											<Text text="{orders>CreditFinish}"/>
-											<!--Remessa-->
-											<Text text="{orders>Shipping}"/>
-											<Text text="{orders>ShippingFinish}"/>
-											<!--Transporte-->
-											<Text text="{orders>Transport}"/>
-											<Text text="{orders>TransportFinish}"/>
-											<!--Faturamento-->
-											<Text text="{orders>Invoicing}"/>
-											<Text text="{orders>InvoicingFinish}"/>
-										</cells>
-									</ColumnListItem>
-								</items>
-							</Table>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="10rem"
+										filterOperator="Contains" 
+										filterProperty="Aedat"
+										sortProperty="Aedat"
+									>
+										<Label text="{i18n>mainTableAedat}"/>
+										<ui:template>
+											<Text text="{orders>Aedat}"/>
+										</ui:template>
+									</ui:Column>
+
+									<!-- Pedido de Venda -->
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="SaleorderDateInitial"
+										sortProperty="SaleorderDateInitial"
+									>
+										<Label text="{i18n>mainTableSaleOrderDateInitial}"/>
+										<ui:template>
+											<Text text="{orders>SaleorderDateInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="SaleorderDateFinal"
+										sortProperty="SaleorderDateFinal"
+									>
+										<Label text="{i18n>mainTableSaleOrderDateFinal}"/>
+										<ui:template>
+											<Text text="{orders>SaleorderDateFinal}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableSaleOrderHourInitial}"/>
+										<ui:template>
+											<Text text="{orders>SaleorderHourInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableSaleOrderHourFinal}"/>
+										<ui:template>
+											<Text text="{orders>SaleorderHourFinal}"/>
+										</ui:template>
+									</ui:Column>
+									
+									<!-- Crédito -->
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="CreditDateInitial"
+										sortProperty="CreditDateInitial"
+									>
+										<Label text="{i18n>mainTableCreditDateInitial}"/>
+										<ui:template>
+											<Text text="{orders>CreditDateInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="CreditDateFinal"
+										sortProperty="CreditDateFinal"
+									>
+										<Label text="{i18n>mainTableCreditDateFinal}"/>
+										<ui:template>
+											<Text text="{orders>CreditDateFinal}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableCreditHourInitial}"/>
+										<ui:template>
+											<Text text="{orders>CreditHourInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableCreditHourFinal}"/>
+										<ui:template>
+											<Text text="{orders>CreditHourFinal}"/>
+										</ui:template>
+									</ui:Column>
+
+									<!-- Remessa -->
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="ShippingDateInitial"
+										sortProperty="ShippingDateInitial"	
+									>
+										<Label text="{i18n>mainTableShippingDateInitial}"/>
+										<ui:template>
+											<Text text="{orders>ShippingDateInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="ShippingDateFinal"
+										sortProperty="ShippingDateFinal"	
+									>
+										<Label text="{i18n>mainTableShippingDateFinal}"/>
+										<ui:template>
+											<Text text="{orders>ShippingDateFinal}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableShippingHourInitial}"/>
+										<ui:template>
+											<Text text="{orders>ShippingHourInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableShippingHourFinal}"/>
+										<ui:template>
+											<Text text="{orders>ShippingHourFinal}"/>
+										</ui:template>
+									</ui:Column>
+
+									<!-- Transporte -->
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="TransportDateInitial"
+										sortProperty="TransportDateInitial"
+									>
+										<Label text="{i18n>mainTableTransportDateInitial}"/>
+										<ui:template>
+											<Text text="{orders>TransportDateInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="TransportDateFinal"
+										sortProperty="TransportDateFinal"
+									>
+										<Label text="{i18n>mainTableTransportDateFinal}"/>
+										<ui:template>
+											<Text text="{orders>TransportDateFinal}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableTransportHourInitial}"/>
+										<ui:template>
+											<Text text="{orders>TransportHourInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableTransportHourFinal}"/>
+										<ui:template>
+											<Text text="{orders>TransportHourFinal}"/>
+										</ui:template>
+									</ui:Column>
+
+									<!-- Faturamento -->
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="InvoicingDateInitial"
+										sortProperty="InvoicingDateInitial"	
+									>
+										<Label text="{i18n>mainTableInvoicingDateInitial}"/>
+										<ui:template>
+											<Text text="{orders>InvoicingDateInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="InvoicingDateFinal"
+										sortProperty="InvoicingDateFinal"										
+									>
+										<Label text="{i18n>mainTableInvoicingDateFinal}"/>
+										<ui:template>
+											<Text text="{orders>InvoicingDateFinal}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableInvoicingHourInitial}"/>
+										<ui:template>
+											<Text text="{orders>InvoicingHourInitial}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="12rem">
+										<Label text="{i18n>mainTableInvoicingHourFinal}"/>
+										<ui:template>
+											<Text text="{orders>InvoicingHourFinal}"/>
+										</ui:template>
+									</ui:Column>
+
+									<!-- Item -->
+									<ui:Column 
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="TypeItem"
+										sortProperty="TypeItem"
+									>
+										<Label text="{i18n>objectCycleName}"/>
+										<ui:template>
+											<Text text="{orders>TypeItem}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column 
+										width="10rem"
+										filterOperator="Contains" 
+										filterProperty="VbelnItem"
+										sortProperty="VbelnItem"
+									>
+										<Label text="{i18n>mainTableNumberDocumentItem}"/>
+										<ui:template>
+											<Text text="{orders>VbelnItem}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="10rem"
+										filterOperator="Contains" 
+										filterProperty="PosnrItem"
+										sortProperty="PosnrItem"
+									>
+										<Label text="{i18n>mainTableItemDocument}"/>
+										<ui:template>
+											<Text text="{orders>PosnrItem}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="8rem">
+										<Label text="{i18n>mainTableItemQuant}"/>
+										<ui:template>
+											<Text text="{orders>Kwmeng}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column
+										width="12rem"
+										filterOperator="Contains" 
+										filterProperty="ErnamItem"
+										sortProperty="ErnamItem"	
+									>
+										<Label text="{i18n>mainTableErnamItem}"/>
+										<ui:template>
+											<Text text="{orders>ErnamItem}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column 
+										width="10rem"
+										filterOperator="Contains" 
+										filterProperty="ErdatItem"
+										sortProperty="ErdatItem"
+										sortOrder="Ascending"	
+									>
+										<Label text="{i18n>mainTableErdatItem}"/>
+										<ui:template>
+											<Text text="{orders>ErdatItem}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column width="10rem">
+										<Label text="{i18n>mainTableErzetItem}"/>
+										<ui:template>
+											<Text text="{orders>ErzetItem}"/>
+										</ui:template>
+									</ui:Column>
+								</ui:columns>
+							</ui:Table>
 						</content>
 					</Panel>
 				</content>

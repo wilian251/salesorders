@@ -3,7 +3,7 @@ sap.ui.define([
 ], function(JSONModel) {
 	"use strict";
     return {	
-		initModel: function(i18n, sModelProperty) {
+		initModel: function(i18n) {
 			return [
                 {
                     label: "Número Documento",
@@ -39,11 +39,29 @@ sap.ui.define([
                     label: "Emissor da ordem",
 					property: "OrderIssuer",
 				    type: sap.ui.export.EdmType.String,
-                    width: "25rem"
+                    width: "10rem"
                 },
                 {
                     label: "Tipo de documento de vendas",
 				    property: "SalesDocumentType",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Bloqueio da remessa",
+				    property: "Lifsk",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Setor de Atividade",
+				    property: "Spart",
+				    type: sap.ui.export.EdmType.String,
+                    width: "8rem"
+                },
+                {
+                    label: "Canal de Distribuição",
+				    property: "Vtweg",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
@@ -66,65 +84,179 @@ sap.ui.define([
                     width: "8rem"
                 },
                 {
-                    label: "Pedido venda Inicio",
-				    property: "Saleorder",
+                    label: "Data de Modificação",
+				    property: "Aedat",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Pedido venda Final",
-				    property: "SaleorderFinish",
+                    label: "Pedido Venda Data Inicial",
+				    property: "SaleorderDateInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Pedido Venda Data Final",
+				    property: "SaleorderDateFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Pedido Venda Hora Inicial",
+				    property: "SaleorderHourInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Pedido Venda Hora Final",
+				    property: "SaleorderHourFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                //Credito//////
+                {
+                    label: "Crédito Data Inicial",
+				    property: "CreditDateInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Crédito Data Final",
+				    property: "CreditDateFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Crédito Hora Inicial",
+				    property: "CreditHourInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Crédito Hora Final",
+				    property: "CreditHourFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                //Remessa//////
+                {
+                    label: "Remessa Data Inicial",
+				    property: "ShippingDateInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Remessa Data Final",
+				    property: "ShippingDateFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Remessa Hora Inicial",
+				    property: "ShippingHourInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Remessa Hora Final",
+				    property: "ShippingHourFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                //Transporte//////
+                {
+                    label: "Transporte Data Inicial",
+				    property: "TransportDateInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Transporte Data Final",
+				    property: "TransportDateFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Transporte Hora Inicial",
+				    property: "TransportHourInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Transporte Hora Final",
+				    property: "TransportHourFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                //Faturamento//////
+                {
+                    label: "Faturamento Data Inicial",
+				    property: "InvoicingDateInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Faturamento Data Final",
+				    property: "InvoicingDateFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Faturamento Hora Inicial",
+				    property: "InvoicingHourInitial",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+                {
+                    label: "Faturamento Hora Final",
+				    property: "InvoicingHourFinal",
+				    type: sap.ui.export.EdmType.String,
+                    width: "12rem"
+                },
+
+                //// Item //////
+                {
+                    label: "Etapa",
+				    property: "TypeItem",
+				    type: sap.ui.export.EdmType.String,
+                    width: "10rem"
+                },
+                {
+                    label: "Item N. Documento",
+				    property: "VbelnItem",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Crédito Inicio",
-				    property: "Credit",
+                    label: "Item do documento",
+				    property: "PosnrItem",
+				    type: sap.ui.export.EdmType.String,
+                    width: "10rem"
+                },
+                {
+                    label: "Item Quantidade",
+				    property: "Kwmeng",
 				    type: sap.ui.export.EdmType.String,
                     width: "8rem"
                 },
                 {
-                    label: "Crédito Final",
-				    property: "CreditFinish",
+                    label: "Item Nome do responsável",
+				    property: "ErnamItem",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "12rem"
                 },
                 {
-                    label: "Remessa Inicio",
-				    property: "Shipping",
+                    label: "Item Data de Criação",
+				    property: "ErdatItem",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "10rem"
                 },
                 {
-                    label: "Remessa Final",
-				    property: "ShippingFinish",
+                    label: "Item Hora de Criação",
+				    property: "ErzetItem",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "10rem"
                 },
-                {
-                    label: "Transporte Inicio",
-				    property: "Transport",
-					type: sap.ui.export.EdmType.String,
-                    width: "8rem"
-                },
-                {
-                    label: "Transporte Final",
-				    property: "TransportFinish",
-					type: sap.ui.export.EdmType.String,
-                    width: "8rem"
-                },
-                {
-                    label: "Faturamento Inicio",
-				    property: "Invoicing",
-					type: sap.ui.export.EdmType.String,
-                    width: "8rem"
-                },
-                {
-                    label: "Faturamento Final",
-				    property: "InvoicingFinish",
-					type: sap.ui.export.EdmType.String,
-                    width: "8rem"
-                }
             ]
 		}
 	};
