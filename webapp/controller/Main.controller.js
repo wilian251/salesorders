@@ -13,6 +13,7 @@ sap.ui.define([
     "sap/ui/core/Fragment",
     "sap/m/MessageBox",
     "sap/ui/export/Spreadsheet",
+    "sap/ui/table/library",
 ],
     function (
         BaseController, 
@@ -28,7 +29,8 @@ sap.ui.define([
         JSONModel, 
         Fragment,
         MessageBox,
-        Spreadsheet
+        Spreadsheet,
+        library
     ) {
         "use strict";
 
@@ -538,6 +540,10 @@ sap.ui.define([
 
             onPressStartReport: function(oEvent){
                 this.setAppBusy(true);
+
+                //deixa invisivel os dois panel
+                this.byId("averageMediaSalesOrders").setVisible(false);
+                this.byId("panelTableSalesOrders").setVisible(false);
 
                 let oModel = this.getModel("filters").getData();
 

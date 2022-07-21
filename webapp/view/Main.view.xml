@@ -219,293 +219,295 @@
 						</headerToolbar>
 
 						<content>
-							<VBox class="containerLeadTime">
-								<!-- Ordem de venda -->
-								<VBox id="saleOrder">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageSalesOrderSLA}"/>
-									</VBox>
+							<VBox class="containerScroll">
+								<VBox class="containerLeadTime">
+									<!-- Ordem de venda -->
+									<VBox id="saleOrder">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageSalesOrderSLA}"/>
+										</VBox>
 
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleSaleOrder}" titleStyle="H4"/>
-									</VBox>
-											
-									<VBox class="icon">
-										<core:Icon
-											id="saleOrderIcon"
-											alt="{i18n>mainCycleSaleOrder}"
-											backgroundColor=""
-											color="{orders>/State/averageSalesOrder/color}"
-											size="64px"
-											src="sap-icon://write-new-document"
-										/>
-									</VBox>
+										<VBox class="mainTitulo">
+											<Title text="{i18n>mainCycleSaleOrder}" titleStyle="H4"/>
+										</VBox>
+												
+										<VBox class="icon">
+											<core:Icon
+												id="saleOrderIcon"
+												alt="{i18n>mainCycleSaleOrder}"
+												backgroundColor=""
+												color="{orders>/State/averageSalesOrder/color}"
+												size="64px"
+												src="sap-icon://write-new-document"
+											/>
+										</VBox>
 
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageSalesOrder/ValueState}"
-											text="{orders>/averageSalesOrder}"
-											visible="{=${orders>/averageSalesOrder} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageSalesOrder} === '' ? true : false}"
-										/>
-
-										<VBox class="timeDiff">
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageSalesOrder/ValueState}"
-												text="{orders>/averageSalesOrderDiff}"
+												text="{orders>/averageSalesOrder}"
+												visible="{=${orders>/averageSalesOrder} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageSalesOrder} === '' ? true : false}"
+											/>
+
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageSalesOrder/ValueState}"
+													text="{orders>/averageSalesOrderDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
-								</VBox>
 
-								<!-- Crédito -->
-								<VBox id="credit">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageCreditSLA}"/>
-									</VBox>
+									<!-- Crédito -->
+									<VBox id="credit">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageCreditSLA}"/>
+										</VBox>
 
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleCredit}" titleStyle="H4"/>
-									</VBox>	
+										<VBox class="mainTitulo">
+											<Title text="{i18n>mainCycleCredit}" titleStyle="H4"/>
+										</VBox>	
 
-									<VBox class="icon">
-										<core:Icon
-											id="creditIcon"
-											alt="{i18n>mainCycleCredit}"
-											color="{orders>/State/averageCredit/color}"
-											size="64px"
-											src="sap-icon://credit-card"
-										/>
-									</VBox>
-											
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageCredit/ValueState}"
-											text="{orders>/averageCredit}"
-											visible="{=${orders>/averageCredit} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageCredit} === '' ? true : false}"
-										/> 
-										
-										<VBox class="timeDiff">
+										<VBox class="icon">
+											<core:Icon
+												id="creditIcon"
+												alt="{i18n>mainCycleCredit}"
+												color="{orders>/State/averageCredit/color}"
+												size="64px"
+												src="sap-icon://credit-card"
+											/>
+										</VBox>
+												
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageCredit/ValueState}"
-												text="{orders>/averageCreditDiff}"
+												text="{orders>/averageCredit}"
+												visible="{=${orders>/averageCredit} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageCredit} === '' ? true : false}"
+											/> 
+											
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageCredit/ValueState}"
+													text="{orders>/averageCreditDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
-								</VBox>
 
-								<!-- Remessa -->
-								<VBox id="shipping">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageShippingSLA}"/>
-									</VBox>
+									<!-- Remessa -->
+									<VBox id="shipping">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageShippingSLA}"/>
+										</VBox>
 
 
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleShipping}" titleStyle="H4"/>
-									</VBox>
+										<VBox class="mainTitulo">
+											<Title text="{i18n>mainCycleShipping}" titleStyle="H4"/>
+										</VBox>
 
-									<VBox class="icon">
-										<core:Icon
-											id="shippingIcon"
-											alt="{i18n>mainCycleShipping}"
-											color="{orders>/State/averageShipping/color}"
-											size="64px"
-											src="sap-icon://course-program"
-										/>
-									</VBox>
+										<VBox class="icon">
+											<core:Icon
+												id="shippingIcon"
+												alt="{i18n>mainCycleShipping}"
+												color="{orders>/State/averageShipping/color}"
+												size="64px"
+												src="sap-icon://course-program"
+											/>
+										</VBox>
 
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageShipping/ValueState}"
-											text="{orders>/averageShipping}"
-											visible="{=${orders>/averageShipping} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageShipping} === '' ? true : false}"
-										/>
-
-										<VBox class="timeDiff">
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageShipping/ValueState}"
-												text="{orders>/averageShippingDiff}"
+												text="{orders>/averageShipping}"
+												visible="{=${orders>/averageShipping} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageShipping} === '' ? true : false}"
+											/>
+
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageShipping/ValueState}"
+													text="{orders>/averageShippingDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
-								</VBox>
 
-								<!-- Transporte -->
-								<VBox id="transport">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageTransportSLA}"/>
-									</VBox>
+									<!-- Transporte -->
+									<VBox id="transport">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageTransportSLA}"/>
+										</VBox>
 
-									<VBox class="mainTitulo">	
-										<Title text="{i18n>mainCycleTransport}" titleStyle="H4"/>
-									</VBox>
+										<VBox class="mainTitulo">	
+											<Title text="{i18n>mainCycleTransport}" titleStyle="H4"/>
+										</VBox>
 
-									<VBox class="icon">
-										<core:Icon
-											id="transportIcon"
-											alt="{i18n>mainCycleTransport}"
-											color="{orders>/State/averageTransport/color}"
-											size="64px"
-											src="sap-icon://shipping-status"
-										/>
-									</VBox>
+										<VBox class="icon">
+											<core:Icon
+												id="transportIcon"
+												alt="{i18n>mainCycleTransport}"
+												color="{orders>/State/averageTransport/color}"
+												size="64px"
+												src="sap-icon://shipping-status"
+											/>
+										</VBox>
 
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageTransport/ValueState}"
-											text="{orders>/averageTransport}"
-											visible="{=${orders>/averageTransport} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageTransport} === '' ? true : false}"
-										/> 
-
-										<VBox class="timeDiff">
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageTransport/ValueState}"
-												text="{orders>/averageTransportDiff}"
+												text="{orders>/averageTransport}"
+												visible="{=${orders>/averageTransport} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageTransport} === '' ? true : false}"
+											/> 
+
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageTransport/ValueState}"
+													text="{orders>/averageTransportDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
-								</VBox>
 
-								<!-- Faturamento -->
-								<VBox id="invoicing">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageInvoicingSLA}"/>
-									</VBox>
+									<!-- Faturamento -->
+									<VBox id="invoicing">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageInvoicingSLA}"/>
+										</VBox>
 
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleInvoicing}" titleStyle="H4"/>
-									</VBox>
+										<VBox class="mainTitulo">
+											<Title text="{i18n>mainCycleInvoicing}" titleStyle="H4"/>
+										</VBox>
 
-									<VBox class="icon">
-										<core:Icon
-											id="invoicingIcon"
-											alt="{i18n>mainCycleInvoicing}"
-											color="{orders>/State/averageInvoicing/color}"
-											size="64px"
-											src="sap-icon://monitor-payments"
-										/>
-									</VBox>
+										<VBox class="icon">
+											<core:Icon
+												id="invoicingIcon"
+												alt="{i18n>mainCycleInvoicing}"
+												color="{orders>/State/averageInvoicing/color}"
+												size="64px"
+												src="sap-icon://monitor-payments"
+											/>
+										</VBox>
 
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageInvoicing/ValueState}"
-											text="{orders>/averageInvoicing}"
-											visible="{=${orders>/averageInvoicing} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageInvoicing} === '' ? true : false}"
-										/> 
-										
-										<VBox class="timeDiff">
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageInvoicing/ValueState}"
-												text="{orders>/averageInvoicingDiff}"
+												text="{orders>/averageInvoicing}"
+												visible="{=${orders>/averageInvoicing} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageInvoicing} === '' ? true : false}"
+											/> 
+											
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageInvoicing/ValueState}"
+													text="{orders>/averageInvoicingDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
-								</VBox>
 
-								<!-- Total do Tempo -->
-								<VBox id="totalTime">
-									<VBox class="mainLead">
-										<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
-										<Text class="mainLeadText" text="{orders>/averageTotalSLA}"/>
-									</VBox>
+									<!-- Total do Tempo -->
+									<VBox id="totalTime">
+										<VBox class="mainLead">
+											<Title class="mainLeadTitle" text="{i18n>mainTimeLead}:" titleStyle="H4"/>
+											<Text class="mainLeadText" text="{orders>/averageTotalSLA}"/>
+										</VBox>
 
-									<VBox class="mainTitulo">
-										<Title text="{i18n>mainCycleTotal}" titleStyle="H4"/>
-									</VBox>
+										<VBox class="mainTitulo">
+											<Title text="{i18n>mainCycleTotal}" titleStyle="H4"/>
+										</VBox>
 
-									<VBox class="icon">
-										<core:Icon
-											id="totalTimeIcon"
-											alt="{i18n>mainCycleTotal}"
-											color="{orders>/State/averageTotal/color}"
-											size="64px"
-											src="sap-icon://date-time"
-										/>
-									</VBox>
-											
-									<VBox class="time">
-										<ObjectStatus
-											active="false"
-											icon="sap-icon://pending"
-											iconDensityAware="true"
-											state="{orders>/State/averageTotal/ValueState}"
-											text="{orders>/averageTotal}"
-											visible="{=${orders>/averageTotal} === '' ? false : true}"
-										/>
-
-										<Text 
-											text="{i18n>mainLeadTimeCycleNotStarted}" 
-											visible="{=${orders>/averageTotal} === '' ? true : false}"
-										/>
-
-										<VBox class="timeDiff">
+										<VBox class="icon">
+											<core:Icon
+												id="totalTimeIcon"
+												alt="{i18n>mainCycleTotal}"
+												color="{orders>/State/averageTotal/color}"
+												size="64px"
+												src="sap-icon://date-time"
+											/>
+										</VBox>
+												
+										<VBox class="time">
 											<ObjectStatus
 												active="false"
-												icon=""
+												icon="sap-icon://pending"
 												iconDensityAware="true"
 												state="{orders>/State/averageTotal/ValueState}"
-												text="{orders>/averageTotalDiff}"
+												text="{orders>/averageTotal}"
+												visible="{=${orders>/averageTotal} === '' ? false : true}"
 											/>
+
+											<Text 
+												text="{i18n>mainLeadTimeCycleNotStarted}" 
+												visible="{=${orders>/averageTotal} === '' ? true : false}"
+											/>
+
+											<VBox class="timeDiff">
+												<ObjectStatus
+													active="false"
+													icon=""
+													iconDensityAware="true"
+													state="{orders>/State/averageTotal/ValueState}"
+													text="{orders>/averageTotalDiff}"
+												/>
+											</VBox>
 										</VBox>
 									</VBox>
 								</VBox>
@@ -522,6 +524,7 @@
 								}"
 								selectionMode="None"
 								visibleRowCount="12"
+								enableColumnFreeze="false"
 							>
 								<ui:extension>
 									<OverflowToolbar style="Clear">
@@ -575,7 +578,7 @@
 											<Text text="{orders>CustomerReferenceDate}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="8rem">
+									<ui:Column width="10rem">
 										<Label text="{i18n>mainTableSalesOrganization}"/>
 										<ui:template>
 											<Text text="{orders>SalesOrganization}"/>
@@ -588,7 +591,7 @@
 										</ui:template>
 									</ui:Column>
 									<ui:Column
-										width="6rem"
+										width="12rem"
 										filterOperator="Contains" 
 										filterProperty="SalesDocumentType"
 										sortProperty="SalesDocumentType"	
@@ -598,19 +601,19 @@
 											<Text text="{orders>SalesDocumentType}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="5rem">
+									<ui:Column width="10rem">
 										<Label text="{i18n>mainTableblockShipping}"/>
 										<ui:template>
 											<Text text="{orders>Lifsk}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="8rem">
+									<ui:Column width="12rem">
 										<Label text="{i18n>mainFilterSector}"/>
 										<ui:template>
 											<Text text="{orders>Spart}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="8rem">
+									<ui:Column width="12rem">
 										<Label text="{i18n>mainFilterDistributionChannel}"/>
 										<ui:template>
 											<Text text="{orders>Vtweg}"/>
@@ -888,19 +891,19 @@
 											<Text text="{orders>ErnamItem}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column 
+									<ui:Column
+										id="ErdatItem"
 										width="10rem"
 										filterOperator="Contains" 
 										filterProperty="ErdatItem"
 										sortProperty="ErdatItem"
-										sortOrder="Ascending"	
 									>
 										<Label text="{i18n>mainTableErdatItem}"/>
 										<ui:template>
 											<Text text="{orders>ErdatItem}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="10rem">
+									<ui:Column id="ErzetItem" width="10rem">
 										<Label text="{i18n>mainTableErzetItem}"/>
 										<ui:template>
 											<Text text="{orders>ErzetItem}"/>
