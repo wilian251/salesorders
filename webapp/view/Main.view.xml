@@ -584,7 +584,7 @@
 											<Text text="{orders>SalesOrganization}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="8rem">
+									<ui:Column width="25rem">
 										<Label text="{i18n>mainTableOrderIssuer}"/>
 										<ui:template>
 											<Text text="{orders>OrderIssuer}"/>
@@ -607,7 +607,7 @@
 											<Text text="{orders>Lifsk}"/>
 										</ui:template>
 									</ui:Column>
-									<ui:Column width="12rem">
+									<ui:Column width="15rem">
 										<Label text="{i18n>mainFilterSector}"/>
 										<ui:template>
 											<Text text="{orders>Spart}"/>
@@ -620,7 +620,7 @@
 										</ui:template>
 									</ui:Column>
 									<ui:Column
-										width="12rem"
+										width="20rem"
 										filterOperator="Contains" 
 										filterProperty="Ernam"
 										sortProperty="Ernam"
@@ -841,7 +841,8 @@
 									</ui:Column>
 
 									<!-- Item -->
-									<ui:Column 
+									<ui:Column
+										id="CycleName"
 										width="12rem"
 										filterOperator="Contains" 
 										filterProperty="TypeItem"
@@ -880,8 +881,14 @@
 											<Text text="{orders>Kwmeng}"/>
 										</ui:template>
 									</ui:Column>
+									<ui:Column width="30rem">
+										<Label text="{i18n>mainTableItemMaterial}"/>
+										<ui:template>
+											<Text text="{orders>Matnr}"/>
+										</ui:template>
+									</ui:Column>
 									<ui:Column
-										width="12rem"
+										width="25rem"
 										filterOperator="Contains" 
 										filterProperty="ErnamItem"
 										sortProperty="ErnamItem"	

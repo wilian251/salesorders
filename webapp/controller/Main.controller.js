@@ -33,6 +33,7 @@ sap.ui.define([
         library
     ) {
         "use strict";
+        let SortOrder = library.SortOrder;
 
         return BaseController.extend("com.thera.ajinomoto.salesorders.controller.Main", {
             /* =========================================================== */
@@ -172,6 +173,8 @@ sap.ui.define([
                         oModel.leadTime.TransportHours     = oData.TransportHours;
                         oModel.leadTime.TransportMin       = oData.TransportMin;
                         oModel.leadTime.TransportSec       = oData.TransportSec;
+
+                        oModel.TotalFormatted = `${oData.TotalDays} Dias ${oData.TotalHours} Horas ${oData.TotalMin} Min e ${oData.TotalSec} Seg`;
 
                         this.getModel("leadTime").refresh(true);
 
@@ -521,12 +524,12 @@ sap.ui.define([
                     }
                 });
 
-                oModel.leadTime.TotalDays  = String(oCountDays);
-                oModel.leadTime.TotalHours = String(oCountHours);
-                oModel.leadTime.TotalMin   = String(oCountMin);
-                oModel.leadTime.TotalSec   = String(oCountSec);
-
                 let oObjectTime = this._validTheTime(oCountDays, oCountHours, oCountMin, oCountSec);
+
+                oModel.leadTime.TotalDays  = String(oObjectTime.dateHours.days);
+                oModel.leadTime.TotalHours = String(oObjectTime.dateHours.hours);
+                oModel.leadTime.TotalMin   = String(oObjectTime.dateHours.minutes);
+                oModel.leadTime.TotalSec   = String(oObjectTime.dateHours.seconds);
 
                 oModel.TotalFormatted = `${oObjectTime.dateHours.days} dias ${oObjectTime.dateHours.hours} Horas ${oObjectTime.dateHours.minutes} Min e ${oObjectTime.dateHours.seconds} Seg`;
 
@@ -966,6 +969,8 @@ sap.ui.define([
                         this.getModel("orderTexts").setProperty("/headerTitleTable", this.getResourceBundle().getText("mainTableHeaderTitleLength", [oData.results.length]));
 
                         this.byId("averageMediaSalesOrders").setVisible(true);
+
+                        this.byId("tableSalesOrders").sort(this.byId("CycleName"), SortOrder.Ascending, false);
 
                         this.setAppBusy(false);
                     }.bind(this),
