@@ -33,19 +33,19 @@ sap.ui.define([
                     label: "Organização de vendas",
 					property: "SalesOrganization",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "15rem"
                 },
                 {
                     label: "Emissor da ordem",
 					property: "OrderIssuer",
 				    type: sap.ui.export.EdmType.String,
-                    width: "10rem"
+                    width: "25rem"
                 },
                 {
                     label: "Tipo de documento de vendas",
 				    property: "SalesDocumentType",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "20rem"
                 },
                 {
                     label: "Bloqueio da remessa",
@@ -57,7 +57,7 @@ sap.ui.define([
                     label: "Setor de Atividade",
 				    property: "Spart",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "20rem"
                 },
                 {
                     label: "Canal de Distribuição",
@@ -69,7 +69,7 @@ sap.ui.define([
                     label: "Usuário",
 				    property: "Ernam",
 				    type: sap.ui.export.EdmType.String,
-                    width: "8rem"
+                    width: "20rem"
                 },
                 {
                     label: "Data Criação",
@@ -240,10 +240,16 @@ sap.ui.define([
                     width: "8rem"
                 },
                 {
+                    label: "Item Material",
+				    property: "Matnr",
+				    type: sap.ui.export.EdmType.String,
+                    width: "30rem"
+                },
+                {
                     label: "Item Nome do responsável",
 				    property: "ErnamItem",
 				    type: sap.ui.export.EdmType.String,
-                    width: "12rem"
+                    width: "25rem"
                 },
                 {
                     label: "Item Data de Criação",

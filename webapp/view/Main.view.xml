@@ -229,7 +229,7 @@
 										</VBox>
 
 										<VBox class="mainTitulo">
-											<Title text="{i18n>mainCycleSaleOrder}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleSaleOrder}" titleStyle="H2"/>
 										</VBox>
 												
 										<VBox class="icon">
@@ -278,7 +278,7 @@
 										</VBox>
 
 										<VBox class="mainTitulo">
-											<Title text="{i18n>mainCycleCredit}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleCredit}" titleStyle="H2"/>
 										</VBox>	
 
 										<VBox class="icon">
@@ -327,7 +327,7 @@
 
 
 										<VBox class="mainTitulo">
-											<Title text="{i18n>mainCycleShipping}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleShipping}" titleStyle="H2"/>
 										</VBox>
 
 										<VBox class="icon">
@@ -375,7 +375,7 @@
 										</VBox>
 
 										<VBox class="mainTitulo">	
-											<Title text="{i18n>mainCycleTransport}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleTransport}" titleStyle="H2"/>
 										</VBox>
 
 										<VBox class="icon">
@@ -423,7 +423,7 @@
 										</VBox>
 
 										<VBox class="mainTitulo">
-											<Title text="{i18n>mainCycleInvoicing}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleInvoicing}" titleStyle="H2"/>
 										</VBox>
 
 										<VBox class="icon">
@@ -471,7 +471,7 @@
 										</VBox>
 
 										<VBox class="mainTitulo">
-											<Title text="{i18n>mainCycleTotal}" titleStyle="H4"/>
+											<Title text="{i18n>mainCycleTotal}" titleStyle="H2"/>
 										</VBox>
 
 										<VBox class="icon">
