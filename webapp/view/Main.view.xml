@@ -865,6 +865,7 @@
 										</ui:template>
 									</ui:Column>
 									<ui:Column
+										id="posnrItem"
 										width="10rem"
 										filterOperator="Contains" 
 										filterProperty="PosnrItem"

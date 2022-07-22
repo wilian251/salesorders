@@ -86,6 +86,7 @@ sap.ui.define([
                                 new Filter("Lifsk",                FilterOperator.Contains, sQuery),
                                 new Filter("OrderIssuer",          FilterOperator.Contains, sQuery),
                                 new Filter("PosnrItem",            FilterOperator.Contains, sQuery),
+                                new Filter("Matnr",                FilterOperator.Contains, sQuery),
                                 new Filter("Spart",                FilterOperator.Contains, sQuery),
                                 new Filter("TypeItem",             FilterOperator.Contains, sQuery),
                                 new Filter("VbelnItem",            FilterOperator.Contains, sQuery),
@@ -971,7 +972,7 @@ sap.ui.define([
                         this.byId("averageMediaSalesOrders").setVisible(true);
 
                         this.byId("tableSalesOrders").sort(this.byId("CycleName"), SortOrder.Ascending, false);
-
+                        this.byId("tableSalesOrders").sort(this.byId("posnrItem"), SortOrder.Ascending, true);
                         this.setAppBusy(false);
                     }.bind(this),
                     error: function(oError){
